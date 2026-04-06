@@ -1,0 +1,20 @@
+Comandos de Sincronização e Fluxo
+git push -u origin [branch]: Envia seus commits para o servidor e cria um vínculo (rastreamento) entre a branch local e a remota.
+
+git pull --rebase: Baixa as atualizações do servidor e aplica seus commits locais "em cima" delas, mantendo o histórico linear e limpo.
+
+git switch -c [nome]: Cria uma nova ramificação (branch) e muda para ela instantaneamente.
+
+Comandos de Inspeção e Status
+git status: Lista quais arquivos foram modificados, quais estão no "stage" e em qual branch você está.
+
+git diff: Mostra detalhadamente quais linhas de código foram alteradas nos arquivos antes do commit.
+
+git log --oneline: Exibe o histórico de commits de forma compacta (uma linha por commit).
+
+Comandos de Ajuste e Organização
+git stash: Salva temporariamente suas alterações não commitadas em uma "pilha" para limpar o ambiente de trabalho.
+
+git stash pop: Recupera as alterações que foram guardadas anteriormente com o stash.
+
+git commit --amend: Permite editar a mensagem ou adicionar arquivos esquecidos ao último commit realizado.
