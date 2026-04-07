@@ -1,4 +1,15 @@
 Comandos de Sincronização e Fluxo
+
+git status: Verifique quais arquivos foram alterados e se você está na branch correta.
+
+git add .: Adicione todas as modificações para a área de preparação (Stage).
+
+git commit -m "sua mensagem": Salve as alterações localmente com uma descrição.
+
+git pull origin main --rebase: Busque atualizações do servidor e organize seu histórico (evita erros no próximo passo).
+
+git push: Envie seus commits para o repositório remoto.
+
 git push -u origin [branch]: Envia seus commits para o servidor e cria um vínculo (rastreamento) entre a branch local e a remota.
 
 git pull --rebase: Baixa as atualizações do servidor e aplica seus commits locais "em cima" delas, mantendo o histórico linear e limpo.
