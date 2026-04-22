@@ -36,7 +36,7 @@ Este projeto contribui para três pilares fundamentais:
 3.  **ODS 16 (Paz e Justiça):** Construção de ambientes digitais transparentes e seguros.
 
 ## 👥 Composição do Grupo
-* **Leonardo Henrique Máximo**
+* **Leonardo Henrique Maximo**
 * **Maira Aparecida Michelon** 
 
 ---

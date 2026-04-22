@@ -1,5 +1,0 @@
-# Ignorar arquivos de configuração do Laragon ou SO
-.htaccess
-Thumbs.db
-.DS_Store
-web/db.php

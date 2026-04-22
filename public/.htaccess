@@ -1,0 +1,12 @@
+# Redireciona todas as requisições para public/index.php
+# exceto arquivos e pastas que existem fisicamente (css, img, etc.)
+
+Options -Indexes
+RewriteEngine On
+
+# Permite acesso direto a arquivos estáticos existentes (css, js, img, fonts)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Tudo o mais vai para o front controller
+RewriteRule ^ index.php [QSA,L]

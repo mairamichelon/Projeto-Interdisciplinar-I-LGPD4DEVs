@@ -1,0 +1,17 @@
+# Credenciais — nunca subir para o GitHub
+.env
+
+# Dependências
+/vendor
+
+# Logs
+*.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Sistema
+.DS_Store
+Thumbs.db

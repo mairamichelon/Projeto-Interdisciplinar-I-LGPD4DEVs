@@ -1,0 +1,19 @@
+# Arquivos de exemplo e configuração local
+web/db.php.example
+.env
+.env.*
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Editores e IDEs
+.vscode
+.idea
+*.swp
+*.swo
+
+# Logs e temporários
+*.log
+/tmp
