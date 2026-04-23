@@ -50,11 +50,11 @@ Variáveis de Ambiente: Uso de arquivos .env para proteção de credenciais de b
 ## 🌍 Alinhamento ODS (Agenda 2030)
 Este projeto contribui diretamente para:
 
-ODS 4 (Educação de Qualidade): Disseminação técnica de direitos digitais.
+* **ODS 4** (Educação de Qualidade): Disseminação técnica de direitos digitais.
 
-ODS 9 (Inovação e Infraestrutura): Fomento ao desenvolvimento de software ético.
+* **ODS 9** (Inovação e Infraestrutura): Fomento ao desenvolvimento de software ético.
 
-ODS 16 (Paz e Justiça): Proteção contra exploração de dados de vulneráveis.
+* **ODS 16** (Paz e Justiça): Proteção contra exploração de dados de vulneráveis.
 
 ## 🛠️ Como Executar (Ambiente Local)
 Certifique-se de ter o Laragon ou Docker instalado.
@@ -69,8 +69,7 @@ Configure o servidor para apontar o DocumentRoot para a pasta /public.
 
 ## 👥 Autores
 
-Leonardo Henrique Máximo - LinkedIn
+* **Leonardo Henrique Máximo** — [LinkedIn](https://br.linkedin.com/in/leonardo-henrique-maximo-297370287) | [GitHub](https://github.com/leonardo23hm)
+* **Maira Aparecida Michelon** — [LinkedIn](https://br.linkedin.com/in/maira-michelon-a9b78a31) | [GitHub](https://github.com/mairamichelon)
 
-Maira Aparecida Michelon - LinkedIn
-
-Projeto Interdisciplinar - Gestão da Tecnologia da Informação
+**Projeto Interdisciplinar - Gestão da Tecnologia da Informação**
