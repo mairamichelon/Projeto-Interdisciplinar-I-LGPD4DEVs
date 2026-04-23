@@ -25,7 +25,7 @@ O projeto foi migrado de uma estrutura procedural para o padrão **MVC (Model-Vi
 * **Deploy:** Dockerizado para ambiente Render / Banco de Dados Gerenciado (Aiven)
 
 ### Estrutura de Pastas
-```text
+
 lgpd4devs/
 ├── app/                # Lógica da Aplicação (MVC)
 ├── config/             # Configurações globais e Database
@@ -36,6 +36,7 @@ lgpd4devs/
 │   └── index.php       # Front Controller
 ├── materiais/          # Documentos técnicos e guias
 └── Dockerfile          # Configuração de Infraestrutura
+
 🔒 Segurança Implementada
 Proteção CSRF: Tokens de validação em todos os formulários de ação.
 
