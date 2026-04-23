@@ -38,7 +38,7 @@ lgpd4devs/
 └── Dockerfile          # Configuração de Infraestrutura
 ```
 
-🔒 Segurança Implementada
+## 🔒 Segurança Implementada
 Proteção CSRF: Tokens de validação em todos os formulários de ação.
 
 Segurança de Diretório: Acesso restrito via Front Controller; arquivos de lógica e config ficam fora da raiz pública.
@@ -47,7 +47,7 @@ Gestão de Sessão: Regeneração de ID de sessão no login para prevenir Sessio
 
 Variáveis de Ambiente: Uso de arquivos .env para proteção de credenciais de banco de dados.
 
-🌍 Alinhamento ODS (Agenda 2030)
+## 🌍 Alinhamento ODS (Agenda 2030)
 Este projeto contribui diretamente para:
 
 ODS 4 (Educação de Qualidade): Disseminação técnica de direitos digitais.
@@ -56,7 +56,7 @@ ODS 9 (Inovação e Infraestrutura): Fomento ao desenvolvimento de software éti
 
 ODS 16 (Paz e Justiça): Proteção contra exploração de dados de vulneráveis.
 
-🛠️ Como Executar (Ambiente Local)
+## 🛠️ Como Executar (Ambiente Local)
 Certifique-se de ter o Laragon ou Docker instalado.
 
 Clone o repositório: git clone https://github.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs.git
