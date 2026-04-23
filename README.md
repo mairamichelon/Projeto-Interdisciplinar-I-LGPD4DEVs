@@ -16,7 +16,7 @@ O **LGPD4DEVS** é uma ferramenta prática projetada para traduzir a complexidad
 * 📄 **Relatório Exportável:** Geração de relatório de conformidade otimizado para impressão (PDF).
 
 ## 🏗️ Arquitetura e Tecnologia
-O projeto foi migrado de uma estrutura procedural para o padrão **MVC (Model-View-Controller)**, garantindo escalabilidade, segurança e separação de responsabilidades.
+O projeto utiliza o padrão **MVC (Model-View-Controller)**, garantindo escalabilidade, segurança e separação de responsabilidades.
 
 * **Linguagem:** PHP 8.3+
 * **Arquitetura:** MVC com Front Controller (Roteamento via `.htaccess`)
@@ -67,7 +67,8 @@ Importe o script em database/schema.sql para o seu MySQL.
 
 Configure o servidor para apontar o DocumentRoot para a pasta /public.
 
-👥 Autores
+## 👥 Autores
+
 Leonardo Henrique Máximo - LinkedIn
 
 Maira Aparecida Michelon - LinkedIn
