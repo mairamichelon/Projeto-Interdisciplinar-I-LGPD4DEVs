@@ -71,11 +71,16 @@
         <div style="margin-top: 60px; text-align: center; border-top: 1px solid var(--border); padding-top: 40px;" class="no-print">
             <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                 <a href="/checklist" class="btn-secondary">Refazer Checklist</a>
+
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <button onclick="salvarNoHistorico()" id="btnSave" class="btn-primary" style="background-color: var(--secondary); border: none;">
                         <i class="fas fa-save"></i> Salvar Resultado
                     </button>
+                    <a href="/historico" class="btn-secondary">
+                        <i class="fas fa-history"></i> Ver Histórico
+                    </a>
                 <?php endif; ?>
+
                 <button onclick="window.print()" class="btn-secondary">
                     <i class="fas fa-print"></i> Exportar Relatório (PDF)
                 </button>
@@ -86,7 +91,7 @@
     <?php endif; ?>
 </main>
 
-<!-- Modal de Material (idêntico ao original) -->
+<!-- Modal de Material -->
 <div id="modalMaterial" class="modal-overlay" style="display:none;">
     <div class="modal-content">
         <h2 id="m-titulo" style="color: var(--primary);"></h2>
@@ -99,8 +104,8 @@
     </div>
 </div>
 
-<!-- Toast de confirmação (idêntico ao original) -->
-<div id="toast" style="display:none; position: fixed; top: 30px; right: 30px; background: #00CC66; color: white; padding: 20px 35px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); z-index: 9999; font-size: 1.1rem; min-width: 300px; animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+<!-- Toast -->
+<div id="toast" style="display:none; position: fixed; top: 30px; right: 30px; background: #00CC66; color: white; padding: 20px 35px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); z-index: 9999; font-size: 1.1rem; min-width: 300px;">
     <div style="display: flex; align-items: center; gap: 15px;">
         <i class="fas fa-check-circle" style="font-size: 1.6rem;"></i>
         <span id="toast-msg" style="font-weight: 600;"></span>
@@ -108,6 +113,9 @@
 </div>
 
 <script>
+// Token CSRF disponível para o fetch
+const csrfToken = "<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>";
+
 function abrirModal(titulo, conteudo, link) {
     document.getElementById('m-titulo').innerText = titulo;
     document.getElementById('m-corpo').innerText  = conteudo;
@@ -123,18 +131,36 @@ function fecharModal() {
 
 function salvarNoHistorico() {
     const btn = document.getElementById('btnSave');
-    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Gravando...";
+    btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Salvando...";
     btn.disabled  = true;
 
-    setTimeout(() => {
-        showToast("Diagnóstico de <?php echo $percentual; ?>% salvo no seu perfil!");
-        btn.innerHTML    = "<i class='fas fa-check'></i> Salvo com Sucesso";
-        btn.style.opacity = "0.7";
-    }, 1200);
+    fetch('/salvar-resultado', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'csrf_token=' + encodeURIComponent(csrfToken)
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.sucesso) {
+            showToast(data.mensagem);
+            btn.innerHTML     = "<i class='fas fa-check'></i> Salvo com Sucesso";
+            btn.style.opacity = "0.7";
+        } else {
+            showToast('Erro: ' + data.mensagem, true);
+            btn.innerHTML = "<i class='fas fa-save'></i> Salvar Resultado";
+            btn.disabled  = false;
+        }
+    })
+    .catch(() => {
+        showToast('Erro de conexão. Tente novamente.', true);
+        btn.innerHTML = "<i class='fas fa-save'></i> Salvar Resultado";
+        btn.disabled  = false;
+    });
 }
 
-function showToast(msg) {
+function showToast(msg, erro = false) {
     const toast = document.getElementById('toast');
+    toast.style.background = erro ? '#EF4444' : '#00CC66';
     document.getElementById('toast-msg').innerText = msg;
     toast.style.display  = 'block';
     setTimeout(() => {
@@ -153,30 +179,19 @@ window.onclick = function(event) {
     from { transform: translateX(100%); opacity: 0; }
     to   { transform: translateX(0);    opacity: 1; }
 }
-
 .material-btn {
     cursor: pointer; border: 2px solid transparent; padding: 8px 15px; font-size: 0.75rem; transition: all 0.2s;
 }
 .material-btn:hover {
     background-color: var(--primary) !important; color: white !important; transform: translateY(-2px);
 }
-
 @media print {
     .no-print, .navbar, .main-footer, .hero-note, .btn-primary, .btn-secondary { display: none !important; }
-    .card-relatorio {
-        page-break-inside: avoid !important; break-inside: avoid !important;
-        border: 1px solid #ddd !important; box-shadow: none !important;
-        margin-bottom: 20px !important; display: block !important;
-    }
-    .badge-categoria {
-        display: inline-block !important; background: #f1f5f9 !important;
-        border: 1px solid #cbd5e1 !important; color: #0066FF !important;
-        padding: 5px 10px !important; border-radius: 5px !important;
-        font-size: 0.8rem !important; margin-right: 5px !important;
-    }
+    .card-relatorio { page-break-inside: avoid !important; break-inside: avoid !important; border: 1px solid #ddd !important; box-shadow: none !important; margin-bottom: 20px !important; display: block !important; }
+    .badge-categoria { display: inline-block !important; background: #f1f5f9 !important; border: 1px solid #cbd5e1 !important; color: #0066FF !important; padding: 5px 10px !important; border-radius: 5px !important; font-size: 0.8rem !important; margin-right: 5px !important; }
     .container { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
     body { background: white !important; color: black !important; }
-    h1   { font-size: 2rem !important; }
+    h1 { font-size: 2rem !important; }
 }
 </style>
 
