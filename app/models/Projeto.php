@@ -19,25 +19,36 @@ class Projeto
      */
     public function buscarPorUsuario(int $usuarioId): array
     {
-        $sql = "SELECT p.*,
-                       hd.percentual      AS ultimo_percentual,
-                       hd.data_salvo      AS ultima_data,
-                       COUNT(hd2.id)      AS total_diagnosticos
-                FROM projetos p
-                LEFT JOIN historico_diagnosticos hd ON hd.id = (
-                    SELECT id FROM historico_diagnosticos
-                    WHERE projeto_id = p.id
-                    ORDER BY data_salvo DESC
-                    LIMIT 1
-                )
-                LEFT JOIN historico_diagnosticos hd2 ON hd2.projeto_id = p.id
-                WHERE p.usuario_id = ?
-                GROUP BY p.id
-                ORDER BY p.data_criacao DESC";
-
-        $stmt = $this->pdo->prepare($sql);
+        // Busca os projetos
+        $stmt = $this->pdo->prepare("
+            SELECT p.*,
+                   COUNT(hd.id) AS total_diagnosticos
+            FROM projetos p
+            LEFT JOIN historico_diagnosticos hd ON hd.projeto_id = p.id
+            WHERE p.usuario_id = ?
+            GROUP BY p.id, p.usuario_id, p.nome, p.descricao, p.publico_alvo, p.status, p.data_criacao
+            ORDER BY p.data_criacao DESC
+        ");
         $stmt->execute([$usuarioId]);
-        return $stmt->fetchAll();
+        $projetos = $stmt->fetchAll();
+
+        // Para cada projeto, busca o último diagnóstico separadamente
+        foreach ($projetos as &$projeto) {
+            $stmtUltimo = $this->pdo->prepare("
+                SELECT percentual, data_salvo
+                FROM historico_diagnosticos
+                WHERE projeto_id = ?
+                ORDER BY data_salvo DESC
+                LIMIT 1
+            ");
+            $stmtUltimo->execute([$projeto['id']]);
+            $ultimo = $stmtUltimo->fetch();
+
+            $projeto['ultimo_percentual'] = $ultimo ? $ultimo['percentual'] : null;
+            $projeto['ultima_data']       = $ultimo ? $ultimo['data_salvo']  : null;
+        }
+
+        return $projetos;
     }
 
     /**
@@ -55,7 +66,6 @@ class Projeto
 
     /**
      * Cria um novo projeto.
-     * Retorna o ID do projeto criado.
      */
     public function criar(
         int    $usuarioId,
@@ -104,7 +114,7 @@ class Projeto
     }
 
     /**
-     * Retorna labels amigáveis para público-alvo e status.
+     * Labels e cores auxiliares.
      */
     public static function labelPublicoAlvo(string $valor): string
     {
