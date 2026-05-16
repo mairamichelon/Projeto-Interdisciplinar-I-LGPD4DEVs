@@ -1,11 +1,22 @@
 -- ============================================================
 -- LGPD4DEVS — Schema completo do banco de dados
--- Atualizado em: 14/05/2026
+-- Atualizado em: 16/05/2026
 -- ============================================================
 -- Como usar:
--- 1. Crie o banco: CREATE DATABASE db_lgpd4devs;
--- 2. Selecione: USE db_lgpd4devs;
--- 3. Execute este script completo
+-- 1. Acesse o MySQL: mysql -u root -p
+-- 2. Execute este script: source /caminho/para/schema.sql
+--    ou via terminal: mysql -u root -p < schema.sql
+-- ============================================================
+
+-- Cria o banco caso não exista e seleciona ele
+CREATE DATABASE IF NOT EXISTS db_lgpd4devs
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+USE db_lgpd4devs;
+
+-- ============================================================
+-- TABELAS
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS categorias (
@@ -19,6 +30,17 @@ CREATE TABLE IF NOT EXISTS usuarios (
     email          VARCHAR(150) NOT NULL UNIQUE,
     senha          VARCHAR(255) NOT NULL,
     data_cadastro  DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS projetos (
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id   INT NOT NULL,
+    nome         VARCHAR(200) NOT NULL,
+    descricao    TEXT,
+    publico_alvo VARCHAR(50) NOT NULL DEFAULT 'ambos',
+    status       VARCHAR(50) NOT NULL DEFAULT 'em_desenvolvimento',
+    data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS perguntas (
@@ -59,6 +81,7 @@ CREATE TABLE IF NOT EXISTS pergunta_material (
 CREATE TABLE IF NOT EXISTS historico_diagnosticos (
     id               INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id       INT NOT NULL,
+    projeto_id       INT NULL,
     percentual       INT NOT NULL,
     total_pontos     INT NOT NULL,
     pontos_obtidos   INT NOT NULL,
@@ -66,7 +89,8 @@ CREATE TABLE IF NOT EXISTS historico_diagnosticos (
     perguntas_ok     INT NOT NULL,
     perguntas_falha  INT NOT NULL,
     data_salvo       DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (projeto_id) REFERENCES projetos(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS historico_respostas (

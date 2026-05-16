@@ -83,16 +83,14 @@
                         <a href="/checklist" class="btn-secondary" style="font-size: 0.85rem; padding: 8px 12px;">
                             <i class="fas fa-plus"></i>
                         </a>
-                        <button onclick='abrirModalEditar(<?php echo json_encode($p); ?>)' style="background: transparent; border: 2px solid var(--border); color: var(--text-muted); padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;">
+                        <button onclick='abrirModalEditar(<?php echo json_encode($p); ?>)'
+                                style="background: transparent; border: 2px solid var(--border); color: var(--text-muted); padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <form action="/projetos/deletar" method="POST" onsubmit="return confirm('Remover este projeto e todos os seus diagnósticos?');" style="margin: 0;">
-                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
-                            <input type="hidden" name="projeto_id" value="<?php echo $p['id']; ?>">
-                            <button type="submit" style="background: transparent; border: 2px solid var(--error); color: var(--error); padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
+                        <button onclick="abrirModalDeletar(<?php echo $p['id']; ?>, <?php echo htmlspecialchars(json_encode($p['nome'])); ?>)"
+                                style="background: transparent; border: 2px solid var(--error); color: var(--error); padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 0.85rem;">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -104,14 +102,14 @@
 <div id="modalNovoProjeto" class="modal-overlay" style="display:none;">
     <div class="modal-content" style="max-width: 520px;">
         <h2 style="color: var(--primary); margin-bottom: 20px;">Novo Projeto</h2>
-
         <div class="form-group">
             <label>Nome do Projeto *</label>
             <input type="text" id="np-nome" placeholder="Ex: App Escola Virtual" maxlength="200">
         </div>
         <div class="form-group">
             <label>Descrição</label>
-            <textarea id="np-descricao" placeholder="Descreva brevemente o projeto..." rows="3" style="width:100%; padding:14px 16px; border:2px solid var(--border); border-radius:10px; font-family:inherit; font-size:1rem; resize:vertical;"></textarea>
+            <textarea id="np-descricao" placeholder="Descreva brevemente o projeto..." rows="3"
+                      style="width:100%; padding:14px 16px; border:2px solid var(--border); border-radius:10px; font-family:inherit; font-size:1rem; resize:vertical;"></textarea>
         </div>
         <div class="form-group">
             <label>Público-alvo</label>
@@ -130,7 +128,6 @@
                 <option value="arquivado">Arquivado</option>
             </select>
         </div>
-
         <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px;">
             <button class="btn-secondary" onclick="fecharModalNovoProjeto()">Cancelar</button>
             <button class="btn-primary" onclick="criarProjeto()">Criar Projeto</button>
@@ -151,7 +148,8 @@
             </div>
             <div class="form-group">
                 <label>Descrição</label>
-                <textarea name="descricao" id="edit-descricao" rows="3" style="width:100%; padding:14px 16px; border:2px solid var(--border); border-radius:10px; font-family:inherit; font-size:1rem; resize:vertical;"></textarea>
+                <textarea name="descricao" id="edit-descricao" rows="3"
+                          style="width:100%; padding:14px 16px; border:2px solid var(--border); border-radius:10px; font-family:inherit; font-size:1rem; resize:vertical;"></textarea>
             </div>
             <div class="form-group">
                 <label>Público-alvo</label>
@@ -178,29 +176,49 @@
     </div>
 </div>
 
+<!-- Modal: Confirmar deleção de projeto -->
+<div id="modalDeletar" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 420px; text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 15px;">🗑️</div>
+        <h3 style="color: var(--text-main); margin-bottom: 10px;">Remover projeto?</h3>
+        <p style="color: var(--text-muted); margin-bottom: 8px;">
+            Você está prestes a remover o projeto <strong id="deletar-nome-projeto"></strong>.
+        </p>
+        <p style="color: var(--error); font-size: 0.9rem; margin-bottom: 30px;">
+            Todos os diagnósticos vinculados também serão removidos. Esta ação não pode ser desfeita.
+        </p>
+        <form id="formDeletar" action="/projetos/deletar" method="POST">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
+            <input type="hidden" name="projeto_id" id="deletar-projeto-id">
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button type="button" class="btn-secondary" onclick="fecharModalDeletar()">Cancelar</button>
+                <button type="submit"
+                        style="background: var(--error); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 0.95rem;">
+                    <i class="fas fa-trash"></i> Sim, remover
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Toast de feedback -->
+<div id="toastSucesso"
+     style="display: none; position: fixed; bottom: 30px; right: 30px; background: var(--secondary); color: white; padding: 16px 24px; border-radius: 12px; font-weight: 600; z-index: 3000; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+    ✅ Projeto criado com sucesso!
+</div>
+
 <script>
 const csrfToken = "<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>";
+
+// ── Novo Projeto ──────────────────────────────────────────────────────────────
 
 function abrirModalNovoProjeto() {
     document.getElementById('modalNovoProjeto').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
+
 function fecharModalNovoProjeto() {
     document.getElementById('modalNovoProjeto').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-function abrirModalEditar(projeto) {
-    document.getElementById('edit-id').value       = projeto.id;
-    document.getElementById('edit-nome').value     = projeto.nome;
-    document.getElementById('edit-descricao').value = projeto.descricao || '';
-    document.getElementById('edit-publico').value  = projeto.publico_alvo;
-    document.getElementById('edit-status').value   = projeto.status;
-    document.getElementById('modalEditar').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-function fecharModalEditar() {
-    document.getElementById('modalEditar').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
 
@@ -221,15 +239,64 @@ function criarProjeto() {
     })
     .then(r => r.json())
     .then(data => {
-        if (data.sucesso) window.location.reload();
-        else alert('Erro: ' + data.mensagem);
-    });
+        if (data.sucesso) {
+            fecharModalNovoProjeto();
+            mostrarToast('✅ Projeto criado com sucesso!');
+            setTimeout(() => window.location.reload(), 1200);
+        } else {
+            alert('Erro: ' + data.mensagem);
+        }
+    })
+    .catch(() => alert('Erro de comunicação. Tente novamente.'));
 }
 
-window.onclick = function(e) {
+// ── Editar Projeto ────────────────────────────────────────────────────────────
+
+function abrirModalEditar(projeto) {
+    document.getElementById('edit-id').value        = projeto.id;
+    document.getElementById('edit-nome').value      = projeto.nome;
+    document.getElementById('edit-descricao').value = projeto.descricao || '';
+    document.getElementById('edit-publico').value   = projeto.publico_alvo;
+    document.getElementById('edit-status').value    = projeto.status;
+    document.getElementById('modalEditar').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function fecharModalEditar() {
+    document.getElementById('modalEditar').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// ── Deletar Projeto ───────────────────────────────────────────────────────────
+
+function abrirModalDeletar(projetoId, nomeProjeto) {
+    document.getElementById('deletar-projeto-id').value    = projetoId;
+    document.getElementById('deletar-nome-projeto').textContent = nomeProjeto;
+    document.getElementById('modalDeletar').style.display  = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function fecharModalDeletar() {
+    document.getElementById('modalDeletar').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+
+function mostrarToast(mensagem) {
+    const toast = document.getElementById('toastSucesso');
+    toast.textContent = mensagem;
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 2500);
+}
+
+// ── Fecha modais ao clicar fora ───────────────────────────────────────────────
+
+window.addEventListener('click', function(e) {
     if (e.target.id === 'modalNovoProjeto') fecharModalNovoProjeto();
     if (e.target.id === 'modalEditar')      fecharModalEditar();
-}
+    if (e.target.id === 'modalDeletar')     fecharModalDeletar();
+});
 </script>
 
 <?php require BASE_PATH . '/app/views/layouts/footer.php'; ?>

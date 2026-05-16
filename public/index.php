@@ -1,7 +1,15 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+
 define('BASE_PATH', dirname(__DIR__));
+
+// Exibe erros apenas em ambiente local — nunca em produção
+if (getenv('APP_ENV') !== 'production') {
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', 0);
+    error_reporting(0);
+}
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -26,24 +34,40 @@ $uri    = rtrim($uri, '/') ?: '/';
 $method = $_SERVER['REQUEST_METHOD'];
 
 $rotas = [
-    '/'                   => ['HomeController',     'index'],
-    '/checklist'          => ['ChecklistController', $method === 'POST' ? 'processar' : 'index'],
-    '/resultado'          => ['ResultadoController', 'index'],
-    '/login'              => ['AuthController',      'login'],
-    '/cadastro'           => ['AuthController',      'cadastro'],
-    '/logout'             => ['AuthController',      'logout'],
-    '/materiais'          => ['MateriaisController', 'index'],
-    '/sobre'              => ['PaginaController',    'sobre'],
-    '/contato'            => ['PaginaController',    'contato'],
-    '/privacidade'        => ['PaginaController',    'privacidade'],
-    '/projetos'           => ['ProjetoController',   'index'],
-    '/projetos/detalhe'   => ['ProjetoController',   'detalhe'],
-    '/projetos/criar'     => ['ProjetoController',   'criar'],
-    '/projetos/editar'    => ['ProjetoController',   'editar'],
-    '/projetos/deletar'   => ['ProjetoController',   'deletar'],
-    '/historico/detalhe'  => ['HistoricoController', 'detalhe'],
-    '/historico/deletar'  => ['HistoricoController', 'deletar'],
-    '/salvar-resultado'   => ['HistoricoController', 'salvar'],
+    // Páginas principais
+    '/'                      => ['HomeController',      'index'],
+    '/checklist'             => ['ChecklistController',  $method === 'POST' ? 'processar' : 'index'],
+    '/resultado'             => ['ResultadoController',  'index'],
+    '/materiais'             => ['MateriaisController',  'index'],
+
+    // Autenticação
+    '/login'                 => ['AuthController',       'login'],
+    '/cadastro'              => ['AuthController',       'cadastro'],
+    '/logout'                => ['AuthController',       'logout'],
+
+    // Páginas institucionais
+    '/sobre'                 => ['PaginaController',     'sobre'],
+    '/contato'               => ['PaginaController',     'contato'],
+    '/privacidade'           => ['PaginaController',     'privacidade'],
+
+    // Projetos
+    '/projetos'              => ['ProjetoController',    'index'],
+    '/projetos/detalhe'      => ['ProjetoController',    'detalhe'],
+    '/projetos/criar'        => ['ProjetoController',    'criar'],
+    '/projetos/editar'       => ['ProjetoController',    'editar'],
+    '/projetos/deletar'      => ['ProjetoController',    'deletar'],
+
+    // Histórico 
+    '/historico'             => ['HistoricoController',  'index'],
+    '/historico/detalhe'     => ['HistoricoController',  'detalhe'],
+    '/historico/deletar'     => ['HistoricoController',  'deletar'],
+
+    // Salvar resultado do checklist
+    '/salvar-resultado'      => ['HistoricoController',  'salvar'],
+
+    // APIs internas
+    '/api/projetos'          => ['ProjetoController',    'apiProjetos'],
+    '/api/projetos/detalhes' => ['ProjetoController',    'apiDetalhes'],
 ];
 
 if (array_key_exists($uri, $rotas)) {

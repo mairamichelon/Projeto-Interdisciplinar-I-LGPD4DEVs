@@ -53,7 +53,6 @@
                 <div class="card-pergunta" style="border-left: 5px solid <?php echo ($h['percentual'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>; padding: 25px;">
                     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
 
-                        <!-- Info principal -->
                         <div style="display: flex; align-items: center; gap: 20px;">
                             <div style="text-align: center; min-width: 80px;">
                                 <div style="font-size: 2rem; font-weight: 700; color: <?php echo ($h['percentual'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>; line-height: 1;">
@@ -71,8 +70,6 @@
                                     &nbsp;·&nbsp;
                                     <?php echo $h['pontos_obtidos']; ?>/<?php echo $h['total_pontos']; ?> pontos
                                 </div>
-
-                                <!-- Barra de progresso -->
                                 <div style="background: #E2E8F0; height: 8px; border-radius: 10px; width: 250px; margin-top: 8px; overflow: hidden;">
                                     <div style="width: <?php echo $h['percentual']; ?>%; height: 100%; background: <?php echo ($h['percentual'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;"></div>
                                 </div>
@@ -84,12 +81,11 @@
                             <a href="/historico/detalhe?id=<?php echo $h['id']; ?>" class="btn-secondary" style="font-size: 0.85rem; padding: 8px 16px;">
                                 <i class="fas fa-eye"></i> Ver Detalhes
                             </a>
-                            <form action="/historico/deletar" method="POST" onsubmit="return confirm('Remover este diagnóstico do histórico?');">
-                                <input type="hidden" name="historico_id" value="<?php echo $h['id']; ?>">
-                                <button type="submit" style="background: transparent; border: 2px solid var(--error); color: var(--error); padding: 8px 16px; border-radius: 10px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
-                                    <i class="fas fa-trash"></i> Remover
-                                </button>
-                            </form>
+                            <button
+                                onclick="abrirModalDeletar(<?php echo $h['id']; ?>, 0)"
+                                style="background: transparent; border: 2px solid var(--error); color: var(--error); padding: 8px 16px; border-radius: 10px; font-size: 0.85rem; cursor: pointer; font-weight: 600;">
+                                <i class="fas fa-trash"></i> Remover
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -102,5 +98,46 @@
 
     <?php endif; ?>
 </main>
+
+<!-- Modal de confirmação de deleção -->
+<div id="modalDeletar" class="modal-overlay" style="display: none;">
+    <div class="modal-content" style="max-width: 420px; text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 15px;">🗑️</div>
+        <h3 style="color: var(--text-main); margin-bottom: 10px;">Remover diagnóstico?</h3>
+        <p style="color: var(--text-muted); margin-bottom: 30px;">
+            Esta ação não pode ser desfeita. O diagnóstico será removido permanentemente do histórico.
+        </p>
+        <form id="formDeletar" action="/historico/deletar" method="POST">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
+            <input type="hidden" name="historico_id" id="deletar-historico-id">
+            <input type="hidden" name="projeto_id"   id="deletar-projeto-id">
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button type="button" class="btn-secondary" onclick="fecharModalDeletar()">Cancelar</button>
+                <button type="submit"
+                        style="background: var(--error); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 0.95rem;">
+                    <i class="fas fa-trash"></i> Sim, remover
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function abrirModalDeletar(historicoId, projetoId) {
+    document.getElementById('deletar-historico-id').value = historicoId;
+    document.getElementById('deletar-projeto-id').value   = projetoId;
+    document.getElementById('modalDeletar').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function fecharModalDeletar() {
+    document.getElementById('modalDeletar').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+window.addEventListener('click', function(e) {
+    if (e.target.id === 'modalDeletar') fecharModalDeletar();
+});
+</script>
 
 <?php require BASE_PATH . '/app/views/layouts/footer.php'; ?>

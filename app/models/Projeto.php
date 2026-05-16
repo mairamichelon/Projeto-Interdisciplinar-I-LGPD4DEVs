@@ -16,39 +16,65 @@ class Projeto
 
     /**
      * Retorna todos os projetos de um usuário com o último diagnóstico.
+     *
+     * Versão corrigida: uma única query com subquery correlacionada
+     * no lugar do loop N+1 que existia antes.
      */
     public function buscarPorUsuario(int $usuarioId): array
     {
-        // Busca os projetos
         $stmt = $this->pdo->prepare("
-            SELECT p.*,
-                   COUNT(hd.id) AS total_diagnosticos
+            SELECT
+                p.*,
+                COUNT(hd.id)                                        AS total_diagnosticos,
+                MAX(hd.data_salvo)                                  AS ultima_data,
+                (
+                    SELECT hd2.percentual
+                    FROM historico_diagnosticos hd2
+                    WHERE hd2.projeto_id = p.id
+                    ORDER BY hd2.data_salvo DESC
+                    LIMIT 1
+                )                                                   AS ultimo_percentual
             FROM projetos p
             LEFT JOIN historico_diagnosticos hd ON hd.projeto_id = p.id
             WHERE p.usuario_id = ?
-            GROUP BY p.id, p.usuario_id, p.nome, p.descricao, p.publico_alvo, p.status, p.data_criacao
+            GROUP BY
+                p.id, p.usuario_id, p.nome, p.descricao,
+                p.publico_alvo, p.status, p.data_criacao
             ORDER BY p.data_criacao DESC
         ");
         $stmt->execute([$usuarioId]);
-        $projetos = $stmt->fetchAll();
+        return $stmt->fetchAll();
+    }
 
-        // Para cada projeto, busca o último diagnóstico separadamente
-        foreach ($projetos as &$projeto) {
-            $stmtUltimo = $this->pdo->prepare("
-                SELECT percentual, data_salvo
-                FROM historico_diagnosticos
-                WHERE projeto_id = ?
-                ORDER BY data_salvo DESC
-                LIMIT 1
-            ");
-            $stmtUltimo->execute([$projeto['id']]);
-            $ultimo = $stmtUltimo->fetch();
+    /**
+     * Retorna uma lista de projetos com detalhes agregados para a API
+     * usada no modal "Meus Projetos" da tela de resultado.
+     */
+    public function buscarDetalhesPorUsuario(int $usuarioId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT
+                p.id,
+                p.nome,
+                COUNT(hd.id)                        AS diagnosticos_feitos,
+                CAST(AVG(hd.percentual) AS UNSIGNED) AS media_percentual,
+                MAX(hd.data_salvo)                   AS ultimo_diagnostico_data
+            FROM projetos p
+            LEFT JOIN historico_diagnosticos hd ON p.id = hd.projeto_id
+            WHERE p.usuario_id = ?
+            GROUP BY p.id, p.nome
+            ORDER BY p.data_criacao DESC
+        ");
+        $stmt->execute([$usuarioId]);
+        $resultados = $stmt->fetchAll();
 
-            $projeto['ultimo_percentual'] = $ultimo ? $ultimo['percentual'] : null;
-            $projeto['ultima_data']       = $ultimo ? $ultimo['data_salvo']  : null;
+        foreach ($resultados as &$r) {
+            if ($r['ultimo_diagnostico_data']) {
+                $r['ultimo_diagnostico_data'] = date('d/m/Y', strtotime($r['ultimo_diagnostico_data']));
+            }
         }
 
-        return $projetos;
+        return $resultados;
     }
 
     /**
@@ -65,7 +91,7 @@ class Projeto
     }
 
     /**
-     * Cria um novo projeto.
+     * Cria um novo projeto e retorna o ID gerado.
      */
     public function criar(
         int    $usuarioId,
@@ -102,7 +128,7 @@ class Projeto
     }
 
     /**
-     * Remove um projeto e todos os seus diagnósticos.
+     * Remove um projeto e todos os seus diagnósticos vinculados.
      */
     public function deletar(int $projetoId, int $usuarioId): bool
     {
@@ -113,9 +139,10 @@ class Projeto
         return $stmt->rowCount() > 0;
     }
 
-    /**
-     * Labels e cores auxiliares.
-     */
+    // -------------------------------------------------------------------------
+    // Helpers estáticos de apresentação
+    // -------------------------------------------------------------------------
+
     public static function labelPublicoAlvo(string $valor): string
     {
         return match($valor) {
