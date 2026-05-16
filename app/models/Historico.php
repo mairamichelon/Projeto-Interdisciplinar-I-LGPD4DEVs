@@ -15,9 +15,7 @@ class Historico
     }
 
     /**
-     * Salva um diagnóstico completo no histórico.
-     * Insere o cabeçalho e depois cada resposta detalhada.
-     * Tudo dentro de uma transação — ou salva tudo ou nada.
+     * Salva um diagnóstico completo no histórico vinculado a um projeto.
      */
     public function salvar(
         int   $usuarioId,
@@ -27,21 +25,22 @@ class Historico
         int   $totalPerguntas,
         int   $perguntasOk,
         int   $perguntasFalha,
-        array $respostas
+        array $respostas,
+        ?int  $projetoId = null
     ): int {
         $this->pdo->beginTransaction();
 
         try {
-            // 1 — Insere o cabeçalho do diagnóstico
             $stmt = $this->pdo->prepare("
                 INSERT INTO historico_diagnosticos
-                    (usuario_id, percentual, total_pontos, pontos_obtidos,
+                    (usuario_id, projeto_id, percentual, total_pontos, pontos_obtidos,
                      total_perguntas, perguntas_ok, perguntas_falha)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ");
 
             $stmt->execute([
                 $usuarioId,
+                $projetoId,
                 $percentual,
                 $totalPontos,
                 $pontosObtidos,
@@ -52,7 +51,6 @@ class Historico
 
             $historicoId = (int) $this->pdo->lastInsertId();
 
-            // 2 — Insere cada resposta detalhada
             $stmtResp = $this->pdo->prepare("
                 INSERT INTO historico_respostas
                     (historico_id, pergunta_id, pergunta_texto, pergunta_peso, categoria_nome, resposta)
@@ -81,42 +79,52 @@ class Historico
     }
 
     /**
-     * Retorna todos os diagnósticos salvos de um usuário,
-     * ordenados do mais recente para o mais antigo.
+     * Retorna todos os diagnósticos de um usuário (sem filtro de projeto).
      */
     public function buscarPorUsuario(int $usuarioId): array
     {
         $stmt = $this->pdo->prepare("
-            SELECT id, percentual, total_pontos, pontos_obtidos,
-                   total_perguntas, perguntas_ok, perguntas_falha, data_salvo
-            FROM historico_diagnosticos
-            WHERE usuario_id = ?
-            ORDER BY data_salvo DESC
+            SELECT hd.*, p.nome AS projeto_nome
+            FROM historico_diagnosticos hd
+            LEFT JOIN projetos p ON hd.projeto_id = p.id
+            WHERE hd.usuario_id = ?
+            ORDER BY hd.data_salvo DESC
         ");
-
         $stmt->execute([$usuarioId]);
         return $stmt->fetchAll();
     }
 
     /**
-     * Retorna o detalhe completo de um diagnóstico específico,
-     * verificando se pertence ao usuário (segurança).
+     * Retorna diagnósticos de um projeto específico.
+     */
+    public function buscarPorProjeto(int $projetoId, int $usuarioId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT hd.*
+            FROM historico_diagnosticos hd
+            WHERE hd.projeto_id = ? AND hd.usuario_id = ?
+            ORDER BY hd.data_salvo DESC
+        ");
+        $stmt->execute([$projetoId, $usuarioId]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Retorna o detalhe completo de um diagnóstico.
      */
     public function buscarDetalhePorId(int $historicoId, int $usuarioId): array|false
     {
-        // Verifica se o diagnóstico pertence ao usuário
         $stmt = $this->pdo->prepare("
-            SELECT * FROM historico_diagnosticos
-            WHERE id = ? AND usuario_id = ?
+            SELECT hd.*, p.nome AS projeto_nome
+            FROM historico_diagnosticos hd
+            LEFT JOIN projetos p ON hd.projeto_id = p.id
+            WHERE hd.id = ? AND hd.usuario_id = ?
         ");
         $stmt->execute([$historicoId, $usuarioId]);
         $cabecalho = $stmt->fetch();
 
-        if (!$cabecalho) {
-            return false;
-        }
+        if (!$cabecalho) return false;
 
-        // Busca as respostas detalhadas
         $stmtResp = $this->pdo->prepare("
             SELECT * FROM historico_respostas
             WHERE historico_id = ?
@@ -133,7 +141,6 @@ class Historico
 
     /**
      * Remove um diagnóstico do histórico.
-     * Verifica se pertence ao usuário antes de deletar.
      */
     public function deletar(int $historicoId, int $usuarioId): bool
     {

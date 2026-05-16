@@ -25,7 +25,7 @@ $uri    = rtrim($uri, '/') ?: '/';
 $method = $_SERVER['REQUEST_METHOD'];
 
 $rotas = [
-    '/'                   => ['HomeController',      'index'],
+    '/'                   => ['HomeController',     'index'],
     '/checklist'          => ['ChecklistController', $method === 'POST' ? 'processar' : 'index'],
     '/resultado'          => ['ResultadoController', 'index'],
     '/login'              => ['AuthController',      'login'],
@@ -35,7 +35,11 @@ $rotas = [
     '/sobre'              => ['PaginaController',    'sobre'],
     '/contato'            => ['PaginaController',    'contato'],
     '/privacidade'        => ['PaginaController',    'privacidade'],
-    '/historico'          => ['HistoricoController', 'index'],
+    '/projetos'           => ['ProjetoController',   'index'],
+    '/projetos/detalhe'   => ['ProjetoController',   'detalhe'],
+    '/projetos/criar'     => ['ProjetoController',   'criar'],
+    '/projetos/editar'    => ['ProjetoController',   'editar'],
+    '/projetos/deletar'   => ['ProjetoController',   'deletar'],
     '/historico/detalhe'  => ['HistoricoController', 'detalhe'],
     '/historico/deletar'  => ['HistoricoController', 'deletar'],
     '/salvar-resultado'   => ['HistoricoController', 'salvar'],

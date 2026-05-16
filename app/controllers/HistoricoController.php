@@ -9,29 +9,17 @@ class HistoricoController
 {
     private Historico $model;
     private Pergunta  $perguntaModel;
+    private Projeto   $projetoModel;
 
     public function __construct()
     {
         $this->model         = new Historico();
         $this->perguntaModel = new Pergunta();
+        $this->projetoModel  = new Projeto();
     }
 
     // -------------------------------------------------------------------------
-    // GET /historico — lista todos os diagnósticos salvos do usuário
-    // -------------------------------------------------------------------------
-
-    public function index(): void
-    {
-        $this->exigirLogin();
-
-        $usuarioId  = (int) $_SESSION['user_id'];
-        $historicos = $this->model->buscarPorUsuario($usuarioId);
-
-        require BASE_PATH . '/app/views/historico/index.php';
-    }
-
-    // -------------------------------------------------------------------------
-    // GET /historico/detalhe?id=X — exibe o detalhe de um diagnóstico
+    // GET /historico/detalhe?id=X
     // -------------------------------------------------------------------------
 
     public function detalhe(): void
@@ -42,14 +30,13 @@ class HistoricoController
         $usuarioId   = (int) $_SESSION['user_id'];
 
         if ($historicoId === 0) {
-            header("Location: /historico");
+            header("Location: /projetos");
             exit;
         }
 
         $dados = $this->model->buscarDetalhePorId($historicoId, $usuarioId);
 
         if (!$dados) {
-            // Diagnóstico não encontrado ou não pertence ao usuário
             http_response_code(404);
             require BASE_PATH . '/app/views/404.php';
             return;
@@ -62,20 +49,18 @@ class HistoricoController
     }
 
     // -------------------------------------------------------------------------
-    // POST /salvar-resultado — salva o diagnóstico atual no histórico
+    // POST /salvar-resultado — salva o diagnóstico no histórico
     // -------------------------------------------------------------------------
 
     public function salvar(): void
     {
-        // Só aceita POST e usuário logado
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: /historico");
+            header("Location: /projetos");
             exit;
         }
 
         $this->exigirLogin();
 
-        // Valida CSRF
         $tokenSessao = $_SESSION['csrf_token'] ?? '';
         $tokenPost   = $_POST['csrf_token']    ?? '';
         if (empty($tokenSessao) || !hash_equals($tokenSessao, $tokenPost)) {
@@ -85,8 +70,22 @@ class HistoricoController
 
         $usuarioId = (int) $_SESSION['user_id'];
 
+        // Projeto: existente ou novo
+        $projetoId  = (int) ($_POST['projeto_id'] ?? 0);
+        $nomeProjeto = trim($_POST['nome_projeto']    ?? '');
+        $descricao   = trim($_POST['descricao']       ?? '');
+        $publicoAlvo = trim($_POST['publico_alvo']    ?? 'ambos');
+        $status      = trim($_POST['status']          ?? 'em_desenvolvimento');
+
         try {
-            // Busca as respostas e dados do banco para este usuário
+            // Se não veio projeto_id, cria um novo projeto
+            if ($projetoId === 0 && !empty($nomeProjeto)) {
+                $projetoId = $this->projetoModel->criar(
+                    $usuarioId, $nomeProjeto, $descricao, $publicoAlvo, $status
+                );
+            }
+
+            // Busca respostas do banco para este usuário
             $dados = $this->perguntaModel->buscarComRespostasEMateriais($usuarioId);
 
             if (empty($dados)) {
@@ -95,11 +94,11 @@ class HistoricoController
             }
 
             // Calcula métricas
-            $totalPontos    = 0;
-            $pontosObtidos  = 0;
-            $totalPerguntas = count($dados);
-            $perguntasOk    = 0;
-            $perguntasFalha = 0;
+            $totalPontos     = 0;
+            $pontosObtidos   = 0;
+            $totalPerguntas  = count($dados);
+            $perguntasOk     = 0;
+            $perguntasFalha  = 0;
             $respostasDetalhe = [];
 
             foreach ($dados as $item) {
@@ -112,10 +111,9 @@ class HistoricoController
                     $perguntasFalha++;
                 }
 
-                // Busca o ID e categoria da pergunta para salvar no histórico
                 $respostasDetalhe[] = [
                     'pergunta_id'    => $item['id']        ?? 0,
-                    'pergunta_texto' => $item['texto']     ?? $item['texto'] ?? '',
+                    'pergunta_texto' => $item['texto']     ?? '',
                     'pergunta_peso'  => (int) $item['peso'],
                     'categoria_nome' => $item['categoria'] ?? 'Geral',
                     'resposta'       => (int) $item['resposta'],
@@ -134,15 +132,16 @@ class HistoricoController
                 $totalPerguntas,
                 $perguntasOk,
                 $perguntasFalha,
-                $respostasDetalhe
+                $respostasDetalhe,
+                $projetoId ?: null
             );
 
-            // Retorna JSON de sucesso para o JavaScript da página
             header('Content-Type: application/json');
             echo json_encode([
-                'sucesso'     => true,
-                'mensagem'    => "Diagnóstico de {$percentual}% salvo com sucesso!",
+                'sucesso'      => true,
+                'mensagem'     => "Diagnóstico de {$percentual}% salvo com sucesso!",
                 'historico_id' => $historicoId,
+                'projeto_id'   => $projetoId,
             ]);
 
         } catch (\Exception $e) {
@@ -151,29 +150,35 @@ class HistoricoController
     }
 
     // -------------------------------------------------------------------------
-    // POST /historico/deletar — remove um diagnóstico do histórico
+    // POST /historico/deletar
     // -------------------------------------------------------------------------
 
     public function deletar(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: /historico");
+            header("Location: /projetos");
             exit;
         }
 
         $this->exigirLogin();
 
         $historicoId = (int) ($_POST['historico_id'] ?? 0);
+        $projetoId   = (int) ($_POST['projeto_id']   ?? 0);
         $usuarioId   = (int) $_SESSION['user_id'];
 
         $this->model->deletar($historicoId, $usuarioId);
 
-        header("Location: /historico");
+        // Volta para o detalhe do projeto se veio de lá
+        if ($projetoId) {
+            header("Location: /projetos/detalhe?id={$projetoId}");
+        } else {
+            header("Location: /projetos");
+        }
         exit;
     }
 
     // -------------------------------------------------------------------------
-    // Helpers privados
+    // Helpers
     // -------------------------------------------------------------------------
 
     private function exigirLogin(): void
