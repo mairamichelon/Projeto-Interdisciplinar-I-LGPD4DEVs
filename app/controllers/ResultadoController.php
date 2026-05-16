@@ -55,8 +55,7 @@ class ResultadoController
                 : null;
 
         } catch (\PDOException $e) {
-            error_log('[LGPD4DEVS] Erro no resultado: ' . $e->getMessage());
-            die("<div class='container' style='padding:50px;'>Erro ao processar o diagnóstico. Tente novamente mais tarde.</div>");
+        die("<div style='padding:50px;'>ERRO: " . $e->getMessage() . "</div>");
         }
 
         // Passa todas as variáveis necessárias para a View

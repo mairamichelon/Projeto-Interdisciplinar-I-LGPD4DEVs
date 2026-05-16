@@ -70,9 +70,9 @@
                     <button onclick="abrirModalSalvar()" id="btnSave" class="btn-primary" style="background-color: var(--secondary); border: none;">
                         <i class="fas fa-save"></i> Salvar Resultado
                     </button>
-                    <a href="/projetos" class="btn-secondary">
+                    <button onclick="abrirModalProjetos()" class="btn-secondary">
                         <i class="fas fa-folder"></i> Meus Projetos
-                    </a>
+                    </button>
                 <?php endif; ?>
                 <button onclick="window.print()" class="btn-secondary">
                     <i class="fas fa-print"></i> Exportar (PDF)
@@ -84,14 +84,77 @@
     <?php endif; ?>
 </main>
 
-<!-- Modal: Salvar em Projeto -->
 <?php if (isset($_SESSION['user_id'])): ?>
+<?php
+    $projetoModel    = new Projeto();
+    $projetosUsuario = $projetoModel->buscarPorUsuario((int)$_SESSION['user_id']);
+?>
+
+<!-- Modal: Consultar Projetos -->
+<div id="modalProjetos" class="modal-overlay" style="display:none;">
+    <div class="modal-content" style="max-width: 600px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+            <h2 style="color: var(--primary); margin: 0;">Meus Projetos</h2>
+            <button onclick="fecharModalProjetos()" style="background: transparent; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted);">✕</button>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+            Consulte seus projetos e decida se deseja salvar este diagnóstico.
+        </p>
+
+        <?php if (!empty($projetosUsuario)): ?>
+            <div style="display: flex; flex-direction: column; gap: 12px; max-height: 350px; overflow-y: auto; padding-right: 5px;">
+                <?php foreach ($projetosUsuario as $p): ?>
+                    <div style="border: 1px solid var(--border); border-left: 4px solid <?php echo Projeto::corStatus($p['status']); ?>; border-radius: 10px; padding: 15px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                            <div>
+                                <div style="font-weight: 600; color: var(--text-main); margin-bottom: 4px;">
+                                    <?php echo htmlspecialchars($p['nome']); ?>
+                                </div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">
+                                    <?php echo Projeto::labelPublicoAlvo($p['publico_alvo']); ?>
+                                    &nbsp;·&nbsp;
+                                    <?php echo Projeto::labelStatus($p['status']); ?>
+                                    &nbsp;·&nbsp;
+                                    <?php echo $p['total_diagnosticos']; ?> diagnóstico(s)
+                                </div>
+                            </div>
+                            <?php if ($p['ultimo_percentual'] !== null): ?>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.3rem; font-weight: 700; color: <?php echo ($p['ultimo_percentual'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
+                                        <?php echo $p['ultimo_percentual']; ?>%
+                                    </div>
+                                    <div style="font-size: 0.72rem; color: var(--text-muted);">último</div>
+                                </div>
+                            <?php else: ?>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">Sem diagnósticos</div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div style="text-align: center; padding: 30px 0; color: var(--text-muted);">
+                <i class="fas fa-folder-open" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                Nenhum projeto criado ainda.
+            </div>
+        <?php endif; ?>
+
+        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border);">
+            <button class="btn-secondary" onclick="fecharModalProjetos()">Fechar</button>
+            <button class="btn-primary" style="background-color: var(--secondary); border: none;"
+                    onclick="fecharModalProjetos(); abrirModalSalvar();">
+                <i class="fas fa-save"></i> Salvar Diagnóstico
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Salvar em Projeto -->
 <div id="modalSalvar" class="modal-overlay" style="display:none;">
     <div class="modal-content" style="max-width: 520px;">
         <h2 style="color: var(--primary); margin-bottom: 5px;">Salvar Diagnóstico</h2>
         <p style="color: var(--text-muted); margin-bottom: 25px; font-size: 0.9rem;">Vincule este resultado a um projeto para acompanhar sua evolução.</p>
 
-        <!-- Tabs -->
         <div style="display: flex; gap: 0; margin-bottom: 25px; border-bottom: 2px solid var(--border);">
             <button id="tab-existente" onclick="trocarTab('existente')"
                 style="flex:1; padding:10px; border:none; background:transparent; font-weight:600; color:var(--primary); border-bottom:3px solid var(--primary); cursor:pointer; font-size:0.95rem; margin-bottom:-2px;">
@@ -103,12 +166,7 @@
             </button>
         </div>
 
-        <!-- Tab: Projeto existente -->
         <div id="painel-existente">
-            <?php
-                $projetoModel = new Projeto();
-                $projetosUsuario = $projetoModel->buscarPorUsuario((int)$_SESSION['user_id']);
-            ?>
             <?php if (!empty($projetosUsuario)): ?>
                 <div class="form-group">
                     <label>Selecione o Projeto</label>
@@ -120,12 +178,11 @@
                 </div>
             <?php else: ?>
                 <p style="color: var(--text-muted); text-align: center; padding: 20px 0;">
-                    Nenhum projeto criado ainda.<br>Crie um novo projeto abaixo.
+                    Nenhum projeto ainda. Crie um novo abaixo.
                 </p>
             <?php endif; ?>
         </div>
 
-        <!-- Tab: Novo projeto -->
         <div id="painel-novo" style="display:none;">
             <div class="form-group">
                 <label>Nome do Projeto *</label>
@@ -133,7 +190,7 @@
             </div>
             <div class="form-group">
                 <label>Descrição</label>
-                <textarea id="novo-descricao" placeholder="Descreva brevemente o projeto..." rows="2"
+                <textarea id="novo-descricao" rows="2"
                     style="width:100%; padding:14px 16px; border:2px solid var(--border); border-radius:10px; font-family:inherit; font-size:1rem; resize:vertical;"></textarea>
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -192,16 +249,14 @@
 const csrfToken = "<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>";
 let tabAtual = 'existente';
 
-function trocarTab(tab) {
-    tabAtual = tab;
-    document.getElementById('painel-existente').style.display = tab === 'existente' ? 'block' : 'none';
-    document.getElementById('painel-novo').style.display      = tab === 'novo'      ? 'block' : 'none';
-    document.getElementById('tab-existente').style.color       = tab === 'existente' ? 'var(--primary)'    : 'var(--text-muted)';
-    document.getElementById('tab-existente').style.borderBottom = tab === 'existente' ? '3px solid var(--primary)' : 'none';
-    document.getElementById('tab-novo').style.color            = tab === 'novo'      ? 'var(--primary)'    : 'var(--text-muted)';
-    document.getElementById('tab-novo').style.borderBottom     = tab === 'novo'      ? '3px solid var(--primary)' : 'none';
+function abrirModalProjetos() {
+    document.getElementById('modalProjetos').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 }
-
+function fecharModalProjetos() {
+    document.getElementById('modalProjetos').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
 function abrirModalSalvar() {
     document.getElementById('modalSalvar').style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -210,14 +265,21 @@ function fecharModalSalvar() {
     document.getElementById('modalSalvar').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
-
+function trocarTab(tab) {
+    tabAtual = tab;
+    document.getElementById('painel-existente').style.display  = tab === 'existente' ? 'block' : 'none';
+    document.getElementById('painel-novo').style.display       = tab === 'novo'      ? 'block' : 'none';
+    document.getElementById('tab-existente').style.color        = tab === 'existente' ? 'var(--primary)' : 'var(--text-muted)';
+    document.getElementById('tab-existente').style.borderBottom = tab === 'existente' ? '3px solid var(--primary)' : 'none';
+    document.getElementById('tab-novo').style.color             = tab === 'novo'      ? 'var(--primary)' : 'var(--text-muted)';
+    document.getElementById('tab-novo').style.borderBottom      = tab === 'novo'      ? '3px solid var(--primary)' : 'none';
+}
 function confirmarSalvar() {
     const btn = document.getElementById('btnConfirmarSalvar');
     btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Salvando...";
     btn.disabled  = true;
 
     let body = 'csrf_token=' + encodeURIComponent(csrfToken);
-
     if (tabAtual === 'existente') {
         const sel = document.getElementById('select-projeto');
         if (sel) body += '&projeto_id=' + sel.value;
@@ -260,7 +322,6 @@ function confirmarSalvar() {
         btn.disabled  = false;
     });
 }
-
 function abrirModal(titulo, conteudo, link) {
     document.getElementById('m-titulo').innerText = titulo;
     document.getElementById('m-corpo').innerText  = conteudo;
@@ -272,7 +333,6 @@ function fecharModal() {
     document.getElementById('modalMaterial').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
-
 function showToast(msg, erro = false) {
     const toast = document.getElementById('toast');
     toast.style.background = erro ? '#EF4444' : '#00CC66';
@@ -283,8 +343,8 @@ function showToast(msg, erro = false) {
         setTimeout(() => { toast.style.display = 'none'; toast.style.opacity = '1'; }, 500);
     }, 4000);
 }
-
 window.onclick = function(e) {
+    if (e.target.id === 'modalProjetos') fecharModalProjetos();
     if (e.target.id === 'modalSalvar')   fecharModalSalvar();
     if (e.target.id === 'modalMaterial') fecharModal();
 }
