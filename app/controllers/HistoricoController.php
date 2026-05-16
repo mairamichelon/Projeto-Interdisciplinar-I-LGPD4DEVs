@@ -24,7 +24,7 @@ class HistoricoController
     {
         $this->exigirLogin();
 
-        $usuarioId = (int) $_SESSION['user_id'];
+        $usuarioId  = (int) $_SESSION['user_id'];
         $historicos = $this->model->buscarPorUsuario($usuarioId);
 
         require BASE_PATH . '/app/views/historico/index.php';
@@ -83,8 +83,7 @@ class HistoricoController
 
         $usuarioId = (int) $_SESSION['user_id'];
 
-        // Recebe apenas o projeto_id — a criação de projeto é responsabilidade
-        // do ProjetoController via /projetos/criar, feita antes desta chamada
+        // Recebe apenas o projeto_id — criação de projeto é feita antes via /projetos/criar
         $projetoId = (int) ($_POST['projeto_id'] ?? 0);
 
         try {
@@ -97,11 +96,11 @@ class HistoricoController
             }
 
             // Calcula métricas
-            $totalPontos    = 0;
-            $pontosObtidos  = 0;
-            $totalPerguntas = count($dados);
-            $perguntasOk    = 0;
-            $perguntasFalha = 0;
+            $totalPontos      = 0;
+            $pontosObtidos    = 0;
+            $totalPerguntas   = count($dados);
+            $perguntasOk      = 0;
+            $perguntasFalha   = 0;
             $respostasDetalhe = [];
 
             foreach ($dados as $item) {
@@ -184,7 +183,7 @@ class HistoricoController
         if ($projetoId) {
             header("Location: /projetos/detalhe?id={$projetoId}");
         } else {
-            header("Location: /projetos");
+            header("Location: /historico");
         }
         exit;
     }
