@@ -21,7 +21,7 @@ class Usuario
      */
     public function buscarPorEmail(string $email): array|false
     {
-        $stmt = $this->pdo->prepare("SELECT id, nome, senha FROM usuarios WHERE email = ?");
+        $stmt = $this->pdo->prepare("SELECT id, nome, senha, perfil FROM usuarios WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch();
     }
