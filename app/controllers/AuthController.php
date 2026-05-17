@@ -2,10 +2,8 @@
 
 /**
  * Controller: AuthController
- * 
+ *
  * Gerencia login, cadastro e logout.
- * Toda lógica que estava no topo de login.php e cadastro.php vem para cá.
- * As Views continuam com o mesmo HTML/CSS de antes.
  */
 class AuthController
 {
@@ -22,7 +20,6 @@ class AuthController
 
     public function login(): void
     {
-        // Já logado → redireciona
         if (isset($_SESSION['user_id'])) {
             header("Location: /");
             exit;
@@ -31,7 +28,6 @@ class AuthController
         $erro = "";
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validação CSRF
             if (!$this->csrfValido()) {
                 $erro = "Requisição inválida. Tente novamente.";
             } else {
@@ -44,11 +40,17 @@ class AuthController
                     $user = $this->model->buscarPorEmail($email);
 
                     if ($user && password_verify($senha, $user['senha'])) {
-                        // Regenera ID de sessão ao autenticar (boas práticas)
                         session_regenerate_id(true);
                         $_SESSION['user_id']   = $user['id'];
                         $_SESSION['user_name'] = $user['nome'];
-                        header("Location: /");
+                        $_SESSION['perfil']    = $user['perfil']; // 'usuario' ou 'admin'
+
+                        // Admin vai direto para o painel
+                        if ($user['perfil'] === 'admin') {
+                            header("Location: /admin");
+                        } else {
+                            header("Location: /");
+                        }
                         exit;
                     } else {
                         $erro = "E-mail ou senha inválidos. Tente novamente.";
@@ -57,10 +59,7 @@ class AuthController
             }
         }
 
-        // Gera token CSRF fresco para o formulário
         $this->gerarCsrf();
-
-        // Passa variáveis para a View e renderiza
         require BASE_PATH . '/app/views/auth/login.php';
     }
 
@@ -70,7 +69,7 @@ class AuthController
 
     public function cadastro(): void
     {
-        $erro   = "";
+        $erro    = "";
         $sucesso = "";
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -113,17 +112,11 @@ class AuthController
     // Helpers privados
     // -------------------------------------------------------------------------
 
-    /**
-     * Gera e armazena um token CSRF na sessão.
-     */
     private function gerarCsrf(): void
     {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
 
-    /**
-     * Valida o token CSRF enviado pelo formulário.
-     */
     private function csrfValido(): bool
     {
         $tokenSessao = $_SESSION['csrf_token'] ?? '';

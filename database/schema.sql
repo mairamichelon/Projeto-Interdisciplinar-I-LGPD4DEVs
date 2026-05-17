@@ -1,14 +1,8 @@
 -- ============================================================
 -- LGPD4DEVS — Schema completo do banco de dados
--- Atualizado em: 16/05/2026
--- ============================================================
--- Como usar:
--- 1. Acesse o MySQL: mysql -u root -p
--- 2. Execute este script: source /caminho/para/schema.sql
---    ou via terminal: mysql -u root -p < schema.sql
+-- Atualizado em: 17/05/2026
 -- ============================================================
 
--- Cria o banco caso não exista e seleciona ele
 CREATE DATABASE IF NOT EXISTS db_lgpd4devs
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
@@ -29,6 +23,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     nome           VARCHAR(150) NOT NULL,
     email          VARCHAR(150) NOT NULL UNIQUE,
     senha          VARCHAR(255) NOT NULL,
+    perfil         VARCHAR(20)  NOT NULL DEFAULT 'usuario',
     data_cadastro  DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -37,8 +32,8 @@ CREATE TABLE IF NOT EXISTS projetos (
     usuario_id   INT NOT NULL,
     nome         VARCHAR(200) NOT NULL,
     descricao    TEXT,
-    publico_alvo VARCHAR(50) NOT NULL DEFAULT 'ambos',
-    status       VARCHAR(50) NOT NULL DEFAULT 'em_desenvolvimento',
+    publico_alvo VARCHAR(50)  NOT NULL DEFAULT 'ambos',
+    status       VARCHAR(50)  NOT NULL DEFAULT 'em_desenvolvimento',
     data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
@@ -62,20 +57,20 @@ CREATE TABLE IF NOT EXISTS respostas (
 );
 
 CREATE TABLE IF NOT EXISTS materiais (
-    id                  INT AUTO_INCREMENT PRIMARY KEY,
-    titulo              VARCHAR(200) NOT NULL,
-    categoria           VARCHAR(100) NOT NULL,
-    descricao_curta     TEXT,
-    conteudo_detalhado  TEXT,
-    url_referencia      VARCHAR(500)
+    id                 INT AUTO_INCREMENT PRIMARY KEY,
+    titulo             VARCHAR(200) NOT NULL,
+    categoria          VARCHAR(100) NOT NULL,
+    descricao_curta    TEXT,
+    conteudo_detalhado TEXT,
+    url_referencia     VARCHAR(500)
 );
 
 CREATE TABLE IF NOT EXISTS pergunta_material (
-    pergunta_id  INT NOT NULL,
-    material_id  INT NOT NULL,
+    pergunta_id INT NOT NULL,
+    material_id INT NOT NULL,
     PRIMARY KEY (pergunta_id, material_id),
-    FOREIGN KEY (pergunta_id)  REFERENCES perguntas(id)  ON DELETE CASCADE,
-    FOREIGN KEY (material_id)  REFERENCES materiais(id)  ON DELETE CASCADE
+    FOREIGN KEY (pergunta_id) REFERENCES perguntas(id)  ON DELETE CASCADE,
+    FOREIGN KEY (material_id) REFERENCES materiais(id)  ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS historico_diagnosticos (
@@ -89,18 +84,31 @@ CREATE TABLE IF NOT EXISTS historico_diagnosticos (
     perguntas_ok     INT NOT NULL,
     perguntas_falha  INT NOT NULL,
     data_salvo       DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (projeto_id) REFERENCES projetos(id) ON DELETE SET NULL
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)  ON DELETE CASCADE,
+    FOREIGN KEY (projeto_id) REFERENCES projetos(id)  ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS historico_respostas (
-    id               INT AUTO_INCREMENT PRIMARY KEY,
-    historico_id     INT NOT NULL,
-    pergunta_id      INT NOT NULL,
-    pergunta_texto   VARCHAR(500) NOT NULL,
-    pergunta_peso    INT NOT NULL,
-    categoria_nome   VARCHAR(100) NOT NULL,
-    resposta         TINYINT(1) NOT NULL,
+    id             INT AUTO_INCREMENT PRIMARY KEY,
+    historico_id   INT NOT NULL,
+    pergunta_id    INT NOT NULL,
+    pergunta_texto VARCHAR(500) NOT NULL,
+    pergunta_peso  INT NOT NULL,
+    categoria_nome VARCHAR(100) NOT NULL,
+    resposta       TINYINT(1) NOT NULL,
     FOREIGN KEY (historico_id) REFERENCES historico_diagnosticos(id) ON DELETE CASCADE,
     FOREIGN KEY (pergunta_id)  REFERENCES perguntas(id)
 );
+
+-- ============================================================
+-- MIGRATION: para bancos já existentes antes desta versão
+-- Execute apenas se o banco já estava criado anteriormente
+-- ============================================================
+-- ALTER TABLE usuarios ADD COLUMN perfil VARCHAR(20) NOT NULL DEFAULT 'usuario';
+-- ALTER TABLE historico_diagnosticos ADD COLUMN projeto_id INT NULL AFTER usuario_id,
+--     ADD CONSTRAINT fk_hd_projeto FOREIGN KEY (projeto_id) REFERENCES projetos(id) ON DELETE SET NULL;
+
+-- ============================================================
+-- Para promover um usuário a administrador:
+-- UPDATE usuarios SET perfil = 'admin' WHERE email = 'seu@email.com';
+-- ============================================================

@@ -2,7 +2,6 @@
 
 define('BASE_PATH', dirname(__DIR__));
 
-// Exibe erros apenas em ambiente local — nunca em produção
 if (getenv('APP_ENV') !== 'production') {
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -35,39 +34,48 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $rotas = [
     // Páginas principais
-    '/'                      => ['HomeController',      'index'],
-    '/checklist'             => ['ChecklistController',  $method === 'POST' ? 'processar' : 'index'],
-    '/resultado'             => ['ResultadoController',  'index'],
-    '/materiais'             => ['MateriaisController',  'index'],
+    '/'                           => ['HomeController',      'index'],
+    '/checklist'                  => ['ChecklistController',  $method === 'POST' ? 'processar' : 'index'],
+    '/resultado'                  => ['ResultadoController',  'index'],
+    '/materiais'                  => ['MateriaisController',  'index'],
 
     // Autenticação
-    '/login'                 => ['AuthController',       'login'],
-    '/cadastro'              => ['AuthController',       'cadastro'],
-    '/logout'                => ['AuthController',       'logout'],
+    '/login'                      => ['AuthController',       'login'],
+    '/cadastro'                   => ['AuthController',       'cadastro'],
+    '/logout'                     => ['AuthController',       'logout'],
 
     // Páginas institucionais
-    '/sobre'                 => ['PaginaController',     'sobre'],
-    '/contato'               => ['PaginaController',     'contato'],
-    '/privacidade'           => ['PaginaController',     'privacidade'],
+    '/sobre'                      => ['PaginaController',     'sobre'],
+    '/contato'                    => ['PaginaController',     'contato'],
+    '/privacidade'                => ['PaginaController',     'privacidade'],
 
     // Projetos
-    '/projetos'              => ['ProjetoController',    'index'],
-    '/projetos/detalhe'      => ['ProjetoController',    'detalhe'],
-    '/projetos/criar'        => ['ProjetoController',    'criar'],
-    '/projetos/editar'       => ['ProjetoController',    'editar'],
-    '/projetos/deletar'      => ['ProjetoController',    'deletar'],
+    '/projetos'                   => ['ProjetoController',    'index'],
+    '/projetos/detalhe'           => ['ProjetoController',    'detalhe'],
+    '/projetos/criar'             => ['ProjetoController',    'criar'],
+    '/projetos/editar'            => ['ProjetoController',    'editar'],
+    '/projetos/deletar'           => ['ProjetoController',    'deletar'],
 
-    // Histórico 
-    '/historico'             => ['HistoricoController',  'index'],
-    '/historico/detalhe'     => ['HistoricoController',  'detalhe'],
-    '/historico/deletar'     => ['HistoricoController',  'deletar'],
+    // Histórico
+    '/historico'                  => ['HistoricoController',  'index'],
+    '/historico/detalhe'          => ['HistoricoController',  'detalhe'],
+    '/historico/deletar'          => ['HistoricoController',  'deletar'],
 
-    // Salvar resultado do checklist
-    '/salvar-resultado'      => ['HistoricoController',  'salvar'],
+    // Salvar resultado
+    '/salvar-resultado'           => ['HistoricoController',  'salvar'],
 
     // APIs internas
-    '/api/projetos'          => ['ProjetoController',    'apiProjetos'],
-    '/api/projetos/detalhes' => ['ProjetoController',    'apiDetalhes'],
+    '/api/projetos'               => ['ProjetoController',    'apiProjetos'],
+    '/api/projetos/detalhes'      => ['ProjetoController',    'apiDetalhes'],
+
+    // Painel Admin
+    '/admin'                      => ['AdminController',      'index'],
+    '/admin/materiais'            => ['AdminController',      'materiais'],
+    '/admin/materiais/salvar'     => ['AdminController',      'salvarMaterial'],
+    '/admin/materiais/deletar'    => ['AdminController',      'deletarMaterial'],
+    '/admin/usuarios'             => ['AdminController',      'usuarios'],
+    '/admin/usuarios/perfil'      => ['AdminController',      'alterarPerfil'],
+    '/admin/usuarios/deletar'     => ['AdminController',      'deletarUsuario'],
 ];
 
 if (array_key_exists($uri, $rotas)) {

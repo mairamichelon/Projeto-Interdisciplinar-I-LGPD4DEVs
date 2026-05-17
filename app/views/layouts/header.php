@@ -19,8 +19,19 @@
                     <li><a href="/">Início</a></li>
                     <li><a href="/checklist">Checklist</a></li>
                     <li><a href="/materiais">Materiais</a></li>
+
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li><a href="/projetos"><i class="fas fa-folder"></i> Projetos</a></li>
+
+                        <?php if (($_SESSION['perfil'] ?? '') === 'admin'): ?>
+                            <li>
+                                <a href="/admin"
+                                   style="background: linear-gradient(135deg, #667eea, #764ba2); color: white !important; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem;">
+                                    <i class="fas fa-shield-alt"></i> Admin
+                                </a>
+                            </li>
+                        <?php endif; ?>
+
                         <li>
                             <div class="user-badge">
                                 👤 Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?>!
