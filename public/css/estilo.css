@@ -1,22 +1,23 @@
-/* 1. Reset e Variáveis de Identidade */
+/* ============================================================
+   LGPD4DEVS — estilo.css
+   Versão completa com navbar mobile corrigido
+   ============================================================ */
+
+/* 1. Reset e Variáveis */
 :root {
-    --primary: #0066FF;         /* Azul Institucional */
+    --primary: #0066FF;
     --primary-dark: #0052CC;
-    --secondary: #00CC66;       /* Verde de Ação */
-    --bg-light: #F8FAFC;        /* Fundo das Páginas */
-    --text-main: #1E293B;       /* Cinza Azulado Escuro */
-    --text-muted: #64748B;      /* Cinza Secundário */
+    --secondary: #00CC66;
+    --bg-light: #F8FAFC;
+    --text-main: #1E293B;
+    --text-muted: #64748B;
     --white: #FFFFFF;
-    --border: #CBD5E1;          /* Cor de borda visível */
+    --border: #CBD5E1;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     --error: #EF4444;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -28,9 +29,7 @@ body {
     min-height: 100vh;
 }
 
-main {
-    flex: 1;
-}
+main { flex: 1; }
 
 .container {
     width: 92%;
@@ -38,7 +37,7 @@ main {
     margin: 0 auto;
 }
 
-/* 2. Navegação (Header Proporcional) */
+/* 2. Navbar */
 .navbar {
     background-color: var(--white);
     height: 90px;
@@ -63,17 +62,17 @@ main {
     width: auto;
     display: block;
     transition: transform 0.3s ease;
+    flex-shrink: 0;
 }
 
-.logo:hover {
-    transform: scale(1.03);
-}
+.logo:hover { transform: scale(1.03); }
 
 .navbar ul {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 1.8rem;
+    gap: 1.4rem;
+    flex-wrap: nowrap;
 }
 
 .navbar a {
@@ -82,15 +81,14 @@ main {
     font-weight: 500;
     font-size: 0.95rem;
     transition: color 0.2s;
+    white-space: nowrap;
 }
 
-.navbar a:hover {
-    color: var(--primary);
-}
+.navbar a:hover { color: var(--primary); }
 
-/* 3. Hero Section (Ajuste de Espaçamento UX) */
+/* 3. Hero */
 .hero {
-    padding: 60px 0 40px; /* Reduzido para focar no conteúdo principal */
+    padding: 60px 0 40px;
     background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
     text-align: center;
 }
@@ -114,11 +112,10 @@ main {
 .hero p {
     font-size: 1.15rem;
     color: var(--text-muted);
-    max-width: 800px; /* Aumentado para melhor leitura do novo propósito */
+    max-width: 800px;
     margin-bottom: 1.8rem;
 }
 
-/* Wrapper de Ações e Nota */
 .cta-wrapper {
     display: flex;
     flex-direction: column;
@@ -134,7 +131,7 @@ main {
     margin-bottom: 1.5rem;
 }
 
-/* Botões Padronizados */
+/* Botões */
 .btn-primary, .btn-secondary {
     min-width: 220px;
     padding: 0.8rem 1.8rem;
@@ -147,29 +144,14 @@ main {
     transition: all 0.3s ease;
     cursor: pointer;
     border: none;
+    gap: 6px;
 }
 
-.btn-primary {
-    background-color: var(--primary);
-    color: var(--white) !important;
-}
+.btn-primary { background-color: var(--primary); color: var(--white) !important; }
+.btn-primary:hover { background-color: var(--primary-dark); }
+.btn-secondary { border: 2px solid var(--primary); color: var(--primary); background: transparent; }
+.btn-secondary:hover { background-color: var(--primary); color: white !important; }
 
-.btn-primary:hover {
-    background-color: var(--primary-dark);
-}
-
-.btn-secondary {
-    border: 2px solid var(--primary);
-    color: var(--primary);
-    background: transparent;
-}
-
-.btn-secondary:hover {
-    background-color: var(--primary);
-    color: white !important;
-}
-
-/* Nota "Pílula" Elegante */
 .hero-note {
     background-color: rgba(0, 102, 255, 0.05);
     border: 1px solid rgba(0, 102, 255, 0.1);
@@ -183,19 +165,11 @@ main {
     max-width: 650px;
 }
 
-.hero-note i {
-    color: var(--primary);
-}
+.hero-note i { color: var(--primary); }
 
-/* 4. Cards e Grids de Conteúdo */
-.content-area {
-    padding: 40px 0 80px; /* Reduzido padding superior */
-}
-
-.checklist-header {
-    text-align: center;
-    margin-bottom: 40px; /* Reduzido */
-}
+/* 4. Cards */
+.content-area { padding: 40px 0 80px; }
+.checklist-header { text-align: center; margin-bottom: 40px; }
 
 .materiais-grid {
     display: grid;
@@ -203,14 +177,13 @@ main {
     gap: 30px;
 }
 
-/* Centralização de Páginas Institucionais */
 .checklist-section, .form-card, .card-auth {
     background: var(--white);
     padding: 2.5rem;
     border-radius: 16px;
     border: 1px solid #E2E8F0;
     box-shadow: var(--shadow);
-    margin: 40px auto !important; 
+    margin: 40px auto !important;
     display: block;
 }
 
@@ -229,9 +202,7 @@ main {
     flex-direction: column;
 }
 
-.card-material:hover, .card-pergunta:hover {
-    transform: translateY(-5px);
-}
+.card-material:hover, .card-pergunta:hover { transform: translateY(-5px); }
 
 .badge-categoria {
     background: #F1F5F9;
@@ -246,21 +217,12 @@ main {
     align-self: flex-start;
 }
 
-/* 5. Formulários e Inputs */
-.form-group {
-    margin-bottom: 1.8rem;
-    text-align: left;
-}
+/* 5. Formulários */
+.form-group { margin-bottom: 1.8rem; text-align: left; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 0.6rem; color: var(--text-main); }
 
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.6rem;
-    color: var(--text-main);
-}
-
-input[type="text"], 
-input[type="email"], 
+input[type="text"],
+input[type="email"],
 input[type="password"],
 textarea {
     width: 100%;
@@ -291,28 +253,12 @@ input:focus, textarea:focus {
     transition: transform 0.2s, background 0.3s;
 }
 
-.btn-save:hover {
-    background-color: #00B359;
-    transform: scale(1.01);
-}
+.btn-save:hover { background-color: #00B359; transform: scale(1.01); }
 
-/* 6. Custom Radio Buttons (Checklist) */
-.opcoes-resposta {
-    display: flex;
-    gap: 20px;
-    margin-top: 1.5rem;
-}
-
-.radio-label {
-    flex: 1;
-    cursor: pointer;
-    position: relative;
-}
-
-.radio-label input {
-    position: absolute;
-    opacity: 0;
-}
+/* 6. Checklist radio */
+.opcoes-resposta { display: flex; gap: 20px; margin-top: 1.5rem; }
+.radio-label { flex: 1; cursor: pointer; position: relative; }
+.radio-label input { position: absolute; opacity: 0; }
 
 .radio-design {
     display: block;
@@ -331,7 +277,7 @@ input:focus, textarea:focus {
     color: var(--primary);
 }
 
-/* 7. Rodapé (Footer) */
+/* 7. Footer */
 .main-footer {
     background-color: #0F172A;
     color: #94A3B8;
@@ -345,31 +291,11 @@ input:focus, textarea:focus {
     gap: 60px;
 }
 
-.footer-column h4 {
-    color: var(--white);
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-}
-
-.footer-column ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-column ul li {
-    margin-bottom: 0.8rem;
-}
-
-.footer-column a {
-    color: #94A3B8;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s;
-}
-
-.footer-column a:hover {
-    color: var(--white);
-}
+.footer-column h4 { color: var(--white); margin-bottom: 1.5rem; font-size: 1.1rem; }
+.footer-column ul { list-style: none; padding: 0; }
+.footer-column ul li { margin-bottom: 0.8rem; }
+.footer-column a { color: #94A3B8; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+.footer-column a:hover { color: var(--white); }
 
 .footer-logo {
     max-height: 80px;
@@ -389,13 +315,11 @@ input:focus, textarea:focus {
     font-size: 0.85rem;
 }
 
-/* 8. Modais (Janelas de Material) */
+/* 8. Modais */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background: rgba(15, 23, 42, 0.8);
     backdrop-filter: blur(4px);
     display: flex;
@@ -417,19 +341,104 @@ input:focus, textarea:focus {
 
 @keyframes modalScale {
     from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    to   { opacity: 1; transform: scale(1); }
 }
 
-/* 9. Responsividade */
+/* User badge e botões de auth */
+.user-badge {
+    background: #EFF6FF;
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.btn-logout {
+    background: transparent !important;
+    border: 2px solid var(--border) !important;
+    color: var(--text-muted) !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap;
+}
+
+.btn-login {
+    background: var(--primary) !important;
+    color: white !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap;
+}
+
+/* ============================================================
+   9. RESPONSIVIDADE MOBILE — corrigido
+   ============================================================ */
+
 @media (max-width: 768px) {
-    .navbar { height: auto; padding: 1.5rem 0; }
-    .navbar .container { flex-direction: column; gap: 1.5rem; }
-    .logo { height: 60px; }
-    .hero h1 { font-size: 2.2rem; }
+
+    /* Navbar compacto em mobile */
+    .navbar {
+        height: auto;
+        padding: 10px 0;
+    }
+
+    .navbar .container {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+        padding: 0 16px; /* margem lateral */
+    }
+
+    .logo { height: 52px; }
+
+    .navbar ul {
+        gap: 0.7rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 8px;
+    }
+
+    .navbar ul li { font-size: 0.82rem; }
+
+    .navbar a { font-size: 0.82rem; }
+
+    .user-badge { font-size: 0.78rem; padding: 4px 10px; }
+    .btn-logout, .btn-login { font-size: 0.78rem !important; padding: 5px 10px !important; }
+
+    /* Hero */
+    .hero { padding: 35px 0 25px; }
+    .hero h1 { font-size: 1.8rem; }
+    .hero p { font-size: 1rem; }
+
     .cta-buttons { flex-direction: column; align-items: center; }
-    .btn-primary, .btn-secondary { width: 100%; }
+    .btn-primary, .btn-secondary { width: 100%; min-width: unset; }
     .hero-note { border-radius: 12px; text-align: center; flex-direction: column; }
-    .footer-content { grid-template-columns: 1fr; text-align: center; }
+
+    /* Cards */
+    .card-material, .card-pergunta { padding: 1.5rem; }
+    .materiais-grid { grid-template-columns: 1fr; gap: 16px; }
+
+    /* Footer */
+    .footer-content { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+
+    /* Checklist radio */
     .opcoes-resposta { flex-direction: column; }
-    .modal-content { padding: 25px; }
+
+    /* Modal */
+    .modal-content { padding: 22px 18px; }
+
+    /* Container com margem lateral garantida */
+    .container { width: 100%; padding: 0 16px; }
+}
+
+@media (max-width: 400px) {
+    .navbar ul { gap: 0.5rem; }
+    .navbar a { font-size: 0.76rem; }
+    .logo { height: 44px; }
 }
