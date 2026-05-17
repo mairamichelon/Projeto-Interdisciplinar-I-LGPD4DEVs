@@ -53,7 +53,7 @@
             else                       $labelNivel = "Falhas Críticas Detectadas";
         ?>
 
-        <!-- Score compacto -->
+        <!-- Score -->
         <div class="card-pergunta" style="padding: 30px 40px; margin-bottom: 30px; border-top: 5px solid <?php echo $cor; ?>;">
             <div style="display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center;">
                 <div style="text-align: center; min-width: 120px;">
@@ -89,89 +89,91 @@
                 }
             ?>
 
-            <h3 style="margin-bottom: 18px; color: var(--text-main); font-size: 1.05rem;">
-                <i class="fas fa-exclamation-triangle" style="color: var(--error);"></i>
-                Itens que precisam de atenção
-            </h3>
+            <!-- Cabeçalho igual ao de conformidade -->
+            <button onclick="toggleGrupoFalhas(this)"
+                    style="display: flex; align-items: center; justify-content: space-between; width: 100%; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 12px; padding: 14px 20px; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: var(--error); margin-bottom: 10px;">
+                <span><i class="fas fa-exclamation-circle"></i> <?php echo count($falhas); ?> itens em não conformidade</span>
+                <i class="fas fa-chevron-up" style="transition: transform 0.3s;"></i>
+            </button>
 
-            <?php foreach ($porCategoria as $categoria => $itens): ?>
-                <div style="margin-bottom: 22px;">
-                    <span class="badge-categoria"><?php echo htmlspecialchars($categoria); ?></span>
+            <div id="grupoFalhas">
+                <?php foreach ($porCategoria as $categoria => $itens): ?>
+                    <div style="margin-bottom: 22px;">
+                        <span class="badge-categoria"><?php echo htmlspecialchars($categoria); ?></span>
 
-                    <?php foreach ($itens as $item): ?>
-                        <?php
-                            $temMateriais = !empty($item['materiais_titulos']);
-                            $titulos   = $temMateriais ? explode('||', $item['materiais_titulos']) : [];
-                            $urls      = $temMateriais ? explode('||', $item['materiais_urls']      ?? '') : [];
-                            $conteudos = $temMateriais ? explode('||', $item['materiais_conteudos'] ?? '') : [];
-                            $uid = 'f-' . $item['id'];
-                        ?>
-                        <div class="accordion-card accordion-falha" style="border-left: 5px solid var(--error);">
-                            <!-- Cabeçalho clicável -->
-                            <div class="accordion-header" onclick="toggleAccordion('<?php echo $uid; ?>')">
-                                <div style="display: flex; align-items: flex-start; gap: 12px; flex: 1;">
-                                    <span style="font-size: 1.1rem; margin-top: 1px; flex-shrink: 0;">❌</span>
-                                    <div>
-                                        <p style="margin: 0 0 4px; color: var(--text-main); font-weight: 500; font-size: 0.95rem; line-height: 1.4;">
-                                            <?php echo htmlspecialchars($item['texto']); ?>
-                                        </p>
-                                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                                            <span style="font-size: 0.78rem; color: var(--text-muted);">Peso: <?php echo $item['peso']; ?></span>
-                                            <?php if ($temMateriais): ?>
-                                                <span style="font-size: 0.78rem; color: var(--primary); font-weight: 600;">
-                                                    <i class="fas fa-book-open"></i> <?php echo count(array_filter($titulos, fn($t) => trim($t))); ?> material(is) disponível(is)
-                                                </span>
-                                            <?php else: ?>
-                                                <span style="font-size: 0.78rem; color: var(--text-muted);">Sem materiais vinculados</span>
-                                            <?php endif; ?>
+                        <?php foreach ($itens as $item): ?>
+                            <?php
+                                $temMateriais = !empty($item['materiais_titulos']);
+                                $titulos   = $temMateriais ? explode('||', $item['materiais_titulos']) : [];
+                                $urls      = $temMateriais ? explode('||', $item['materiais_urls']      ?? '') : [];
+                                $conteudos = $temMateriais ? explode('||', $item['materiais_conteudos'] ?? '') : [];
+                                $uid = 'f-' . $item['id'];
+                            ?>
+                            <div class="accordion-card" style="border-left: 5px solid var(--error);">
+                                <div class="accordion-header" onclick="toggleAccordion('<?php echo $uid; ?>')">
+                                    <div style="display: flex; align-items: flex-start; gap: 12px; flex: 1;">
+                                        <span style="font-size: 1.1rem; margin-top: 1px; flex-shrink: 0;">❌</span>
+                                        <div>
+                                            <p style="margin: 0 0 4px; color: var(--text-main); font-weight: 500; font-size: 0.95rem; line-height: 1.4;">
+                                                <?php echo htmlspecialchars($item['texto']); ?>
+                                            </p>
+                                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                                <span style="font-size: 0.78rem; color: var(--text-muted);">Peso: <?php echo $item['peso']; ?></span>
+                                                <?php if ($temMateriais): ?>
+                                                    <span style="font-size: 0.78rem; color: var(--primary); font-weight: 600;">
+                                                        <i class="fas fa-book-open"></i> <?php echo count(array_filter($titulos, fn($t) => trim($t))); ?> material(is) disponível(is)
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span style="font-size: 0.78rem; color: var(--text-muted);">Sem materiais vinculados</span>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
                                     </div>
+                                    <i id="icon-<?php echo $uid; ?>" class="fas fa-chevron-down accordion-icon"></i>
                                 </div>
-                                <i id="icon-<?php echo $uid; ?>" class="fas fa-chevron-down accordion-icon"></i>
-                            </div>
 
-                            <!-- Conteúdo expansível -->
-                            <div id="<?php echo $uid; ?>" class="accordion-body" style="display: none;">
-                                <?php if ($temMateriais): ?>
-                                    <div style="padding: 16px 20px 20px; border-top: 1px solid #F1F5F9;">
-                                        <p style="font-size: 0.82rem; font-weight: 700; color: var(--primary); margin-bottom: 12px;">
-                                            <i class="fas fa-book-open"></i> Materiais recomendados:
-                                        </p>
-                                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                                            <?php foreach ($titulos as $i => $titulo): ?>
-                                                <?php if (!trim($titulo)) continue; ?>
-                                                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px 16px;">
-                                                    <div style="font-weight: 700; color: var(--text-main); font-size: 0.88rem; margin-bottom: 5px;">
-                                                        📄 <?php echo htmlspecialchars(trim($titulo)); ?>
+                                <div id="<?php echo $uid; ?>" class="accordion-body" style="display: none;">
+                                    <?php if ($temMateriais): ?>
+                                        <div style="padding: 16px 20px 20px; border-top: 1px solid #F1F5F9;">
+                                            <p style="font-size: 0.82rem; font-weight: 700; color: var(--primary); margin-bottom: 12px;">
+                                                <i class="fas fa-book-open"></i> Materiais recomendados:
+                                            </p>
+                                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                                <?php foreach ($titulos as $i => $titulo): ?>
+                                                    <?php if (!trim($titulo)) continue; ?>
+                                                    <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px 16px;">
+                                                        <div style="font-weight: 700; color: var(--text-main); font-size: 0.88rem; margin-bottom: 5px;">
+                                                            📄 <?php echo htmlspecialchars(trim($titulo)); ?>
+                                                        </div>
+                                                        <?php if (!empty(trim($conteudos[$i] ?? ''))): ?>
+                                                            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 10px; line-height: 1.5;">
+                                                                <?php echo htmlspecialchars(mb_substr(trim($conteudos[$i]), 0, 200)) . (mb_strlen(trim($conteudos[$i])) > 200 ? '...' : ''); ?>
+                                                            </p>
+                                                        <?php endif; ?>
+                                                        <?php if (!empty(trim($urls[$i] ?? '')) && trim($urls[$i]) !== '#'): ?>
+                                                            <a href="<?php echo htmlspecialchars(trim($urls[$i])); ?>" target="_blank"
+                                                               class="btn-primary" style="font-size: 0.8rem; padding: 7px 14px; min-width: unset; display: inline-flex; gap: 6px;">
+                                                                <i class="fas fa-external-link-alt"></i> Acessar material
+                                                            </a>
+                                                        <?php endif; ?>
                                                     </div>
-                                                    <?php if (!empty(trim($conteudos[$i] ?? ''))): ?>
-                                                        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 10px; line-height: 1.5;">
-                                                            <?php echo htmlspecialchars(mb_substr(trim($conteudos[$i]), 0, 200)) . (mb_strlen(trim($conteudos[$i])) > 200 ? '...' : ''); ?>
-                                                        </p>
-                                                    <?php endif; ?>
-                                                    <?php if (!empty(trim($urls[$i] ?? '')) && trim($urls[$i]) !== '#'): ?>
-                                                        <a href="<?php echo htmlspecialchars(trim($urls[$i])); ?>" target="_blank"
-                                                           class="btn-primary" style="font-size: 0.8rem; padding: 7px 14px; min-width: unset; display: inline-flex; gap: 6px;">
-                                                            <i class="fas fa-external-link-alt"></i> Acessar material
-                                                        </a>
-                                                    <?php endif; ?>
-                                                </div>
-                                            <?php endforeach; ?>
+                                                <?php endforeach; ?>
+                                            </div>
                                         </div>
-                                    </div>
-                                <?php else: ?>
-                                    <div style="padding: 16px 20px 20px; border-top: 1px solid #F1F5F9; text-align: center;">
-                                        <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;">
-                                            Nenhum material vinculado a este item ainda.
-                                            <a href="/materiais" style="color: var(--primary); font-weight: 600; text-decoration: none;">Ver biblioteca →</a>
-                                        </p>
-                                    </div>
-                                <?php endif; ?>
+                                    <?php else: ?>
+                                        <div style="padding: 16px 20px 20px; border-top: 1px solid #F1F5F9; text-align: center;">
+                                            <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;">
+                                                Nenhum material vinculado a este item.
+                                                <a href="/materiais" style="color: var(--primary); font-weight: 600; text-decoration: none;">Ver biblioteca →</a>
+                                            </p>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         <?php endif; ?>
 
         <!-- ── ITENS CONFORMES ── -->
@@ -179,9 +181,7 @@
             $conformes = array_filter($dadosParaCalculo, fn($i) => $i['resposta'] == 1);
         ?>
         <?php if (!empty($conformes)): ?>
-            <div style="margin-top: 10px;">
-
-                <!-- Cabeçalho do grupo (accordion geral) -->
+            <div style="margin-top: 15px;">
                 <button onclick="toggleGrupoConformes(this)"
                         style="display: flex; align-items: center; justify-content: space-between; width: 100%; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px; padding: 14px 20px; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: var(--secondary); margin-bottom: 10px;">
                     <span><i class="fas fa-check-circle"></i> <?php echo count($conformes); ?> itens em conformidade</span>
@@ -197,8 +197,7 @@
                             $conteudos = $temMateriais ? explode('||', $item['materiais_conteudos'] ?? '') : [];
                             $uid = 'c-' . $item['id'];
                         ?>
-                        <div class="accordion-card accordion-conforme" style="border-left: 5px solid var(--secondary);">
-                            <!-- Cabeçalho clicável -->
+                        <div class="accordion-card" style="border-left: 5px solid var(--secondary);">
                             <div class="accordion-header" onclick="toggleAccordion('<?php echo $uid; ?>')">
                                 <div style="display: flex; align-items: flex-start; gap: 12px; flex: 1;">
                                     <span style="font-size: 1.1rem; margin-top: 1px; flex-shrink: 0;">✅</span>
@@ -219,7 +218,6 @@
                                 <i id="icon-<?php echo $uid; ?>" class="fas fa-chevron-down accordion-icon"></i>
                             </div>
 
-                            <!-- Conteúdo expansível -->
                             <div id="<?php echo $uid; ?>" class="accordion-body" style="display: none;">
                                 <?php if ($temMateriais): ?>
                                     <div style="padding: 16px 20px 20px; border-top: 1px solid #F1F5F9;">
@@ -290,7 +288,7 @@
                     <option value="">-- selecione --</option>
                 </select>
                 <p id="msg-sem-projetos" style="display:none; font-size:0.85rem; color:var(--text-muted); margin-top:8px;">
-                    Nenhum projeto encontrado. Use a aba "Novo Projeto" para criar um.
+                    Nenhum projeto encontrado. Use a aba "Novo Projeto".
                 </p>
             </div>
             <div style="display:flex; gap:10px; justify-content:flex-end;">
@@ -351,9 +349,7 @@
     transition: box-shadow 0.2s;
 }
 
-.accordion-card:hover {
-    box-shadow: 0 4px 14px rgba(0,0,0,0.07);
-}
+.accordion-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); }
 
 .accordion-header {
     display: flex;
@@ -372,9 +368,7 @@
     transition: transform 0.3s;
 }
 
-.accordion-icon.aberto {
-    transform: rotate(180deg);
-}
+.accordion-icon.aberto { transform: rotate(180deg); }
 
 @media print {
     @page { margin: 1.5cm; }
@@ -417,11 +411,21 @@ function toggleAccordion(uid) {
     icon.classList.toggle('aberto', !aberto);
 }
 
-// ── Accordion grupo conformes ─────────────────────────────────────────────────
+// ── Grupo falhas (aberto por padrão) ─────────────────────────────────────────
+
+function toggleGrupoFalhas(btn) {
+    const grupo = document.getElementById('grupoFalhas');
+    const icon  = btn.querySelector('i.fas:last-child');
+    const aberto = grupo.style.display !== 'none';
+    grupo.style.display = aberto ? 'none' : 'block';
+    icon.style.transform = aberto ? 'rotate(180deg)' : '';
+}
+
+// ── Grupo conformes (fechado por padrão) ──────────────────────────────────────
 
 function toggleGrupoConformes(btn) {
     const grupo = document.getElementById('grupoConformes');
-    const icon  = btn.querySelector('i.fas');
+    const icon  = btn.querySelector('i.fas:last-child');
     const aberto = grupo.style.display !== 'none';
     grupo.style.display = aberto ? 'none' : 'block';
     icon.style.transform = aberto ? '' : 'rotate(180deg)';
@@ -470,14 +474,13 @@ function carregarProjetos() {
             return r.json();
         })
         .then(data => {
-            select.disabled = false;
+            select.disabled  = false;
             select.innerHTML = '<option value="">-- selecione --</option>';
 
             if (!Array.isArray(data) || data.length === 0) {
                 msgVazio.style.display = 'block';
                 return;
             }
-
             msgVazio.style.display = 'none';
             data.forEach(p => {
                 const opt = document.createElement('option');
@@ -487,7 +490,7 @@ function carregarProjetos() {
             });
         })
         .catch(err => {
-            select.disabled = false;
+            select.disabled  = false;
             select.innerHTML = '<option value="">Erro ao carregar</option>';
             console.error('Erro ao buscar projetos:', err);
         });
@@ -542,8 +545,6 @@ function enviarSalvar(params) {
     })
     .catch(() => mostrarToast('Erro de comunicação. Tente novamente.', false));
 }
-
-// ── Toast ─────────────────────────────────────────────────────────────────────
 
 function mostrarToast(msg, sucesso) {
     const t = document.getElementById('toast');

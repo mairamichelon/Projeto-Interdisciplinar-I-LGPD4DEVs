@@ -7,7 +7,7 @@
  */
 class ProjetoController
 {
-    private Projeto  $model;
+    private Projeto   $model;
     private Historico $historicoModel;
 
     public function __construct()
@@ -27,6 +27,43 @@ class ProjetoController
         $projetos  = $this->model->buscarPorUsuario($usuarioId);
 
         require BASE_PATH . '/app/views/projetos/index.php';
+    }
+
+    // -------------------------------------------------------------------------
+    // GET /api/projetos — API para o select de projetos
+    // Retorna JSON mesmo quando não autenticado (nunca redireciona)
+    // -------------------------------------------------------------------------
+
+    public function apiProjetos(): void
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode([]);
+            return;
+        }
+
+        $usuarioId = (int) $_SESSION['user_id'];
+        $projetos  = $this->model->buscarPorUsuario($usuarioId);
+        echo json_encode($projetos);
+    }
+
+    // -------------------------------------------------------------------------
+    // GET /api/projetos/detalhes — API para o modal de projetos
+    // -------------------------------------------------------------------------
+
+    public function apiDetalhes(): void
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode([]);
+            return;
+        }
+
+        $usuarioId = (int) $_SESSION['user_id'];
+        $detalhes  = $this->model->buscarDetalhesPorUsuario($usuarioId);
+        echo json_encode($detalhes);
     }
 
     // -------------------------------------------------------------------------
@@ -76,11 +113,11 @@ class ProjetoController
             return;
         }
 
-        $usuarioId  = (int) $_SESSION['user_id'];
-        $nome       = trim($_POST['nome']        ?? '');
-        $descricao  = trim($_POST['descricao']   ?? '');
+        $usuarioId   = (int) $_SESSION['user_id'];
+        $nome        = trim($_POST['nome']         ?? '');
+        $descricao   = trim($_POST['descricao']    ?? '');
         $publicoAlvo = trim($_POST['publico_alvo'] ?? 'ambos');
-        $status     = trim($_POST['status']      ?? 'em_desenvolvimento');
+        $status      = trim($_POST['status']       ?? 'em_desenvolvimento');
 
         if (empty($nome)) {
             $this->jsonErro("O nome do projeto é obrigatório.");
