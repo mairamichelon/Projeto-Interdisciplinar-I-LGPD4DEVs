@@ -1,6 +1,5 @@
 /* ============================================================
    LGPD4DEVS — estilo.css
-   Versão completa com navbar mobile corrigido
    ============================================================ */
 
 /* 1. Reset e Variáveis */
@@ -86,6 +85,37 @@ main { flex: 1; }
 
 .navbar a:hover { color: var(--primary); }
 
+.user-badge {
+    background: #EFF6FF;
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.btn-logout {
+    background: transparent !important;
+    border: 2px solid var(--border) !important;
+    color: var(--text-muted) !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap;
+}
+
+.btn-login {
+    background: var(--primary) !important;
+    color: white !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap;
+}
+
 /* 3. Hero */
 .hero {
     padding: 60px 0 40px;
@@ -167,14 +197,14 @@ main { flex: 1; }
 
 .hero-note i { color: var(--primary); }
 
-/* 4. Cards */
+/* 4. Cards e Grids */
 .content-area { padding: 40px 0 80px; }
 .checklist-header { text-align: center; margin-bottom: 40px; }
 
 .materiais-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
 }
 
 .checklist-section, .form-card, .card-auth {
@@ -344,101 +374,81 @@ input:focus, textarea:focus {
     to   { opacity: 1; transform: scale(1); }
 }
 
-/* User badge e botões de auth */
-.user-badge {
-    background: #EFF6FF;
-    color: var(--primary);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-.btn-logout {
-    background: transparent !important;
-    border: 2px solid var(--border) !important;
-    color: var(--text-muted) !important;
-    padding: 6px 14px !important;
-    border-radius: 8px !important;
-    font-size: 0.85rem !important;
-    font-weight: 600 !important;
-    white-space: nowrap;
-}
-
-.btn-login {
-    background: var(--primary) !important;
-    color: white !important;
-    padding: 6px 14px !important;
-    border-radius: 8px !important;
-    font-size: 0.85rem !important;
-    font-weight: 600 !important;
-    white-space: nowrap;
-}
-
 /* ============================================================
-   9. RESPONSIVIDADE MOBILE — corrigido
+   9. RESPONSIVIDADE MOBILE
+   Navbar em UMA ÚNICA LINHA para o browser mobile recolher
+   automaticamente ao rolar a página
    ============================================================ */
 
 @media (max-width: 768px) {
 
-    /* Navbar compacto em mobile */
+    /* Navbar em linha única — altura fixa pequena
+       Browser mobile só recolhe navbar com altura previsível e fixa */
     .navbar {
-        height: auto;
-        padding: 10px 0;
+        height: 56px;
+        padding: 0;
+        overflow: hidden;
     }
 
     .navbar .container {
-        flex-direction: column;
-        gap: 8px;
+        flex-direction: row;         /* LINHA ÚNICA — logo à esquerda, menu à direita */
+        justify-content: space-between;
         align-items: center;
-        padding: 0 16px; /* margem lateral */
+        padding: 0 14px;
+        gap: 8px;
     }
 
-    .logo { height: 52px; }
+    .logo { height: 40px; }
 
+    /* Menu compacto em linha */
     .navbar ul {
-        gap: 0.7rem;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 0 8px;
+        gap: 0.55rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 0;
+        max-width: calc(100vw - 80px);
     }
 
-    .navbar ul li { font-size: 0.82rem; }
+    .navbar ul::-webkit-scrollbar { display: none; }
 
-    .navbar a { font-size: 0.82rem; }
+    .navbar a { font-size: 0.78rem; }
+    .navbar ul li { font-size: 0.78rem; }
 
-    .user-badge { font-size: 0.78rem; padding: 4px 10px; }
-    .btn-logout, .btn-login { font-size: 0.78rem !important; padding: 5px 10px !important; }
+    .user-badge { font-size: 0.72rem; padding: 3px 8px; }
+    .btn-logout { font-size: 0.72rem !important; padding: 3px 8px !important; }
+    .btn-login  { font-size: 0.72rem !important; padding: 3px 8px !important; }
 
     /* Hero */
-    .hero { padding: 35px 0 25px; }
-    .hero h1 { font-size: 1.8rem; }
-    .hero p { font-size: 1rem; }
+    .hero { padding: 30px 0 20px; }
+    .hero h1 { font-size: 1.7rem; }
+    .hero p { font-size: 0.95rem; }
 
-    .cta-buttons { flex-direction: column; align-items: center; }
+    .cta-buttons { flex-direction: column; align-items: center; gap: 10px; }
     .btn-primary, .btn-secondary { width: 100%; min-width: unset; }
-    .hero-note { border-radius: 12px; text-align: center; flex-direction: column; }
+    .hero-note { border-radius: 12px; text-align: center; flex-direction: column; padding: 12px 16px; }
 
     /* Cards */
-    .card-material, .card-pergunta { padding: 1.5rem; }
-    .materiais-grid { grid-template-columns: 1fr; gap: 16px; }
+    .card-material, .card-pergunta { padding: 1.3rem; }
+    .materiais-grid { grid-template-columns: 1fr; gap: 14px; }
 
     /* Footer */
-    .footer-content { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+    .footer-content { grid-template-columns: 1fr; text-align: center; gap: 25px; }
+    .main-footer { padding: 40px 0 20px; }
 
     /* Checklist radio */
-    .opcoes-resposta { flex-direction: column; }
+    .opcoes-resposta { flex-direction: column; gap: 10px; }
 
     /* Modal */
-    .modal-content { padding: 22px 18px; }
+    .modal-content { padding: 20px 16px; border-radius: 16px; }
 
-    /* Container com margem lateral garantida */
-    .container { width: 100%; padding: 0 16px; }
+    /* Container com margem lateral */
+    .container { width: 100%; padding: 0 14px; }
 }
 
-@media (max-width: 400px) {
-    .navbar ul { gap: 0.5rem; }
-    .navbar a { font-size: 0.76rem; }
-    .logo { height: 44px; }
+@media (max-width: 380px) {
+    .navbar a { font-size: 0.7rem; }
+    .logo { height: 34px; }
+    .navbar ul { gap: 0.4rem; }
 }

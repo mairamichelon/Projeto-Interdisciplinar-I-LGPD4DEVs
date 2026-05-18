@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>LGPD4DEVS - Inteligência em Conformidade</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@
                         <?php if (($_SESSION['perfil'] ?? '') === 'admin'): ?>
                             <li>
                                 <a href="/admin"
-                                   style="background: linear-gradient(135deg, #667eea, #764ba2); color: white !important; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem;">
+                                   style="background: linear-gradient(135deg, #667eea, #764ba2); color: white !important; padding: 4px 10px; border-radius: 8px; font-size: 0.8rem;">
                                     <i class="fas fa-shield-alt"></i> Admin
                                 </a>
                             </li>
