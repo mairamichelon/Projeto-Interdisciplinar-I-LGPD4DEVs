@@ -2,19 +2,16 @@
 
 <?php if (isset($_SESSION['user_id'])): ?>
     <?php
-        // Busca projetos do usuário para o dashboard
-        $projetoModel    = new Projeto();
-        $projetosDash    = $projetoModel->buscarPorUsuario((int)$_SESSION['user_id']);
-        $primeiroNome    = htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]);
+        $projetoModel = new Projeto();
+        $projetosDash = $projetoModel->buscarPorUsuario((int)$_SESSION['user_id']);
+        $primeiroNome = htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]);
     ?>
 
-    <!-- Dashboard para usuário logado -->
+    <!-- Dashboard logado -->
     <section class="hero" style="padding: 40px 0 30px;">
         <div class="container">
             <div class="hero-content">
-                <h1 style="font-size: 2.2rem;">
-                    Olá, <?php echo $primeiroNome; ?>! 👋
-                </h1>
+                <h1 style="font-size: 2.2rem;">Olá, <?php echo $primeiroNome; ?>! 👋</h1>
                 <p style="margin-bottom: 1.5rem;">
                     Gerencie seus projetos e acompanhe a evolução de conformidade com a LGPD.
                 </p>
@@ -38,7 +35,8 @@
                     <h2 style="font-size: 1.4rem;">Seus Projetos</h2>
                 </div>
 
-                <div class="materiais-grid" style="margin-bottom: 50px;">
+                <!-- Grid responsivo para mobile -->
+                <div class="home-projetos-grid" style="margin-bottom: 50px;">
                     <?php foreach (array_slice($projetosDash, 0, 3) as $p): ?>
                         <div class="card-material" style="border-top: 4px solid <?php echo Projeto::corStatus($p['status']); ?>;">
                             <div style="margin-bottom: 10px;">
@@ -62,6 +60,9 @@
                                     <div style="background:#E2E8F0; height:5px; border-radius:10px; overflow:hidden;">
                                         <div style="width:<?php echo $p['ultimo_percentual']; ?>%; height:100%; background:<?php echo ($p['ultimo_percentual'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;"></div>
                                     </div>
+                                    <div style="font-size:0.72rem; color:var(--text-muted); margin-top:4px;">
+                                        <?php echo $p['total_diagnosticos']; ?> diagnóstico(s)
+                                    </div>
                                 </div>
                             <?php else: ?>
                                 <div style="background:#F8FAFC; border-radius:8px; padding:10px; margin-bottom:12px; text-align:center;">
@@ -69,7 +70,7 @@
                                 </div>
                             <?php endif; ?>
 
-                            <a href="/projetos/detalhe?id=<?php echo $p['id']; ?>" class="btn-secondary" style="width:100%; text-align:center; font-size:0.85rem; padding:8px;">
+                            <a href="/projetos/detalhe?id=<?php echo $p['id']; ?>" class="btn-secondary" style="width:100%; text-align:center; font-size:0.85rem; padding:8px; min-width:unset;">
                                 Ver Projeto
                             </a>
                         </div>
@@ -85,7 +86,6 @@
                 <?php endif; ?>
 
             <?php else: ?>
-                <!-- Sem projetos ainda -->
                 <div class="card-pergunta" style="text-align:center; padding:50px 40px; margin-bottom:40px;">
                     <i class="fas fa-folder-open" style="font-size:2.5rem; color:var(--border); margin-bottom:15px; display:block;"></i>
                     <h3 style="color:var(--text-muted); margin-bottom:10px;">Nenhum projeto ainda</h3>
@@ -96,7 +96,7 @@
                 </div>
             <?php endif; ?>
 
-            <!-- Cards informativos (sempre visíveis) -->
+            <!-- Cards informativos -->
             <div class="checklist-header" style="text-align:left; margin-bottom:25px;">
                 <h2 style="font-size:1.4rem;">Como o LGPD4DEVS ajuda você?</h2>
             </div>
@@ -121,13 +121,13 @@
     </section>
 
 <?php else: ?>
-    <!-- Home para visitante (igual ao original) -->
+    <!-- Home visitante -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
                 <h1>LGPD na Prática para Desenvolvedores</h1>
                 <p>
-                    O <strong>LGPD4DEVS</strong> é uma ferramenta prática para desenvolvedores implementarem o <strong>Privacy by Design</strong> em projetos voltados a crianças e adolescentes. Através de <strong>checklists estruturados</strong>, materiais especializados e orientações técnicas, simplificamos cada etapa da adequação à legislação, garantindo a proteção de dados desde a concepção da aplicação e auxiliando na construção de sistemas mais <strong>seguros, éticos e responsáveis</strong>.
+                    O <strong>LGPD4DEVS</strong> é uma ferramenta prática para desenvolvedores implementarem o <strong>Privacy by Design</strong> em projetos voltados a crianças e adolescentes.
                 </p>
                 <div class="cta-wrapper">
                     <div class="cta-buttons">
@@ -163,11 +163,33 @@
                 <div class="card-material">
                     <span class="badge-categoria">03. Apoio</span>
                     <h3>Materiais Sugeridos</h3>
-                    <p>Receba guias e artigos baseados nas falhas detectadas para corrigir seu código rapidamente e garantir a privacidade dos usuários.</p>
+                    <p>Receba guias e artigos baseados nas falhas detectadas para corrigir seu código rapidamente.</p>
                 </div>
             </div>
         </div>
     </section>
 <?php endif; ?>
+
+<style>
+/* Grid de projetos na home — 3 colunas desktop, 1 coluna mobile */
+.home-projetos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .home-projetos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .home-projetos-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+</style>
 
 <?php require BASE_PATH . '/app/views/layouts/footer.php'; ?>

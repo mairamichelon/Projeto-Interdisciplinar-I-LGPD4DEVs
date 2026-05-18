@@ -2,7 +2,7 @@
 
 <main class="container content-area">
 
-    <!-- Cabeçalho do painel -->
+    <!-- Cabeçalho -->
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 35px; flex-wrap: wrap; gap: 15px;">
         <div>
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
@@ -13,78 +13,78 @@
             <h1 style="margin: 0; font-size: 1.8rem;">Dashboard</h1>
             <p style="color: var(--text-muted); margin: 4px 0 0;">Visão geral do sistema LGPD4DEVS</p>
         </div>
-        <div style="display: flex; gap: 10px;">
-            <a href="/admin/materiais" class="btn-primary" style="font-size: 0.9rem;">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="/admin/materiais" class="btn-primary" style="font-size: 0.9rem; min-width: unset; padding: 8px 16px;">
                 <i class="fas fa-book"></i> Materiais
             </a>
-            <a href="/admin/usuarios" class="btn-secondary" style="font-size: 0.9rem;">
+            <a href="/admin/usuarios" class="btn-secondary" style="font-size: 0.9rem; min-width: unset; padding: 8px 16px;">
                 <i class="fas fa-users"></i> Usuários
             </a>
         </div>
     </div>
 
     <!-- Cards de estatísticas -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 40px;">
+    <div class="admin-stats-grid">
 
-        <div class="card-material" style="text-align: center; padding: 25px; border-top: 4px solid var(--primary);">
-            <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary);"><?php echo $stats['total_usuarios']; ?></div>
-            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px;"><i class="fas fa-users"></i> Usuários</div>
+        <div class="card-material admin-stat-card" style="border-top: 4px solid var(--primary);">
+            <div class="admin-stat-numero" style="color: var(--primary);"><?php echo $stats['total_usuarios']; ?></div>
+            <div class="admin-stat-label"><i class="fas fa-users"></i> Usuários</div>
         </div>
 
-        <div class="card-material" style="text-align: center; padding: 25px; border-top: 4px solid #764ba2;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: #764ba2;"><?php echo $stats['total_admins']; ?></div>
-            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px;"><i class="fas fa-shield-alt"></i> Admins</div>
+        <div class="card-material admin-stat-card" style="border-top: 4px solid #764ba2;">
+            <div class="admin-stat-numero" style="color: #764ba2;"><?php echo $stats['total_admins']; ?></div>
+            <div class="admin-stat-label"><i class="fas fa-shield-alt"></i> Admins</div>
         </div>
 
-        <div class="card-material" style="text-align: center; padding: 25px; border-top: 4px solid var(--secondary);">
-            <div style="font-size: 2.5rem; font-weight: 700; color: var(--secondary);"><?php echo $stats['total_projetos']; ?></div>
-            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px;"><i class="fas fa-folder"></i> Projetos</div>
+        <div class="card-material admin-stat-card" style="border-top: 4px solid var(--secondary);">
+            <div class="admin-stat-numero" style="color: var(--secondary);"><?php echo $stats['total_projetos']; ?></div>
+            <div class="admin-stat-label"><i class="fas fa-folder"></i> Projetos</div>
         </div>
 
-        <div class="card-material" style="text-align: center; padding: 25px; border-top: 4px solid #F59E0B;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: #F59E0B;"><?php echo $stats['total_diagnosticos']; ?></div>
-            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px;"><i class="fas fa-clipboard-check"></i> Diagnósticos</div>
+        <div class="card-material admin-stat-card" style="border-top: 4px solid #F59E0B;">
+            <div class="admin-stat-numero" style="color: #F59E0B;"><?php echo $stats['total_diagnosticos']; ?></div>
+            <div class="admin-stat-label"><i class="fas fa-clipboard-check"></i> Diagnósticos</div>
         </div>
 
-        <div class="card-material" style="text-align: center; padding: 25px; border-top: 4px solid #06B6D4;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: #06B6D4;"><?php echo $stats['total_materiais']; ?></div>
-            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px;"><i class="fas fa-book"></i> Materiais</div>
+        <div class="card-material admin-stat-card" style="border-top: 4px solid #06B6D4;">
+            <div class="admin-stat-numero" style="color: #06B6D4;"><?php echo $stats['total_materiais']; ?></div>
+            <div class="admin-stat-label"><i class="fas fa-book"></i> Materiais</div>
         </div>
 
-        <div class="card-material" style="text-align: center; padding: 25px; border-top: 4px solid <?php echo ($stats['media_conformidade'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
-            <div style="font-size: 2.5rem; font-weight: 700; color: <?php echo ($stats['media_conformidade'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
+        <div class="card-material admin-stat-card" style="border-top: 4px solid <?php echo ($stats['media_conformidade'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
+            <div class="admin-stat-numero" style="color: <?php echo ($stats['media_conformidade'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
                 <?php echo $stats['media_conformidade']; ?>%
             </div>
-            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px;"><i class="fas fa-chart-line"></i> Média Geral</div>
+            <div class="admin-stat-label"><i class="fas fa-chart-line"></i> Média Geral</div>
         </div>
 
     </div>
 
-    <!-- Duas colunas: últimos usuários e últimos diagnósticos -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; flex-wrap: wrap;">
+    <!-- Últimos cadastros e diagnósticos — coluna única no mobile -->
+    <div class="admin-listas-grid">
 
         <!-- Últimos usuários -->
         <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0;">Últimos Cadastros</h3>
-                <a href="/admin/usuarios" style="font-size: 0.85rem; color: var(--primary); text-decoration: none;">Ver todos →</a>
+                <h3 style="margin: 0; font-size: 1.05rem;">Últimos Cadastros</h3>
+                <a href="/admin/usuarios" style="font-size: 0.85rem; color: var(--primary); text-decoration: none; font-weight: 600;">Ver todos →</a>
             </div>
             <?php foreach ($ultimosUsuarios as $u): ?>
-                <div class="card-pergunta" style="padding: 15px 20px; margin-bottom: 10px; border-left: 4px solid <?php echo $u['perfil'] === 'admin' ? '#764ba2' : 'var(--primary)'; ?>;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div style="font-weight: 600; color: var(--text-main); font-size: 0.95rem;">
+                <div class="card-pergunta" style="padding: 14px 18px; margin-bottom: 10px; border-left: 4px solid <?php echo $u['perfil'] === 'admin' ? '#764ba2' : 'var(--primary)'; ?>;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <div style="min-width: 0;">
+                            <div style="font-weight: 600; color: var(--text-main); font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">
                                 <?php echo htmlspecialchars($u['nome']); ?>
                             </div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted);">
+                            <div style="font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">
                                 <?php echo htmlspecialchars($u['email']); ?>
                             </div>
                         </div>
-                        <div style="text-align: right;">
-                            <span style="background: <?php echo $u['perfil'] === 'admin' ? '#764ba222' : '#EFF6FF'; ?>; color: <?php echo $u['perfil'] === 'admin' ? '#764ba2' : 'var(--primary)'; ?>; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">
+                        <div style="text-align: right; flex-shrink: 0;">
+                            <span style="background: <?php echo $u['perfil'] === 'admin' ? '#764ba222' : '#EFF6FF'; ?>; color: <?php echo $u['perfil'] === 'admin' ? '#764ba2' : 'var(--primary)'; ?>; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block;">
                                 <?php echo $u['perfil'] === 'admin' ? '⚙️ Admin' : '👤 Usuário'; ?>
                             </span>
-                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
+                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 3px;">
                                 <?php echo date('d/m/Y', strtotime($u['data_cadastro'])); ?>
                             </div>
                         </div>
@@ -96,24 +96,24 @@
         <!-- Últimos diagnósticos -->
         <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0;">Últimos Diagnósticos</h3>
+                <h3 style="margin: 0; font-size: 1.05rem;">Últimos Diagnósticos</h3>
             </div>
             <?php foreach ($ultimosDiagnosticos as $d): ?>
-                <div class="card-pergunta" style="padding: 15px 20px; margin-bottom: 10px; border-left: 4px solid <?php echo ($d['percentual'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div style="font-weight: 600; color: var(--text-main); font-size: 0.95rem;">
+                <div class="card-pergunta" style="padding: 14px 18px; margin-bottom: 10px; border-left: 4px solid <?php echo ($d['percentual'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <div style="min-width: 0;">
+                            <div style="font-weight: 600; color: var(--text-main); font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">
                                 <?php echo htmlspecialchars($d['usuario_nome']); ?>
                             </div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted);">
+                            <div style="font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">
                                 <?php echo $d['projeto_nome'] ? htmlspecialchars($d['projeto_nome']) : 'Sem projeto vinculado'; ?>
                             </div>
                         </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 1.3rem; font-weight: 700; color: <?php echo ($d['percentual'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
+                        <div style="text-align: right; flex-shrink: 0;">
+                            <div style="font-size: 1.3rem; font-weight: 700; color: <?php echo ($d['percentual'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>; line-height: 1;">
                                 <?php echo $d['percentual']; ?>%
                             </div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted);">
+                            <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 3px;">
                                 <?php echo date('d/m/Y', strtotime($d['data_salvo'])); ?>
                             </div>
                         </div>
@@ -125,5 +125,61 @@
     </div>
 
 </main>
+
+<style>
+/* Grid de estatísticas — 3 colunas no desktop, 2 no tablet, 2 no mobile */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.admin-stat-card {
+    text-align: center;
+    padding: 20px 15px;
+}
+
+.admin-stat-numero {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.admin-stat-label {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+/* Grid de listas — 2 colunas no desktop, 1 no mobile */
+.admin-listas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 900px) {
+    .admin-stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .admin-stat-numero { font-size: 1.8rem; }
+    .admin-stat-card { padding: 16px 10px; }
+
+    /* Listas em coluna única no mobile */
+    .admin-listas-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+</style>
 
 <?php require BASE_PATH . '/app/views/layouts/footer.php'; ?>
