@@ -69,7 +69,7 @@ Configure o servidor para apontar o DocumentRoot para a pasta /public.
 
 ## 👥 Autores
 
-* **Leonardo Henrique Máximo** — [LinkedIn](https://br.linkedin.com/in/leonardo-henrique-maximo-297370287) | [GitHub](https://github.com/leonardo23hm)
+* **Leonardo Henrique Maximo** — [LinkedIn](https://br.linkedin.com/in/leonardo-henrique-maximo-297370287) | [GitHub](https://github.com/leonardo23hm)
 * **Maira Aparecida Michelon** — [LinkedIn](https://br.linkedin.com/in/maira-michelon-a9b78a31) | [GitHub](https://github.com/mairamichelon)
 
 **Projeto Interdisciplinar - Gestão da Tecnologia da Informação**
