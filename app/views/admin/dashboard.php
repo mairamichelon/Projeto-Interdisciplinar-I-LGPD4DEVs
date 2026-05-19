@@ -277,7 +277,7 @@ function atualizarIndicador() {
         texto.textContent = 'atualizado agora';
         ponto.style.background = 'var(--secondary)';
     } else if (segundos < 60) {
-        texto.textContent = `há ${segundos}s`;
+        texto.textContent = `Atualizado há ${segundos}s`;
         ponto.style.background = segundos < 25 ? 'var(--secondary)' : '#F59E0B';
     } else {
         texto.textContent = 'verificando...';
