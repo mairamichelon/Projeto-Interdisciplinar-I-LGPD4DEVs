@@ -23,35 +23,31 @@ class AdminController
     {
         $this->exigirAdmin();
 
-        // Estatísticas gerais
-        $stats = [
-            'total_usuarios'    => $this->contar("SELECT COUNT(*) FROM usuarios WHERE perfil = 'usuario'"),
-            'total_admins'      => $this->contar("SELECT COUNT(*) FROM usuarios WHERE perfil = 'admin'"),
-            'total_projetos'    => $this->contar("SELECT COUNT(*) FROM projetos"),
-            'total_diagnosticos'=> $this->contar("SELECT COUNT(*) FROM historico_diagnosticos"),
-            'total_materiais'   => $this->contar("SELECT COUNT(*) FROM materiais"),
-            'media_conformidade'=> $this->pdo->query("SELECT ROUND(AVG(percentual)) FROM historico_diagnosticos")->fetchColumn() ?? 0,
-        ];
-
-        // Últimos 5 usuários cadastrados
-        $ultimosUsuarios = $this->pdo->query("
-            SELECT id, nome, email, perfil, data_cadastro
-            FROM usuarios
-            ORDER BY data_cadastro DESC
-            LIMIT 5
-        ")->fetchAll();
-
-        // Últimos 5 diagnósticos salvos
-        $ultimosDiagnosticos = $this->pdo->query("
-            SELECT hd.percentual, hd.data_salvo, u.nome AS usuario_nome, p.nome AS projeto_nome
-            FROM historico_diagnosticos hd
-            JOIN usuarios u ON hd.usuario_id = u.id
-            LEFT JOIN projetos p ON hd.projeto_id = p.id
-            ORDER BY hd.data_salvo DESC
-            LIMIT 5
-        ")->fetchAll();
+        $stats               = $this->buscarStats();
+        $ultimosUsuarios     = $this->buscarUltimosUsuarios();
+        $ultimosDiagnosticos = $this->buscarUltimosDiagnosticos();
 
         require BASE_PATH . '/app/views/admin/dashboard.php';
+    }
+
+    // -------------------------------------------------------------------------
+    // GET /api/admin/dashboard — polling de atualização em tempo real
+    // -------------------------------------------------------------------------
+
+    public function apiDashboard(): void
+    {
+        header('Content-Type: application/json');
+
+        if (!isset($_SESSION['user_id']) || ($_SESSION['perfil'] ?? '') !== 'admin') {
+            echo json_encode(['erro' => 'Não autorizado']);
+            return;
+        }
+
+        echo json_encode([
+            'stats'               => $this->buscarStats(),
+            'ultimosUsuarios'     => $this->buscarUltimosUsuarios(),
+            'ultimosDiagnosticos' => $this->buscarUltimosDiagnosticos(),
+        ]);
     }
 
     // -------------------------------------------------------------------------
@@ -90,12 +86,12 @@ class AdminController
             return;
         }
 
-        $id                = (int)   ($_POST['id']                ?? 0);
-        $titulo            = trim($_POST['titulo']            ?? '');
-        $categoria         = trim($_POST['categoria']         ?? '');
-        $descricaoCurta    = trim($_POST['descricao_curta']   ?? '');
-        $conteudoDetalhado = trim($_POST['conteudo_detalhado']?? '');
-        $urlReferencia     = trim($_POST['url_referencia']    ?? '');
+        $id                = (int)   ($_POST['id']                 ?? 0);
+        $titulo            = trim($_POST['titulo']             ?? '');
+        $categoria         = trim($_POST['categoria']          ?? '');
+        $descricaoCurta    = trim($_POST['descricao_curta']    ?? '');
+        $conteudoDetalhado = trim($_POST['conteudo_detalhado'] ?? '');
+        $urlReferencia     = trim($_POST['url_referencia']     ?? '');
         $perguntaIds       = $_POST['pergunta_ids'] ?? [];
 
         if (empty($titulo) || empty($categoria)) {
@@ -104,7 +100,6 @@ class AdminController
         }
 
         if ($id > 0) {
-            // Editar
             $stmt = $this->pdo->prepare("
                 UPDATE materiais
                 SET titulo = ?, categoria = ?, descricao_curta = ?,
@@ -114,7 +109,6 @@ class AdminController
             $stmt->execute([$titulo, $categoria, $descricaoCurta, $conteudoDetalhado, $urlReferencia, $id]);
             $materialId = $id;
         } else {
-            // Criar
             $stmt = $this->pdo->prepare("
                 INSERT INTO materiais (titulo, categoria, descricao_curta, conteudo_detalhado, url_referencia)
                 VALUES (?, ?, ?, ?, ?)
@@ -123,7 +117,6 @@ class AdminController
             $materialId = (int) $this->pdo->lastInsertId();
         }
 
-        // Atualiza vínculos com perguntas
         $this->pdo->prepare("DELETE FROM pergunta_material WHERE material_id = ?")->execute([$materialId]);
         if (!empty($perguntaIds)) {
             $stmtVinculo = $this->pdo->prepare("
@@ -147,16 +140,10 @@ class AdminController
         $this->exigirAdmin();
         $this->exigirPost();
 
-        if (!$this->csrfValido()) {
-            $this->jsonErro("Requisição inválida.");
-            return;
-        }
+        if (!$this->csrfValido()) { $this->jsonErro("Requisição inválida."); return; }
 
         $id = (int) ($_POST['id'] ?? 0);
-        if ($id === 0) {
-            $this->jsonErro("ID inválido.");
-            return;
-        }
+        if ($id === 0) { $this->jsonErro("ID inválido."); return; }
 
         $this->pdo->prepare("DELETE FROM materiais WHERE id = ?")->execute([$id]);
 
@@ -175,10 +162,10 @@ class AdminController
         $usuarios = $this->pdo->query("
             SELECT
                 u.id, u.nome, u.email, u.perfil, u.data_cadastro,
-                COUNT(DISTINCT p.id)  AS total_projetos,
-                COUNT(DISTINCT hd.id) AS total_diagnosticos
+                COUNT(DISTINCT p.id)   AS total_projetos,
+                COUNT(DISTINCT hd.id)  AS total_diagnosticos
             FROM usuarios u
-            LEFT JOIN projetos p              ON p.usuario_id  = u.id
+            LEFT JOIN projetos p               ON p.usuario_id  = u.id
             LEFT JOIN historico_diagnosticos hd ON hd.usuario_id = u.id
             GROUP BY u.id, u.nome, u.email, u.perfil, u.data_cadastro
             ORDER BY u.data_cadastro DESC
@@ -188,7 +175,7 @@ class AdminController
     }
 
     // -------------------------------------------------------------------------
-    // POST /admin/usuarios/perfil — altera perfil de um usuário
+    // POST /admin/usuarios/perfil — altera perfil
     // -------------------------------------------------------------------------
 
     public function alterarPerfil(): void
@@ -196,10 +183,7 @@ class AdminController
         $this->exigirAdmin();
         $this->exigirPost();
 
-        if (!$this->csrfValido()) {
-            $this->jsonErro("Requisição inválida.");
-            return;
-        }
+        if (!$this->csrfValido()) { $this->jsonErro("Requisição inválida."); return; }
 
         $id     = (int)  ($_POST['id']     ?? 0);
         $perfil = trim($_POST['perfil'] ?? '');
@@ -209,7 +193,6 @@ class AdminController
             return;
         }
 
-        // Impede que o admin remova seu próprio acesso
         if ($id === (int) $_SESSION['user_id'] && $perfil === 'usuario') {
             $this->jsonErro("Você não pode remover seu próprio acesso de administrador.");
             return;
@@ -222,7 +205,7 @@ class AdminController
     }
 
     // -------------------------------------------------------------------------
-    // POST /admin/usuarios/deletar — remove conta de usuário
+    // POST /admin/usuarios/deletar — remove conta
     // -------------------------------------------------------------------------
 
     public function deletarUsuario(): void
@@ -230,19 +213,11 @@ class AdminController
         $this->exigirAdmin();
         $this->exigirPost();
 
-        if (!$this->csrfValido()) {
-            $this->jsonErro("Requisição inválida.");
-            return;
-        }
+        if (!$this->csrfValido()) { $this->jsonErro("Requisição inválida."); return; }
 
         $id = (int) ($_POST['id'] ?? 0);
+        if ($id === 0) { $this->jsonErro("ID inválido."); return; }
 
-        if ($id === 0) {
-            $this->jsonErro("ID inválido.");
-            return;
-        }
-
-        // Impede que o admin delete a própria conta pelo painel
         if ($id === (int) $_SESSION['user_id']) {
             $this->jsonErro("Você não pode deletar sua própria conta pelo painel.");
             return;
@@ -252,6 +227,46 @@ class AdminController
 
         header('Content-Type: application/json');
         echo json_encode(['sucesso' => true]);
+    }
+
+    // -------------------------------------------------------------------------
+    // Helpers de dados (reutilizados pelo index e pela API)
+    // -------------------------------------------------------------------------
+
+    private function buscarStats(): array
+    {
+        return [
+            'total_usuarios'     => $this->contar("SELECT COUNT(*) FROM usuarios WHERE perfil = 'usuario'"),
+            'total_admins'       => $this->contar("SELECT COUNT(*) FROM usuarios WHERE perfil = 'admin'"),
+            'total_projetos'     => $this->contar("SELECT COUNT(*) FROM projetos"),
+            'total_diagnosticos' => $this->contar("SELECT COUNT(*) FROM historico_diagnosticos"),
+            'total_materiais'    => $this->contar("SELECT COUNT(*) FROM materiais"),
+            'media_conformidade' => (int) ($this->pdo->query("SELECT COALESCE(ROUND(AVG(percentual)), 0) FROM historico_diagnosticos")->fetchColumn()),
+        ];
+    }
+
+    private function buscarUltimosUsuarios(): array
+    {
+        return $this->pdo->query("
+            SELECT id, nome, email, perfil, data_cadastro
+            FROM usuarios
+            ORDER BY data_cadastro DESC
+            LIMIT 5
+        ")->fetchAll();
+    }
+
+    private function buscarUltimosDiagnosticos(): array
+    {
+        return $this->pdo->query("
+            SELECT hd.percentual, hd.data_salvo,
+                   u.nome AS usuario_nome,
+                   p.nome AS projeto_nome
+            FROM historico_diagnosticos hd
+            JOIN usuarios u ON hd.usuario_id = u.id
+            LEFT JOIN projetos p ON hd.projeto_id = p.id
+            ORDER BY hd.data_salvo DESC
+            LIMIT 5
+        ")->fetchAll();
     }
 
     // -------------------------------------------------------------------------

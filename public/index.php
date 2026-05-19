@@ -76,6 +76,9 @@ $rotas = [
     '/admin/usuarios'             => ['AdminController',      'usuarios'],
     '/admin/usuarios/perfil'      => ['AdminController',      'alterarPerfil'],
     '/admin/usuarios/deletar'     => ['AdminController',      'deletarUsuario'],
+
+    // API Admin — polling em tempo real
+    '/api/admin/dashboard'        => ['AdminController',      'apiDashboard'],
 ];
 
 if (array_key_exists($uri, $rotas)) {
