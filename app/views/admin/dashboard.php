@@ -116,7 +116,7 @@ function renderCardDiagnostico(array $d): string {
 
         <div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h3 style="margin:0; font-size:1.05rem;">Últimos Cadastros</h3>
+                <h3 style="margin:0; font-size:1.05rem;">Últimos cadastros realizados: </h3>
                 <a href="/admin/usuarios" style="font-size:0.85rem; color:var(--primary); text-decoration:none; font-weight:600;">Ver todos →</a>
             </div>
             <div id="listaUsuarios">
@@ -128,7 +128,7 @@ function renderCardDiagnostico(array $d): string {
 
         <div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h3 style="margin:0; font-size:1.05rem;">Últimos Diagnósticos</h3>
+                <h3 style="margin:0; font-size:1.05rem;">Últimos diagnósticos salvos: </h3>
             </div>
             <div id="listaDiagnosticos">
                 <?php foreach ($ultimosDiagnosticos as $d): ?>
