@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="https://lgpd4devs.onrender.com" target="_blank">
+  <a href="https://lgpd4devs.onrender.com" target="_blank, width="100">
     🌐 Link para acessar o Sistema em Produção
   </a>
 </p>
