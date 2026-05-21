@@ -7,7 +7,7 @@ CREATE DATABASE IF NOT EXISTS db_lgpd4devs
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
 
-USE db_lgpd4devs;
+USE db_lgpd4devs
 
 -- ============================================================
 -- TABELAS
