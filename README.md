@@ -240,5 +240,5 @@ O Render executa o build automaticamente a cada push na branch `main` via integr
 
 | Nome | LinkedIn | GitHub |
 |------|----------|--------|
-| **Leonardo Henrique Máximo** | [LinkedIn](https://br.linkedin.com/in/leonardo-henrique-maximo-297370287) | [GitHub](https://github.com/leonardo23hm) |
+| **Leonardo Henrique Maximo** | [LinkedIn](https://br.linkedin.com/in/leonardo-henrique-maximo-297370287) | [GitHub](https://github.com/leonardo23hm) |
 | **Maira Aparecida Michelon** | [LinkedIn](https://br.linkedin.com/in/maira-michelon-a9b78a31) | [GitHub](https://github.com/mairamichelon) |
