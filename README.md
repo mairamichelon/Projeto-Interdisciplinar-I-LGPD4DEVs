@@ -2,12 +2,15 @@
 > Ferramenta prática de conformidade com a LGPD para desenvolvedores de sistemas voltados a crianças e adolescentes.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/5e38ea64-64b2-4448-acfd-4ba4e237649a" alt="logo projeto LGPD4DEVS" width="300">
+  <a href="https://lgpd4devs.onrender.com" target="_blank">
+    <img src="https://github.com/user-attachments/assets/5e38ea64-64b2-4448-acfd-4ba4e237649a" alt="logo projeto LGPD4DEVS" width="300">
+  </a>
 </p>
 
 <p align="center">
-  <a href="https://lgpd4devs.onrender.com" target="_blank, width="100">
-    🌐 Link para acessar o Sistema em Produção
+  <strong>🌐 Acesse o Sistema em Produção:</strong><br>
+  <a href="https://lgpd4devs.onrender.com" target="_blank">
+    https://lgpd4devs.onrender.com
   </a>
 </p>
 
