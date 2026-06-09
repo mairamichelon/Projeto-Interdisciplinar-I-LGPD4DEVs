@@ -6,7 +6,8 @@
         <p>Acompanhe sua evolução de conformidade ao longo do tempo.</p>
     </div>
 
-    <?php if (empty($historicos)): ?>
+    <?php if ($totalDiagnosticos === 0 && empty($filtros['projeto_id']) && empty($filtros['data_inicio']) && empty($filtros['data_fim'])): ?>
+        <!-- Estado vazio sem filtros -->
         <div class="card-pergunta" style="text-align: center; padding: 60px 40px;">
             <i class="fas fa-clipboard-list" style="font-size: 3rem; color: var(--border); margin-bottom: 20px; display: block;"></i>
             <h3 style="color: var(--text-muted); margin-bottom: 15px;">Nenhum diagnóstico salvo ainda</h3>
@@ -18,35 +19,122 @@
 
     <?php else: ?>
 
-        <!-- Cards de resumo -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
+        <!-- Cards de resumo (apenas sem filtros ativos) -->
+        <?php if (empty($filtros['projeto_id']) && empty($filtros['data_inicio']) && empty($filtros['data_fim']) && !empty($resumo)): ?>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
             <div class="card-material" style="text-align: center; padding: 25px;">
-                <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary);"><?php echo count($historicos); ?></div>
+                <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary);"><?php echo $resumo['total']; ?></div>
                 <div style="color: var(--text-muted); font-size: 0.9rem;">Diagnósticos Salvos</div>
             </div>
             <div class="card-material" style="text-align: center; padding: 25px;">
                 <div style="font-size: 2.5rem; font-weight: 700; color: var(--secondary);">
-                    <?php echo $historicos[0]['percentual']; ?>%
+                    <?php echo $resumo['ultimo_percentual']; ?>%
                 </div>
                 <div style="color: var(--text-muted); font-size: 0.9rem;">Último Resultado</div>
             </div>
             <div class="card-material" style="text-align: center; padding: 25px;">
                 <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary);">
-                    <?php
-                        $media = round(array_sum(array_column($historicos, 'percentual')) / count($historicos));
-                        echo $media;
-                    ?>%
+                    <?php echo $resumo['media']; ?>%
                 </div>
                 <div style="color: var(--text-muted); font-size: 0.9rem;">Média Geral</div>
             </div>
             <div class="card-material" style="text-align: center; padding: 25px;">
-                <div style="font-size: 2.5rem; font-weight: 700; color: <?php echo (max(array_column($historicos, 'percentual')) >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
-                    <?php echo max(array_column($historicos, 'percentual')); ?>%
+                <div style="font-size: 2.5rem; font-weight: 700; color: <?php echo ($resumo['melhor'] >= 70) ? 'var(--secondary)' : 'var(--error)'; ?>;">
+                    <?php echo $resumo['melhor']; ?>%
                 </div>
                 <div style="color: var(--text-muted); font-size: 0.9rem;">Melhor Resultado</div>
             </div>
         </div>
+        <?php endif; ?>
 
+        <!-- ══ PAINEL DE FILTROS ══ -->
+        <div class="card-material" style="padding: 20px 25px; margin-bottom: 25px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                <i class="fas fa-filter" style="color: var(--primary);"></i>
+                <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">Filtrar Diagnósticos</span>
+                <?php if (!empty($filtros['projeto_id']) || !empty($filtros['data_inicio']) || !empty($filtros['data_fim'])): ?>
+                    <span style="background: var(--primary); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700;">
+                        Filtros ativos
+                    </span>
+                <?php endif; ?>
+            </div>
+
+            <form method="GET" action="/historico" id="formFiltros">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto auto; gap: 12px; align-items: end;">
+
+                    <!-- Filtro por projeto -->
+                    <div>
+                        <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
+                            <i class="fas fa-folder"></i> Projeto
+                        </label>
+                        <select name="projeto_id"
+                                style="width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.88rem; font-family: inherit; color: var(--text-main);">
+                            <option value="">Todos os projetos</option>
+                            <?php foreach ($projetos as $p): ?>
+                                <option value="<?php echo $p['id']; ?>" <?php echo ($filtros['projeto_id'] == $p['id']) ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($p['nome']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <!-- Data início -->
+                    <div>
+                        <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
+                            <i class="fas fa-calendar"></i> Data início
+                        </label>
+                        <input type="date" name="data_inicio"
+                               value="<?php echo htmlspecialchars($filtros['data_inicio'] ?? ''); ?>"
+                               style="width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.88rem; font-family: inherit;">
+                    </div>
+
+                    <!-- Data fim -->
+                    <div>
+                        <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
+                            <i class="fas fa-calendar-check"></i> Data fim
+                        </label>
+                        <input type="date" name="data_fim"
+                               value="<?php echo htmlspecialchars($filtros['data_fim'] ?? ''); ?>"
+                               style="width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.88rem; font-family: inherit;">
+                    </div>
+
+                    <!-- Botão filtrar -->
+                    <div>
+                        <button type="submit" class="btn-primary" style="padding: 10px 18px; min-width: unset; font-size: 0.88rem; height: 42px;">
+                            <i class="fas fa-search"></i> Filtrar
+                        </button>
+                    </div>
+
+                    <!-- Botão limpar -->
+                    <?php if (!empty($filtros['projeto_id']) || !empty($filtros['data_inicio']) || !empty($filtros['data_fim'])): ?>
+                    <div>
+                        <a href="/historico" class="btn-secondary" style="padding: 10px 14px; min-width: unset; font-size: 0.85rem; height: 42px; display: inline-flex; align-items: center; gap: 5px;">
+                            <i class="fas fa-times"></i> Limpar
+                        </a>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </form>
+        </div>
+
+        <!-- Contador de resultados -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;">
+                <?php if ($totalDiagnosticos > 0): ?>
+                    Exibindo <strong><?php echo count($historicos); ?></strong> de <strong><?php echo $totalDiagnosticos; ?></strong> diagnóstico(s)
+                    <?php if (!empty($filtros['projeto_id']) || !empty($filtros['data_inicio']) || !empty($filtros['data_fim'])): ?>
+                        <span style="color: var(--primary);">(filtrado)</span>
+                    <?php endif; ?>
+                <?php else: ?>
+                    Nenhum diagnóstico encontrado com os filtros aplicados.
+                <?php endif; ?>
+            </p>
+            <a href="/checklist" class="btn-primary" style="font-size: 0.85rem; padding: 8px 16px; min-width: unset;">
+                <i class="fas fa-plus"></i> Novo Diagnóstico
+            </a>
+        </div>
+
+        <?php if (!empty($historicos)): ?>
         <!-- Lista de diagnósticos -->
         <div style="display: flex; flex-direction: column; gap: 20px;">
             <?php foreach ($historicos as $h): ?>
@@ -62,6 +150,11 @@
                             </div>
 
                             <div>
+                                <?php if (!empty($h['projeto_nome'])): ?>
+                                    <div style="font-size: 0.78rem; color: var(--primary); font-weight: 600; margin-bottom: 3px;">
+                                        <i class="fas fa-folder"></i> <?php echo htmlspecialchars($h['projeto_nome']); ?>
+                                    </div>
+                                <?php endif; ?>
                                 <div style="font-weight: 600; color: var(--text-main); margin-bottom: 4px;">
                                     <?php echo date('d/m/Y \à\s H:i', strtotime($h['data_salvo'])); ?>
                                 </div>
@@ -92,9 +185,96 @@
             <?php endforeach; ?>
         </div>
 
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="/checklist" class="btn-primary">Fazer Novo Diagnóstico</a>
+        <!-- ══ PAGINAÇÃO ══ -->
+        <?php if ($totalPaginas > 1): ?>
+        <nav style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 40px; flex-wrap: wrap;">
+
+            <?php
+                // Monta a query string preservando os filtros
+                $queryBase = http_build_query(array_filter([
+                    'projeto_id'  => $filtros['projeto_id']  ?? '',
+                    'data_inicio' => $filtros['data_inicio'] ?? '',
+                    'data_fim'    => $filtros['data_fim']    ?? '',
+                ]));
+                $sep = $queryBase ? '&' : '';
+            ?>
+
+            <!-- Anterior -->
+            <?php if ($paginaAtual > 1): ?>
+                <a href="/historico?<?php echo $queryBase . $sep; ?>page=<?php echo $paginaAtual - 1; ?>"
+                   style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 2px solid var(--border); border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: all 0.2s;"
+                   onmouseover="this.style.borderColor='var(--primary)'; this.style.color='var(--primary)';"
+                   onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text-muted)';">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            <?php endif; ?>
+
+            <!-- Páginas -->
+            <?php
+                $inicio = max(1, $paginaAtual - 2);
+                $fim    = min($totalPaginas, $paginaAtual + 2);
+            ?>
+
+            <?php if ($inicio > 1): ?>
+                <a href="/historico?<?php echo $queryBase . $sep; ?>page=1"
+                   style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 2px solid var(--border); border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">1</a>
+                <?php if ($inicio > 2): ?>
+                    <span style="color: var(--text-muted); padding: 0 4px;">...</span>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <?php for ($i = $inicio; $i <= $fim; $i++): ?>
+                <?php if ($i === $paginaAtual): ?>
+                    <span style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; background: var(--primary); color: white; border-radius: 8px; font-size: 0.85rem; font-weight: 700;">
+                        <?php echo $i; ?>
+                    </span>
+                <?php else: ?>
+                    <a href="/historico?<?php echo $queryBase . $sep; ?>page=<?php echo $i; ?>"
+                       style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 2px solid var(--border); border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: all 0.2s;"
+                       onmouseover="this.style.borderColor='var(--primary)'; this.style.color='var(--primary)';"
+                       onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text-muted)';">
+                        <?php echo $i; ?>
+                    </a>
+                <?php endif; ?>
+            <?php endfor; ?>
+
+            <?php if ($fim < $totalPaginas): ?>
+                <?php if ($fim < $totalPaginas - 1): ?>
+                    <span style="color: var(--text-muted); padding: 0 4px;">...</span>
+                <?php endif; ?>
+                <a href="/historico?<?php echo $queryBase . $sep; ?>page=<?php echo $totalPaginas; ?>"
+                   style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 2px solid var(--border); border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">
+                    <?php echo $totalPaginas; ?>
+                </a>
+            <?php endif; ?>
+
+            <!-- Próximo -->
+            <?php if ($paginaAtual < $totalPaginas): ?>
+                <a href="/historico?<?php echo $queryBase . $sep; ?>page=<?php echo $paginaAtual + 1; ?>"
+                   style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 2px solid var(--border); border-radius: 8px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: all 0.2s;"
+                   onmouseover="this.style.borderColor='var(--primary)'; this.style.color='var(--primary)';"
+                   onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text-muted)';">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            <?php endif; ?>
+
+        </nav>
+
+        <div style="text-align: center; margin-top: 12px;">
+            <span style="font-size: 0.8rem; color: var(--text-muted);">
+                Página <?php echo $paginaAtual; ?> de <?php echo $totalPaginas; ?>
+            </span>
         </div>
+        <?php endif; ?>
+
+        <?php else: ?>
+            <!-- Nenhum resultado com filtros -->
+            <div class="card-pergunta" style="text-align: center; padding: 50px 40px;">
+                <i class="fas fa-search" style="font-size: 2.5rem; color: var(--border); margin-bottom: 15px; display: block;"></i>
+                <h3 style="color: var(--text-muted); margin-bottom: 10px;">Nenhum diagnóstico encontrado</h3>
+                <p style="color: var(--text-muted); margin-bottom: 25px;">Tente ajustar os filtros ou <a href="/historico" style="color: var(--primary); font-weight: 600; text-decoration: none;">limpar os filtros</a>.</p>
+            </div>
+        <?php endif; ?>
 
     <?php endif; ?>
 </main>
@@ -121,6 +301,20 @@
         </form>
     </div>
 </div>
+
+<style>
+@media (max-width: 768px) {
+    #formFiltros > div {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #formFiltros > div {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
 
 <script>
 function abrirModalDeletar(historicoId, projetoId) {

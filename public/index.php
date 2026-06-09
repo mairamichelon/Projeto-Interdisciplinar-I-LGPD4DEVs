@@ -44,6 +44,9 @@ $rotas = [
     '/cadastro'                   => ['AuthController',       'cadastro'],
     '/logout'                     => ['AuthController',       'logout'],
 
+    // Perfil do usuário (Issue #24)
+    '/perfil'                     => ['PerfilController',     'index'],
+
     // Páginas institucionais
     '/sobre'                      => ['PaginaController',     'sobre'],
     '/contato'                    => ['PaginaController',     'contato'],

@@ -4,6 +4,7 @@
  * Controller: HistoricoController
  *
  * Gerencia o salvamento e consulta do histórico de diagnósticos.
+ * Inclui filtros por projeto/data e paginação (Issue #26).
  */
 class HistoricoController
 {
@@ -17,15 +18,41 @@ class HistoricoController
     }
 
     // -------------------------------------------------------------------------
-    // GET /historico — lista todos os diagnósticos do usuário
+    // GET /historico — lista diagnósticos com filtros e paginação
     // -------------------------------------------------------------------------
 
     public function index(): void
     {
         $this->exigirLogin();
 
-        $usuarioId  = (int) $_SESSION['user_id'];
-        $historicos = $this->model->buscarPorUsuario($usuarioId);
+        $usuarioId = (int) $_SESSION['user_id'];
+
+        // Parâmetros de filtro e paginação via GET
+        $filtros = [
+            'projeto_id'  => (int) ($_GET['projeto_id']  ?? 0) ?: null,
+            'data_inicio' => trim($_GET['data_inicio'] ?? ''),
+            'data_fim'    => trim($_GET['data_fim']    ?? ''),
+        ];
+        $paginaAtual = max(1, (int) ($_GET['page'] ?? 1));
+        $porPagina   = 10;
+
+        // Lista de projetos do usuário para o select de filtro
+        $projetos = $this->buscarProjetosDoUsuario($usuarioId);
+
+        // Total de diagnósticos com filtros aplicados
+        $totalDiagnosticos = $this->model->contarPorUsuario($usuarioId, $filtros);
+        $totalPaginas      = (int) ceil($totalDiagnosticos / $porPagina);
+        $paginaAtual       = min($paginaAtual, max(1, $totalPaginas));
+        $offset            = ($paginaAtual - 1) * $porPagina;
+
+        // Diagnósticos da página atual
+        $historicos = $this->model->buscarPorUsuario($usuarioId, $filtros, $porPagina, $offset);
+
+        // Resumo geral (sem filtros) para os cards de estatística
+        $resumo = null;
+        if ($totalDiagnosticos > 0 || (empty($filtros['projeto_id']) && empty($filtros['data_inicio']) && empty($filtros['data_fim']))) {
+            $resumo = $this->model->resumoPorUsuario($usuarioId);
+        }
 
         require BASE_PATH . '/app/views/historico/index.php';
     }
@@ -82,12 +109,9 @@ class HistoricoController
         }
 
         $usuarioId = (int) $_SESSION['user_id'];
-
-        // Recebe apenas o projeto_id — criação de projeto é feita antes via /projetos/criar
         $projetoId = (int) ($_POST['projeto_id'] ?? 0);
 
         try {
-            // Busca as respostas salvas no banco para este usuário
             $dados = $this->perguntaModel->buscarComRespostasEMateriais($usuarioId);
 
             if (empty($dados)) {
@@ -95,7 +119,6 @@ class HistoricoController
                 return;
             }
 
-            // Calcula métricas
             $totalPontos      = 0;
             $pontosObtidos    = 0;
             $totalPerguntas   = count($dados);
@@ -166,7 +189,6 @@ class HistoricoController
 
         $this->exigirLogin();
 
-        // Valida CSRF — estava ausente na versão anterior
         $tokenSessao = $_SESSION['csrf_token'] ?? '';
         $tokenPost   = $_POST['csrf_token']    ?? '';
         if (empty($tokenSessao) || !hash_equals($tokenSessao, $tokenPost)) {
@@ -186,6 +208,18 @@ class HistoricoController
             header("Location: /historico");
         }
         exit;
+    }
+
+    // -------------------------------------------------------------------------
+    // Helper privado: busca projetos do usuário para o select de filtro
+    // -------------------------------------------------------------------------
+
+    private function buscarProjetosDoUsuario(int $usuarioId): array
+    {
+        $pdo  = Database::getConnection();
+        $stmt = $pdo->prepare("SELECT id, nome FROM projetos WHERE usuario_id = ? ORDER BY nome ASC");
+        $stmt->execute([$usuarioId]);
+        return $stmt->fetchAll();
     }
 
     // -------------------------------------------------------------------------

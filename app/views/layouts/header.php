@@ -22,6 +22,7 @@
 
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li><a href="/projetos"><i class="fas fa-folder"></i> Projetos</a></li>
+                        <li><a href="/historico"><i class="fas fa-history"></i> Histórico</a></li>
 
                         <?php if (($_SESSION['perfil'] ?? '') === 'admin'): ?>
                             <li>
@@ -32,10 +33,11 @@
                             </li>
                         <?php endif; ?>
 
+                        <!-- Issue #24: Link para o perfil do usuário -->
                         <li>
-                            <div class="user-badge">
-                                👤 Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?>!
-                            </div>
+                            <a href="/perfil" class="user-badge" style="text-decoration: none;">
+                                👤 <?php echo htmlspecialchars(explode(' ', $_SESSION['user_name'])[0]); ?>
+                            </a>
                         </li>
                         <li><a href="/logout" class="btn-logout">Sair</a></li>
                     <?php else: ?>
