@@ -21,6 +21,7 @@
 O **LGPD4DEVS** é uma ferramenta prática projetada para traduzir a complexidade jurídica da Lei Geral de Proteção de Dados em ações técnicas executáveis. O foco principal é apoiar desenvolvedores e gestores de TI na proteção de dados de crianças e adolescentes, garantindo que a privacidade seja integrada desde a concepção da aplicação (**Privacy by Design**).
 
 ---
+
 ## 🌍 Alinhamento ODS (Agenda 2030)
 
 | ODS | Contribuição |
@@ -30,6 +31,7 @@ O **LGPD4DEVS** é uma ferramenta prática projetada para traduzir a complexidad
 | **ODS 16** — Paz e Justiça | Proteção contra exploração de dados de crianças e adolescentes vulneráveis |
 
 ---
+
 ## 🚀 Funcionalidades
 
 ### Para Desenvolvedores
@@ -37,7 +39,10 @@ O **LGPD4DEVS** é uma ferramenta prática projetada para traduzir a complexidad
 - 📊 **Score de Adequação** — Relatório visual com barra de progresso, métricas de conformidade e classificação por nível
 - 📖 **Biblioteca de Materiais** — Guias técnicos e artigos sugeridos com base nas falhas detectadas
 - 🗂️ **Sistema de Projetos** — Gerencie múltiplos projetos, vincule diagnósticos e acompanhe a evolução de conformidade ao longo do tempo
-- 📄 **Relatório PDF Formal** — Exportação de relatório de conformidade, materiais listados por item e sem URL do site
+- 📈 **Gráfico de Evolução** — Linha do tempo visual com a progressão percentual de conformidade por projeto, exibida a partir do segundo diagnóstico salvo
+- 📄 **Relatório PDF por Projeto** — Exportação formal com cabeçalho do projeto, resumo estatístico, todos os diagnósticos detalhados e respostas agrupadas por categoria
+- 👤 **Página de Perfil** — Informações pessoais, estatísticas consolidadas (projetos, diagnósticos, média geral, melhor resultado) e acesso rápido aos diagnósticos recentes
+- 🔍 **Histórico com Filtros** — Filtre diagnósticos por projeto ou por status (Em Desenvolvimento, Em Produção, Arquivado), com paginação de 10 resultados por página
 - 📱 **Responsivo** — Interface adaptada para desktop e mobile com navbar que recolhe automaticamente ao rolar
 
 ### Para Administradores
@@ -54,10 +59,11 @@ O projeto utiliza o padrão **MVC (Model-View-Controller)**, garantindo escalabi
 
 | Camada | Tecnologia |
 |--------|-----------|
-| Linguagem | PHP 8.3+ |
+| Linguagem | PHP 8.2+ |
 | Arquitetura | MVC com Front Controller (roteamento via `.htaccess`) |
 | Banco de Dados | MySQL 8.4 (PDO Singleton) |
 | Front-end | CSS3 responsivo, JavaScript puro (sem frameworks) |
+| Gráficos | Chart.js 4.4.1 via CDN (cdnjs.cloudflare.com) |
 | Hospedagem | Render (Docker) + Aiven (MySQL gerenciado) |
 | Versionamento | Git + GitHub com deploy contínuo (CD) |
 
@@ -70,10 +76,11 @@ lgpd4devs/
 │   │   ├── AdminController.php       ← Painel administrativo
 │   │   ├── AuthController.php        ← Login, cadastro e logout
 │   │   ├── ChecklistController.php   ← Checklist e processamento
-│   │   ├── HistoricoController.php   ← Histórico de diagnósticos
+│   │   ├── HistoricoController.php   ← Histórico com filtros e paginação
 │   │   ├── HomeController.php
 │   │   ├── MateriaisController.php
 │   │   ├── PaginaController.php      ← Páginas institucionais
+│   │   ├── PerfilController.php      ← Perfil do usuário logado
 │   │   ├── ProjetoController.php     ← CRUD de projetos + APIs
 │   │   └── ResultadoController.php
 │   ├── models/
@@ -92,6 +99,7 @@ lgpd4devs/
 │       ├── layouts/                  ← Header e footer compartilhados
 │       ├── materiais/
 │       ├── paginas/                  ← Sobre, contato, privacidade
+│       ├── perfil/                   ← Página de perfil do usuário
 │       ├── projetos/
 │       └── resultado/
 ├── config/
@@ -117,6 +125,7 @@ lgpd4devs/
 - **Variáveis de Ambiente** — Credenciais de banco via `.env` (nunca versionadas)
 - **Erros em Produção** — `display_errors` desativado automaticamente quando `APP_ENV=production`
 - **Proteção de APIs** — Rotas `/api/*` retornam JSON vazio em vez de redirecionar quando não autenticadas, evitando quebra de fetch no cliente
+- **Validação Server-side** — IDs de perguntas validados antes de inserção no banco, impedindo inserção de IDs arbitrários
 
 ---
 
@@ -150,6 +159,7 @@ respostas                 pergunta_material (N:N)              │
   pergunta_id(FK),          material_id(FK)                    │
   resposta, data_resposta                                      │
 ```
+
 ---
 
 ## 👤 Painel Administrativo
@@ -167,7 +177,7 @@ UPDATE usuarios SET perfil = 'admin' WHERE email = 'seu@email.com';
 
 ## 🛠️ Como Executar (Ambiente Local)
 
-Certifique-se de ter o **Laragon** instalado (Apache + PHP 8.3 + MySQL 8.4).
+Certifique-se de ter o **Laragon** instalado (Apache + PHP 8.2+ + MySQL 8.4).
 
 **1. Clone o repositório**
 ```bash
@@ -233,6 +243,7 @@ O Render executa o build automaticamente a cada push na branch `main` via integr
 | 1.0 | 26/03/2026 | MVP: Checklist, Score de Conformidade, Biblioteca de Materiais |
 | 1.1 | 10/04/2026 | Autenticação, Segurança CSRF, Normalização N:N, Interface de Resultados, Relatório PDF |
 | 1.2 | 20/05/2026 | Sistema de Projetos, Painel Admin, Correções de Segurança, Responsividade Mobile, Tempo Real |
+| 1.3 | 09/06/2026 | Página de Perfil, Histórico com filtros e paginação, Gráfico de Evolução por Projeto, Relatório PDF completo por Projeto |
 
 ---
 
