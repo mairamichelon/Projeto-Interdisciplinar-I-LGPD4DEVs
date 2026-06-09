@@ -4,7 +4,7 @@
  * Model: Historico
  *
  * Gerencia o salvamento e consulta do histórico de diagnósticos.
- * Inclui suporte a filtros por projeto/data e paginação (Issue #26).
+ * Inclui suporte a filtros por projeto/status e paginação (Issue #26).
  */
 class Historico
 {
@@ -101,7 +101,6 @@ class Historico
 
     /**
      * Retorna diagnósticos paginados e filtrados de um usuário.
-     * Substitui buscarPorUsuario() para suportar filtros e paginação (Issue #26).
      */
     public function buscarPorUsuario(
         int   $usuarioId,
@@ -112,7 +111,7 @@ class Historico
         [$where, $params] = $this->montarWhere($usuarioId, $filtros);
 
         $sql = "
-            SELECT hd.*, p.nome AS projeto_nome
+            SELECT hd.*, p.nome AS projeto_nome, p.status AS projeto_status
             FROM historico_diagnosticos hd
             LEFT JOIN projetos p ON hd.projeto_id = p.id
             WHERE {$where}
@@ -153,10 +152,10 @@ class Historico
         }
 
         return [
-            'total'            => (int) $row['total'],
-            'media'            => (int) round($row['media']),
-            'melhor'           => (int) $row['melhor'],
-            'ultimo_percentual'=> (int) $row['ultimo_percentual'],
+            'total'             => (int) $row['total'],
+            'media'             => (int) round($row['media']),
+            'melhor'            => (int) $row['melhor'],
+            'ultimo_percentual' => (int) $row['ultimo_percentual'],
         ];
     }
 
@@ -225,6 +224,7 @@ class Historico
 
     /**
      * Monta a cláusula WHERE dinâmica para filtros (Issue #26).
+     * Suporta filtro por projeto_id e status do projeto.
      * Retorna [$whereSql, $params].
      */
     private function montarWhere(int $usuarioId, array $filtros): array
@@ -237,14 +237,9 @@ class Historico
             $params[]     = (int) $filtros['projeto_id'];
         }
 
-        if (!empty($filtros['data_inicio'])) {
-            $conditions[] = 'DATE(hd.data_salvo) >= ?';
-            $params[]     = $filtros['data_inicio'];
-        }
-
-        if (!empty($filtros['data_fim'])) {
-            $conditions[] = 'DATE(hd.data_salvo) <= ?';
-            $params[]     = $filtros['data_fim'];
+        if (!empty($filtros['status'])) {
+            $conditions[] = 'p.status = ?';
+            $params[]     = $filtros['status'];
         }
 
         return [implode(' AND ', $conditions), $params];

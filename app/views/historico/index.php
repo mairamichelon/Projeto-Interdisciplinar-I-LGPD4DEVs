@@ -6,7 +6,7 @@
         <p>Acompanhe sua evolução de conformidade ao longo do tempo.</p>
     </div>
 
-    <?php if ($totalDiagnosticos === 0 && empty($filtros['projeto_id']) && empty($filtros['data_inicio']) && empty($filtros['data_fim'])): ?>
+    <?php if ($totalDiagnosticos === 0 && empty($filtros['projeto_id']) && empty($filtros['status'])): ?>
         <!-- Estado vazio sem filtros -->
         <div class="card-pergunta" style="text-align: center; padding: 60px 40px;">
             <i class="fas fa-clipboard-list" style="font-size: 3rem; color: var(--border); margin-bottom: 20px; display: block;"></i>
@@ -20,7 +20,7 @@
     <?php else: ?>
 
         <!-- Cards de resumo (apenas sem filtros ativos) -->
-        <?php if (empty($filtros['projeto_id']) && empty($filtros['data_inicio']) && empty($filtros['data_fim']) && !empty($resumo)): ?>
+        <?php if (empty($filtros['projeto_id']) && empty($filtros['status']) && !empty($resumo)): ?>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
             <div class="card-material" style="text-align: center; padding: 25px;">
                 <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary);"><?php echo $resumo['total']; ?></div>
@@ -52,7 +52,7 @@
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
                 <i class="fas fa-filter" style="color: var(--primary);"></i>
                 <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">Filtrar Diagnósticos</span>
-                <?php if (!empty($filtros['projeto_id']) || !empty($filtros['data_inicio']) || !empty($filtros['data_fim'])): ?>
+                <?php if (!empty($filtros['projeto_id']) || !empty($filtros['status'])): ?>
                     <span style="background: var(--primary); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700;">
                         Filtros ativos
                     </span>
@@ -60,10 +60,10 @@
             </div>
 
             <form method="GET" action="/historico" id="formFiltros">
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto auto; gap: 12px; align-items: end;">
+                <div style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
 
                     <!-- Filtro por projeto -->
-                    <div>
+                    <div style="flex: 1; min-width: 200px;">
                         <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
                             <i class="fas fa-folder"></i> Projeto
                         </label>
@@ -73,40 +73,35 @@
                             <?php foreach ($projetos as $p): ?>
                                 <option value="<?php echo $p['id']; ?>" <?php echo ($filtros['projeto_id'] == $p['id']) ? 'selected' : ''; ?>>
                                     <?php echo htmlspecialchars($p['nome']); ?>
+                                    (<?php echo Projeto::labelStatus($p['status']); ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
 
-                    <!-- Data início -->
-                    <div>
+                    <!-- Filtro por status -->
+                    <div style="flex: 1; min-width: 200px;">
                         <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
-                            <i class="fas fa-calendar"></i> Data início
+                            <i class="fas fa-tag"></i> Status do Projeto
                         </label>
-                        <input type="date" name="data_inicio"
-                               value="<?php echo htmlspecialchars($filtros['data_inicio'] ?? ''); ?>"
-                               style="width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.88rem; font-family: inherit;">
-                    </div>
-
-                    <!-- Data fim -->
-                    <div>
-                        <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">
-                            <i class="fas fa-calendar-check"></i> Data fim
-                        </label>
-                        <input type="date" name="data_fim"
-                               value="<?php echo htmlspecialchars($filtros['data_fim'] ?? ''); ?>"
-                               style="width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.88rem; font-family: inherit;">
+                        <select name="status"
+                                style="width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 0.88rem; font-family: inherit; color: var(--text-main);">
+                            <option value="">Todos os status</option>
+                            <option value="em_desenvolvimento" <?php echo ($filtros['status'] === 'em_desenvolvimento') ? 'selected' : ''; ?>>Em Desenvolvimento</option>
+                            <option value="em_producao" <?php echo ($filtros['status'] === 'em_producao') ? 'selected' : ''; ?>>Em Produção</option>
+                            <option value="arquivado" <?php echo ($filtros['status'] === 'arquivado') ? 'selected' : ''; ?>>Arquivado</option>
+                        </select>
                     </div>
 
                     <!-- Botão filtrar -->
                     <div>
-                        <button type="submit" class="btn-primary" style="padding: 10px 18px; min-width: unset; font-size: 0.88rem; height: 42px;">
+                        <button type="submit" class="btn-primary" style="padding: 10px 20px; min-width: unset; font-size: 0.88rem; height: 42px;">
                             <i class="fas fa-search"></i> Filtrar
                         </button>
                     </div>
 
                     <!-- Botão limpar -->
-                    <?php if (!empty($filtros['projeto_id']) || !empty($filtros['data_inicio']) || !empty($filtros['data_fim'])): ?>
+                    <?php if (!empty($filtros['projeto_id']) || !empty($filtros['status'])): ?>
                     <div>
                         <a href="/historico" class="btn-secondary" style="padding: 10px 14px; min-width: unset; font-size: 0.85rem; height: 42px; display: inline-flex; align-items: center; gap: 5px;">
                             <i class="fas fa-times"></i> Limpar
@@ -122,7 +117,7 @@
             <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;">
                 <?php if ($totalDiagnosticos > 0): ?>
                     Exibindo <strong><?php echo count($historicos); ?></strong> de <strong><?php echo $totalDiagnosticos; ?></strong> diagnóstico(s)
-                    <?php if (!empty($filtros['projeto_id']) || !empty($filtros['data_inicio']) || !empty($filtros['data_fim'])): ?>
+                    <?php if (!empty($filtros['projeto_id']) || !empty($filtros['status'])): ?>
                         <span style="color: var(--primary);">(filtrado)</span>
                     <?php endif; ?>
                 <?php else: ?>
@@ -153,6 +148,11 @@
                                 <?php if (!empty($h['projeto_nome'])): ?>
                                     <div style="font-size: 0.78rem; color: var(--primary); font-weight: 600; margin-bottom: 3px;">
                                         <i class="fas fa-folder"></i> <?php echo htmlspecialchars($h['projeto_nome']); ?>
+                                        <?php if (!empty($h['projeto_status'])): ?>
+                                            <span style="background: <?php echo Projeto::corStatus($h['projeto_status']); ?>22; color: <?php echo Projeto::corStatus($h['projeto_status']); ?>; padding: 1px 6px; border-radius: 10px; font-size: 0.7rem; margin-left: 4px;">
+                                                <?php echo Projeto::labelStatus($h['projeto_status']); ?>
+                                            </span>
+                                        <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
                                 <div style="font-weight: 600; color: var(--text-main); margin-bottom: 4px;">
@@ -192,9 +192,8 @@
             <?php
                 // Monta a query string preservando os filtros
                 $queryBase = http_build_query(array_filter([
-                    'projeto_id'  => $filtros['projeto_id']  ?? '',
-                    'data_inicio' => $filtros['data_inicio'] ?? '',
-                    'data_fim'    => $filtros['data_fim']    ?? '',
+                    'projeto_id' => $filtros['projeto_id'] ?? '',
+                    'status'     => $filtros['status']     ?? '',
                 ]));
                 $sep = $queryBase ? '&' : '';
             ?>
@@ -305,13 +304,11 @@
 <style>
 @media (max-width: 768px) {
     #formFiltros > div {
-        grid-template-columns: 1fr 1fr !important;
+        flex-direction: column !important;
     }
-}
-
-@media (max-width: 480px) {
-    #formFiltros > div {
-        grid-template-columns: 1fr !important;
+    #formFiltros > div > div {
+        min-width: unset !important;
+        width: 100% !important;
     }
 }
 </style>

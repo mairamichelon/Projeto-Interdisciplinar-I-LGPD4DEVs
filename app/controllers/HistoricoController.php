@@ -4,7 +4,7 @@
  * Controller: HistoricoController
  *
  * Gerencia o salvamento e consulta do histórico de diagnósticos.
- * Inclui filtros por projeto/data e paginação (Issue #26).
+ * Inclui filtros por projeto/status e paginação (Issue #26).
  */
 class HistoricoController
 {
@@ -29,15 +29,15 @@ class HistoricoController
 
         // Parâmetros de filtro e paginação via GET
         $filtros = [
-            'projeto_id'  => (int) ($_GET['projeto_id']  ?? 0) ?: null,
-            'data_inicio' => trim($_GET['data_inicio'] ?? ''),
-            'data_fim'    => trim($_GET['data_fim']    ?? ''),
+            'projeto_id' => (int) ($_GET['projeto_id'] ?? 0) ?: null,
+            'status'     => trim($_GET['status'] ?? ''),
         ];
         $paginaAtual = max(1, (int) ($_GET['page'] ?? 1));
         $porPagina   = 10;
 
-        // Lista de projetos do usuário para o select de filtro
-        $projetos = $this->buscarProjetosDoUsuario($usuarioId);
+        // Lista de TODOS os projetos do usuário para o select de filtro
+        // (independente de terem diagnósticos ou não)
+        $projetos = $this->buscarTodosProjetosDoUsuario($usuarioId);
 
         // Total de diagnósticos com filtros aplicados
         $totalDiagnosticos = $this->model->contarPorUsuario($usuarioId, $filtros);
@@ -50,7 +50,7 @@ class HistoricoController
 
         // Resumo geral (sem filtros) para os cards de estatística
         $resumo = null;
-        if ($totalDiagnosticos > 0 || (empty($filtros['projeto_id']) && empty($filtros['data_inicio']) && empty($filtros['data_fim']))) {
+        if ($totalDiagnosticos > 0 || (empty($filtros['projeto_id']) && empty($filtros['status']))) {
             $resumo = $this->model->resumoPorUsuario($usuarioId);
         }
 
@@ -211,13 +211,18 @@ class HistoricoController
     }
 
     // -------------------------------------------------------------------------
-    // Helper privado: busca projetos do usuário para o select de filtro
+    // Helper privado: busca TODOS os projetos do usuário (com ou sem diagnósticos)
     // -------------------------------------------------------------------------
 
-    private function buscarProjetosDoUsuario(int $usuarioId): array
+    private function buscarTodosProjetosDoUsuario(int $usuarioId): array
     {
         $pdo  = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT id, nome FROM projetos WHERE usuario_id = ? ORDER BY nome ASC");
+        $stmt = $pdo->prepare("
+            SELECT id, nome, status
+            FROM projetos
+            WHERE usuario_id = ?
+            ORDER BY nome ASC
+        ");
         $stmt->execute([$usuarioId]);
         return $stmt->fetchAll();
     }

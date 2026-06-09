@@ -35,9 +35,11 @@
                     <h2 style="font-size: 1.4rem;">Seus Projetos</h2>
                 </div>
 
-                <!-- Grid responsivo para mobile -->
-                <div class="home-projetos-grid" style="margin-bottom: 50px;">
-                    <?php foreach (array_slice($projetosDash, 0, 3) as $p): ?>
+                <?php $projetosExibidos = array_slice($projetosDash, 0, 3); $qtd = count($projetosExibidos); ?>
+
+                <!-- Grid responsivo: centraliza quando há 1 ou 2 projetos -->
+                <div class="home-projetos-grid home-projetos-<?php echo $qtd; ?>" style="margin-bottom: 50px;">
+                    <?php foreach ($projetosExibidos as $p): ?>
                         <div class="card-material" style="border-top: 4px solid <?php echo Projeto::corStatus($p['status']); ?>;">
                             <div style="margin-bottom: 10px;">
                                 <span style="display:inline-block; background:<?php echo Projeto::corStatus($p['status']); ?>22; color:<?php echo Projeto::corStatus($p['status']); ?>; padding:2px 8px; border-radius:20px; font-size:0.72rem; font-weight:700; margin-bottom:6px;">
@@ -171,22 +173,43 @@
 <?php endif; ?>
 
 <style>
-/* Grid de projetos na home — 3 colunas desktop, 1 coluna mobile */
+/* ── Grid base: 3 colunas desktop ── */
 .home-projetos-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 }
 
+/* 3 projetos: 3 colunas normais */
+.home-projetos-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* 2 projetos: 2 colunas centralizadas com largura máxima */
+.home-projetos-2 {
+    grid-template-columns: repeat(2, minmax(0, 380px));
+    justify-content: center;
+}
+
+/* 1 projeto: 1 coluna centralizada com largura máxima */
+.home-projetos-1 {
+    grid-template-columns: minmax(0, 380px);
+    justify-content: center;
+}
+
 @media (max-width: 900px) {
-    .home-projetos-grid {
+    .home-projetos-3 {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .home-projetos-2 {
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: stretch;
     }
 }
 
 @media (max-width: 600px) {
     .home-projetos-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        justify-content: stretch !important;
         gap: 16px;
     }
 }

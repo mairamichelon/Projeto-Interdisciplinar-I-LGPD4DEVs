@@ -78,6 +78,7 @@ class PerfilController
         $stmt->execute([$usuarioId]);
         $ultimosDiagnosticos = $stmt->fetchAll();
 
+        // Caminho correto da view de perfil
         require BASE_PATH . '/app/views/perfil/index.php';
     }
 

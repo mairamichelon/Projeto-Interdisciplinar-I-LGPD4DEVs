@@ -9,7 +9,7 @@
     </div>
 
     <!-- Card de informações do usuário -->
-    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px; margin-bottom: 40px;">
+    <div class="perfil-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 30px; margin-bottom: 40px;">
 
         <!-- Avatar + dados básicos -->
         <div class="card-material" style="text-align: center; padding: 35px 25px;">
@@ -44,7 +44,7 @@
         <div style="display: flex; flex-direction: column; gap: 20px;">
 
             <!-- Cards de métricas -->
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <div class="stats-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
                 <div class="card-material" style="text-align: center; padding: 22px 15px;">
                     <div style="font-size: 2rem; font-weight: 700; color: var(--primary); line-height: 1; margin-bottom: 6px;">
                         <?php echo $stats['total_projetos']; ?>
@@ -195,7 +195,7 @@
 </main>
 
 <style>
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .perfil-grid {
         grid-template-columns: 1fr !important;
     }
