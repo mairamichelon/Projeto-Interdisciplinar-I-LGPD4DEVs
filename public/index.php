@@ -1,7 +1,7 @@
 <?php
 
 define('BASE_PATH', dirname(__DIR__));
-
+date_default_timezone_set('America/Sao_Paulo');
 if (getenv('APP_ENV') !== 'production') {
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
