@@ -48,6 +48,7 @@ class Database
 
             try {
                 self::$instance = new PDO($dsn, $user, $pass, $options);
+                self::$instance->exec("SET time_zone = '-03:00'");
             } catch (\PDOException $e) {
                 error_log('[LGPD4DEVS] Falha na conexão: ' . $e->getMessage());
                 die("Erro interno ao conectar com o banco de dados. Tente novamente mais tarde.");
