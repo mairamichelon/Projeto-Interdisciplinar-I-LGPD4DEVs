@@ -20,6 +20,10 @@
 
 O **LGPD4DEVS** é uma ferramenta prática projetada para traduzir a complexidade jurídica da Lei Geral de Proteção de Dados em ações técnicas executáveis. O foco principal é apoiar desenvolvedores e gestores de TI na proteção de dados de crianças e adolescentes, garantindo que a privacidade seja integrada desde a concepção da aplicação (**Privacy by Design**).
 
+## Acesse nosso video explicativo sobre o site LGPD4DEVs.
+Vídeo da apresentação final da disciplina Projeto Interdisciplinar II do curso de graduação Gestão da Tecnologia da Informação do IFPR Pinhais.
+https://drive.google.com/drive/u/0/folders/1jf3HkqpHsLy1TXh8shep3lY0pTJCeOmc
+
 ---
 
 ## 🌍 Alinhamento ODS (Agenda 2030)
