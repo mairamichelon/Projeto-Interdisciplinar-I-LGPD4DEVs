@@ -2,6 +2,7 @@
 -- LGPD4DEVS — Carga Completa de Dados (Seed Data)
 -- Recuperado a partir do relatório oficial de produção
 -- Total: 21 Perguntas (61 pontos), 22 Materiais e Vínculos N:N
+-- Links dos materiais apontando para raw.githubusercontent.com
 -- ============================================================
 
 USE db_lgpd4devs;
@@ -23,112 +24,112 @@ INSERT INTO materiais (id, titulo, categoria, descricao_curta, conteudo_detalhad
 (1, 'ECA Digital: Perguntas e Respostas', 'ECA',
     'FAQ focado no cumprimento do Artigo 14 da LGPD.',
     'Perguntas e respostas sobre as exigências legais e práticas do ECA Digital para plataformas voltadas a crianças e adolescentes.',
-    '/materiais/18032026_perguntas_respostas_eca-digital.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/18032026_perguntas_respostas_eca-digital.pdf'),
 
 (2, 'Decreto 12.880 - ECA Digital', 'ECA',
     'Leitura essencial para entender a base jurídica do projeto.',
     'Decreto regulamentador que estabelece diretrizes e salvaguardas para proteção de crianças e adolescentes em plataformas digitais.',
-    '/materiais/D12880 Eca Digital.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/D12880%20Eca%20Digital.pdf'),
 
 (3, 'Guia Orientativo: Cookies', 'ANPD',
     'Explica o conceito de consentimento livre e informado.',
     'Orientações da ANPD sobre cookies, rastreamento online e requisitos para obtenção de consentimento de usuários.',
-    '/materiais/guia-orientativo-cookies-e-protecao-de-dados-pessoais (1).pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/guia-orientativo-cookies-e-protecao-de-dados-pessoais%20%281%29.pdf'),
 
 (4, 'Fascículo: Proteção de Dados', 'GUIA',
     'Visão panorâmica sobre direitos dos titulares e deveres dos agentes.',
     'Fascículo com fundamentos de proteção de dados, privacidade e responsabilidades legais de controladores e operadores.',
-    '/materiais/fasciculo-protecao-de-dados.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/fasciculo-protecao-de-dados.pdf'),
 
 (5, 'Agentes de Tratamento e Encarregado', 'ANPD',
     'Esclarece as responsabilidades jurídicas de cada ator.',
     'Guia oficial da ANPD definindo atribuições e obrigações do Controlador, Operador e Encarregado pelo tratamento de dados pessoais (DPO).',
-    '/materiais/guia_agentes_de_tratamento_e_encarregado___de dados.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/guia_agentes_de_tratamento_e_encarregado___de%20dados.pdf'),
 
 (6, 'Mecanismos de Aferição de Idade', 'TECNOLOGIA',
     'Fundamental para barrar acesso de menores mantendo a privacidade.',
     'Estudo da ANPD e diretrizes técnicas para implementação de métodos seguros e confiáveis de checagem etária, vedando a simples autodeclaração.',
-    '/materiais/Mecanismos confiáveis de aferição de idade.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/Mecanismos%20confi%C3%A1veis%20de%20aferi%C3%A7%C3%A3o%20de%20idade.pdf'),
 
 (7, 'Radar: IA Generativa', 'TECNOLOGIA',
     'Riscos e boas práticas no desenvolvimento de sistemas de IA.',
     'Análise técnica da ANPD sobre os impactos da inteligência artificial generativa na privacidade e proteção de dados de crianças e adolescentes.',
-    '/materiais/Radar_Tecnologico_IA_Generativa_ANPD.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/Radar_Tecnologico_IA_Generativa_ANPD.pdf'),
 
 (8, 'Radar: Biometria e Privacidade', 'TECNOLOGIA',
     'Orientações da ANPD sobre implementação segura de biometria.',
     'Diretrizes sobre o tratamento de dados biométricos sensíveis, proporcionalidade e salvaguardas técnicas.',
-    '/materiais/Radar Tecnológico - Biometria - ANPD.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/Radar%20Tecnol%C3%B3gico%20-%20Biometria%20-%20ANPD.pdf'),
 
 (9, 'Estudo de Casos: Anonimização', 'TÉCNICO',
     'Diferença técnica entre pseudoanonimização e anonimização real.',
     'Exemplos práticos e técnicas criptográficas para desvinculação de dados e mitigação do risco de reidentificação.',
-    '/materiais/estudo_de_casos_sobre_anonimizacao_de_dados_na_lgpd_.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/estudo_de_casos_sobre_anonimizacao_de_dados_na_lgpd_.pdf'),
 
 (10, 'Radar: Neurotecnologias', 'TECNOLOGIA',
     'Explora interfaces cérebro-computador sob a ótica da LGPD.',
     'Publicação da ANPD sobre os desafios éticos, técnicos e de privacidade envolvidos no uso de neurotecnologias e dados neurais.',
-    '/materiais/Radar Tecnologico 4 - Neurotecnologias.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/Radar%20Tecnologico%204%20-%20Neurotecnologias.pdf'),
 
 (11, 'Cartilha Oficial do ECA Digital', 'ECA',
     'Guia ilustrado de direitos e proteção infantojuvenil em meios digitais.',
     'Material oficial que consolida as regras de proteção integral de menores de idade no ambiente online.',
-    '/materiais/Cartilha-Eca-Digital.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/Cartilha-Eca-Digital.pdf'),
 
 (12, 'Fascículo: Controle Parental', 'GUIA',
     'Boas práticas e ferramentas para implementação de supervisão parental efetiva.',
     'Orientações para desenvolvedores criarem recursos de controle parental, limites de tempo de uso e visibilidade para os pais.',
-    '/materiais/fasciculo_controle_parental.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/fasciculo_controle_parental.pdf'),
 
 (13, 'Nota Técnica: Regulação de Loot Boxes', 'ANPD',
     'Diretrizes sobre proibição de caixas de recompensa pagas com itens aleatórios para menores.',
     'Nota técnica que veda a exploração de mecânicas de apostas e caixas de recompensas aleatórias pagas em jogos direcionados a crianças e adolescentes.',
-    '/materiais/nt_loot_boxes_-aprovada.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/nt_loot_boxes_-aprovada.pdf'),
 
 (14, 'Guia: Privacidade desde a Concepção', 'TÉCNICO',
     'Metodologia Privacy by Design e Privacy by Default aplicada a software.',
     'Como incorporar privacidade e proteção de dados em cada etapa da arquitetura e ciclo de vida do desenvolvimento.',
-    '/materiais/guia_privacidade_concepcao-1.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/guia_privacidade_concepcao-1.pdf'),
 
 (15, 'Guia: Gerenciamento de Vulnerabilidades', 'TÉCNICO',
     'Processos de detecção, correção e fluxo de SLA para incidentes de segurança.',
     'Padrões técnicos de segurança para resposta rápida a falhas, canal de denúncias e correção de brechas em sistemas.',
-    '/materiais/guia_gerenciamento_vulnerabilidades-1.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/guia_gerenciamento_vulnerabilidades-1.pdf'),
 
 (16, 'Guia de Requisitos Mínimos para APIs', 'TÉCNICO',
     'Padrões de autenticação, criptografia e proteção contra vulnerabilidades em endpoints.',
     'Boas práticas recomendadas para segurança de APIs, controle de acesso e proteção de payloads transmitidos via rede.',
-    '/materiais/guia_requisitos_minimos_apis-1.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/guia_requisitos_minimos_apis-1.pdf'),
 
 (17, 'Guia de Requisitos Mínimos para Apps', 'TÉCNICO',
     'Segurança no armazenamento local, permissões do SO e comunicação externa em apps.',
     'Requisitos técnicos de segurança para desenvolvimento de aplicações móveis (iOS/Android) que tratam dados de usuários.',
-    '/materiais/guia_requisitos_minimos_apps-1.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/guia_requisitos_minimos_apps-1.pdf'),
 
 (18, 'Guia de Requisitos Mínimos para Web', 'TÉCNICO',
     'Prevenção a ataques CSRF, XSS, injeção de SQL e gestão segura de sessões.',
     'Checklist técnico para segurança e integridade de aplicações web, blindagem contra vulnerabilidades OWASP.',
-    '/materiais/guia_requisitos_minimos_web-1.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/guia_requisitos_minimos_web-1.pdf'),
 
 (19, 'Guia de Requisitos e Obrigações Legais', 'GUIA',
     'Resumo prático das obrigações do desenvolvedor perante a LGPD e a ANPD.',
     'Mapeamento das principais exigências regulatórias, transparência com os usuários e mitigação de riscos de sanções.',
-    '/materiais/guia_requisitos_obrigacoes-1.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/guia_requisitos_obrigacoes-1.pdf'),
 
 (20, 'Guia de Uso Responsável de IA (CGU)', 'TECNOLOGIA',
     'Auditoria de modelos algorítmicos, explicabilidade e mitigação de riscos.',
     'Orientações da CGU sobre governança de IA, avaliação de riscos psicossociais e segurança de algoritmos que impactam pessoas.',
-    '/materiais/Guia_de_uso_responsável_de_IA_v5_publicacao CGU.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/Guia_de_uso_respons%C3%A1vel_de_IA_v5_publicacao%20CGU.pdf'),
 
 (21, 'Lei Geral de Proteção de Dados (Lei nº 13.709/2018)', 'LEGISLAÇÃO',
     'Texto integral da LGPD com ênfase no Artigo 14 (crianças e adolescentes).',
     'Legislação federal com os princípios fundamentais da privacidade, direitos dos titulares e regras de tratamento no Brasil.',
-    '/materiais/L13709.pdf'),
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/L13709.pdf'),
 
 (22, 'ECA Digital (Lei nº 15.211/2025)', 'ECA',
     'Texto oficial da lei que amplia a proteção a crianças e adolescentes em ambientes digitais.',
     'Normas e vedações legais a perfilamento publicitário, obrigações de canais de denúncia e salvaguardas para o público infantojuvenil.',
-    '/materiais/L15211.pdf')
+    'https://raw.githubusercontent.com/mairamichelon/Projeto-Interdisciplinar-I-LGPD4DEVs/main/materiais/L15211.pdf')
 ON DUPLICATE KEY UPDATE 
     titulo = VALUES(titulo), 
     categoria = VALUES(categoria), 
