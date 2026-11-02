@@ -375,15 +375,14 @@ input:focus, textarea:focus {
 }
 
 /* ============================================================
-   9. RESPONSIVIDADE MOBILE
+   9. RESPONSIVIDADE MOBILE BASE
    Navbar em UMA ÚNICA LINHA para o browser mobile recolher
    automaticamente ao rolar a página
    ============================================================ */
 
 @media (max-width: 768px) {
 
-    /* Navbar em linha única — altura fixa pequena
-       Browser mobile só recolhe navbar com altura previsível e fixa */
+    /* Navbar em linha única — altura fixa pequena */
     .navbar {
         height: 56px;
         padding: 0;
@@ -451,4 +450,590 @@ input:focus, textarea:focus {
     .navbar a { font-size: 0.7rem; }
     .logo { height: 34px; }
     .navbar ul { gap: 0.4rem; }
+}
+
+/* ============================================================
+   10. PÁGINA EDUCACIONAL & TRILHA DE VÍDEOS
+   ============================================================ */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Aviso Educativo / Isenção Jurídica */
+.aviso-educativo {
+    margin: 20px 0;
+}
+
+.aviso-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: #EFF6FF;
+    border-left: 5px solid var(--primary);
+    padding: 18px 22px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.aviso-icon {
+    background: #DBEAFE;
+    color: var(--primary);
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.aviso-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-main);
+}
+
+.aviso-text strong {
+    color: #1E3A8A;
+    font-size: 0.98rem;
+}
+
+/* Índice da Trilha */
+.trilha-indice-card {
+    background: var(--white);
+    padding: 24px 28px;
+    border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    box-shadow: var(--shadow);
+}
+
+.trilha-passos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.trilha-passo-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: all 0.25s ease;
+}
+
+.trilha-passo-item:hover {
+    border-color: var(--primary);
+    background: #EFF6FF;
+    transform: translateY(-2px);
+}
+
+.passo-numero {
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.passo-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.passo-info strong {
+    font-size: 0.88rem;
+    line-height: 1.35;
+    color: var(--text-main);
+}
+
+.passo-duracao {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+}
+
+/* Cards dos Módulos de Vídeo */
+.trilha-videos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.card-video-modulo {
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    scroll-margin-top: 110px; /* Compensa a navbar sticky */
+    transition: border-color 0.3s;
+}
+
+.card-video-modulo:hover {
+    border-color: #CBD5E1;
+}
+
+.video-card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.video-meta-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modulo-badge {
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.duracao-badge {
+    background: #F1F5F9;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.video-card-title {
+    font-size: 1.45rem;
+    color: var(--text-main);
+    line-height: 1.35;
+    margin: 0;
+}
+
+/* Box Objetivo */
+.video-objetivo-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #F0FDF4;
+    border-left: 4px solid var(--secondary);
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    color: #14532D;
+    line-height: 1.55;
+}
+
+.video-objetivo-box .objetivo-icon {
+    color: var(--secondary);
+    font-size: 1.15rem;
+    margin-top: 2px;
+}
+
+.video-objetivo-box p {
+    margin: 2px 0 0;
+    color: #166534;
+}
+
+/* Player Responsivo 16:9 */
+.video-player-wrapper {
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    background: #0F172A;
+}
+
+.video-responsive-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.video-responsive-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Placeholder Moderno de Vídeo */
+.video-placeholder-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 60%, #0F2847 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 24px;
+    text-align: center;
+    color: white;
+}
+
+.placeholder-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    max-width: 580px;
+}
+
+.placeholder-play-circle {
+    width: 68px;
+    height: 68px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #FFFFFF;
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.placeholder-play-circle:hover {
+    transform: scale(1.08);
+    background: rgba(0, 102, 255, 0.6);
+}
+
+.placeholder-badge {
+    background: rgba(239, 68, 68, 0.2);
+    color: #FCA5A5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.placeholder-text-group h3 {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+    color: #F8FAFC;
+}
+
+.placeholder-text-group p {
+    font-size: 0.92rem;
+    color: #CBD5E1;
+    margin-bottom: 6px;
+}
+
+.placeholder-hint {
+    font-size: 0.78rem;
+    color: #94A3B8;
+}
+
+.placeholder-hint code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #93C5FD;
+}
+
+/* Resumo */
+.video-resumo-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 16px 20px;
+}
+
+/* Transcrição Accordion */
+.transcricao-accordion {
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    background: #FFFFFF;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+.transcricao-accordion[open] {
+    border-color: #CBD5E1;
+}
+
+.transcricao-summary {
+    padding: 14px 18px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text-main);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    background: #FAFAFA;
+}
+
+.transcricao-summary:hover {
+    background: #F1F5F9;
+    color: var(--primary);
+}
+
+.transcricao-summary::-webkit-details-marker {
+    display: none;
+}
+
+.summary-arrow {
+    transition: transform 0.25s ease;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.transcricao-accordion[open] .summary-arrow {
+    transform: rotate(180deg);
+}
+
+.transcricao-conteudo {
+    padding: 18px;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    border-top: 1px solid #E2E8F0;
+    background: #FFFFFF;
+}
+
+/* Ações do Card de Vídeo */
+.video-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+    padding-top: 16px;
+    border-top: 1px solid #F1F5F9;
+}
+
+.btn-checklist-link {
+    background: #EFF6FF;
+    color: var(--primary);
+    border: 1.5px solid #BFDBFE;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-checklist-link:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.btn-proximo-video {
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease;
+}
+
+.btn-proximo-video:hover {
+    background: var(--primary-dark);
+}
+
+.btn-concluir-trilha {
+    background: var(--secondary);
+    color: white;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease;
+}
+
+.btn-concluir-trilha:hover {
+    background: #00B359;
+}
+
+/* Ficha Técnica */
+.ficha-tecnica-card {
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: var(--shadow);
+}
+
+.ficha-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.ficha-main-icon {
+    font-size: 2.2rem;
+    color: var(--primary);
+    background: #EFF6FF;
+    padding: 14px;
+    border-radius: 14px;
+}
+
+.ficha-dados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+}
+
+.ficha-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: #F8FAFC;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
+}
+
+.ficha-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ficha-valor {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+.lista-referencias {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lista-referencias li {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    padding-left: 20px;
+    position: relative;
+    text-indent: -20px;
+}
+
+/* Banner Educacional na Home */
+.home-banner-educacional {
+    background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%);
+    border: 1.5px solid #BFDBFE;
+    border-radius: 18px;
+    padding: 32px;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    box-shadow: 0 4px 16px rgba(0, 102, 255, 0.06);
+}
+
+.home-banner-content {
+    max-width: 680px;
+}
+
+.home-banner-content h2 {
+    font-size: 1.45rem;
+    color: var(--text-main);
+    margin: 8px 0;
+}
+
+.home-banner-content p {
+    font-size: 0.98rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.home-banner-action {
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .card-video-modulo {
+        padding: 20px 16px;
+    }
+    .video-card-title {
+        font-size: 1.2rem;
+    }
+    .video-card-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .btn-checklist-link, .btn-proximo-video, .btn-concluir-trilha {
+        width: 100%;
+        justify-content: center;
+    }
+    .ficha-tecnica-card {
+        padding: 22px 16px;
+    }
+    .ficha-dados-grid {
+        grid-template-columns: 1fr;
+    }
+    .home-banner-educacional {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 22px 18px;
+        gap: 18px;
+    }
+    .home-banner-action {
+        width: 100%;
+    }
+    .home-banner-action .btn-primary {
+        width: 100%;
+    }
+    .aviso-card {
+        flex-direction: column;
+        gap: 10px;
+    }
 }

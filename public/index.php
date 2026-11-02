@@ -35,6 +35,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 $rotas = [
     // Páginas principais
     '/'                           => ['HomeController',      'index'],
+    '/educacional'                => ['PaginaController',     'educacional'],
     '/checklist'                  => ['ChecklistController',  $method === 'POST' ? 'processar' : 'index'],
     '/resultado'                  => ['ResultadoController',  'index'],
     '/materiais'                  => ['MateriaisController',  'index'],
@@ -51,6 +52,7 @@ $rotas = [
     '/sobre'                      => ['PaginaController',     'sobre'],
     '/contato'                    => ['PaginaController',     'contato'],
     '/privacidade'                => ['PaginaController',     'privacidade'],
+    '/termos'                     => ['PaginaController',     'termos'],
 
     // Projetos
     '/projetos'                   => ['ProjetoController',    'index'],

@@ -18,6 +18,7 @@
                 <ul>
                     <li><a href="/">Início</a></li>
                     <li><a href="/checklist">Checklist</a></li>
+                    <li><a href="/educacional">Educacional</a></li>
                     <li><a href="/materiais">Materiais</a></li>
 
                     <?php if (isset($_SESSION['user_id'])): ?>

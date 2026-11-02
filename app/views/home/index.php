@@ -19,6 +19,9 @@
                     <a href="/checklist" class="btn-primary">
                         <i class="fas fa-clipboard-check"></i> Fazer Novo Diagnóstico
                     </a>
+                    <a href="/educacional" class="btn-secondary">
+                        <i class="fas fa-graduation-cap"></i> Trilha Educacional
+                    </a>
                     <a href="/projetos" class="btn-secondary">
                         <i class="fas fa-folder"></i> Meus Projetos
                     </a>
@@ -119,6 +122,23 @@
                     <p>Receba guias e artigos baseados nas falhas detectadas para corrigir seu código rapidamente.</p>
                 </div>
             </div>
+
+            <!-- Banner Destaque Educacional -->
+            <div class="home-banner-educacional">
+                <div class="home-banner-content">
+                    <span class="badge-categoria" style="margin-bottom: 8px;">
+                        <i class="fas fa-graduation-cap"></i> Conteúdo Educacional &amp; Extensão
+                    </span>
+                    <h2>Aprenda a LGPD com vídeos rápidos de 2 a 4 minutos</h2>
+                    <p>Entenda como o Artigo 14 impacta o desenvolvimento de software, requisitos de consentimento parental e como usar o checklist técnico do LGPD4DEVS para diagnosticar seu sistema.</p>
+                </div>
+                <div class="home-banner-action">
+                    <a href="/educacional" class="btn-primary">
+                        <i class="fas fa-play-circle"></i> Acessar Trilha Educacional
+                    </a>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -135,6 +155,9 @@
                     <div class="cta-buttons">
                         <a href="/cadastro" class="btn-primary">Criar Minha Conta</a>
                         <a href="/checklist" class="btn-secondary">Fazer Checklist Rápido</a>
+                        <a href="/educacional" class="btn-secondary">
+                            <i class="fas fa-graduation-cap"></i> Trilha Educacional
+                        </a>
                     </div>
                     <div class="hero-note">
                         <i class="fas fa-info-circle"></i>
@@ -168,6 +191,23 @@
                     <p>Receba guias e artigos baseados nas falhas detectadas para corrigir seu código rapidamente.</p>
                 </div>
             </div>
+
+            <!-- Banner Destaque Educacional -->
+            <div class="home-banner-educacional">
+                <div class="home-banner-content">
+                    <span class="badge-categoria" style="margin-bottom: 8px;">
+                        <i class="fas fa-graduation-cap"></i> Conteúdo Educacional &amp; Extensão
+                    </span>
+                    <h2>Aprenda a LGPD com vídeos rápidos de 2 a 4 minutos</h2>
+                    <p>Entenda como o Artigo 14 impacta o desenvolvimento de software, requisitos de consentimento parental e como usar o checklist técnico do LGPD4DEVS para diagnosticar seu sistema.</p>
+                </div>
+                <div class="home-banner-action">
+                    <a href="/educacional" class="btn-primary">
+                        <i class="fas fa-play-circle"></i> Acessar Trilha Educacional
+                    </a>
+                </div>
+            </div>
+
         </div>
     </section>
 <?php endif; ?>

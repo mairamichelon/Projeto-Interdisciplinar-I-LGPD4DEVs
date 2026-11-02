@@ -12,6 +12,7 @@
             <ul>
                 <li><a href="/">Início</a></li>
                 <li><a href="/checklist">Checklist</a></li>
+                <li><a href="/educacional">Educacional</a></li>
                 <li><a href="/materiais">Materiais</a></li>
             </ul>
         </div>
@@ -21,6 +22,7 @@
             <ul>
                 <li><a href="/sobre">Sobre</a></li>
                 <li><a href="/privacidade">Privacidade</a></li>
+                <li><a href="/termos">Termos de Uso</a></li>
                 <li><a href="/contato">Contato</a></li>
             </ul>
         </div>
