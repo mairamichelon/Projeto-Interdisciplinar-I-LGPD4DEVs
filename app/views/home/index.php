@@ -127,18 +127,18 @@
                     </p>
                 </div>
             </div>
-            <div class="materiais-grid">
-                <div class="card-material">
+            <div class="home-features-grid">
+                <div class="home-feature-card">
                     <span class="badge-categoria">01. Diagnóstico</span>
                     <h3>Checklist Técnico</h3>
                     <p>Responda perguntas objetivas sobre o tratamento de dados e receba um relatório instantâneo de conformidade.</p>
                 </div>
-                <div class="card-material">
+                <div class="home-feature-card">
                     <span class="badge-categoria">02. Inteligência</span>
                     <h3>Score de Conformidade</h3>
                     <p>Saiba exatamente qual o percentual de adequação e identifique os pontos críticos por projeto.</p>
                 </div>
-                <div class="card-material">
+                <div class="home-feature-card">
                     <span class="badge-categoria">03. Apoio</span>
                     <h3>Materiais Sugeridos</h3>
                     <p>Receba guias e artigos baseados nas falhas detectadas para corrigir seu código rapidamente.</p>
@@ -205,18 +205,18 @@
                     </p>
                 </div>
             </div>
-            <div class="materiais-grid">
-                <div class="card-material">
+            <div class="home-features-grid">
+                <div class="home-feature-card">
                     <span class="badge-categoria">01. Diagnóstico</span>
                     <h3>Checklist Técnico</h3>
                     <p>Responda perguntas objetivas sobre o tratamento de dados no seu sistema e receba um relatório instantâneo de conformidade.</p>
                 </div>
-                <div class="card-material">
+                <div class="home-feature-card">
                     <span class="badge-categoria">02. Inteligência</span>
                     <h3>Score de Conformidade</h3>
                     <p>Saiba exatamente qual o seu percentual de adequação à lei e identifique quais pontos são críticos para a segurança de menores.</p>
                 </div>
-                <div class="card-material">
+                <div class="home-feature-card">
                     <span class="badge-categoria">03. Apoio</span>
                     <h3>Materiais Sugeridos</h3>
                     <p>Receba guias e artigos baseados nas falhas detectadas para corrigir seu código rapidamente.</p>

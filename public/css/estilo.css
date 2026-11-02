@@ -1240,3 +1240,56 @@ html {
         padding: 24px 20px;
     }
 }
+
+/* Grid e Cards de Recursos da Home (Centralizados) */
+.home-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 45px;
+    width: 100%;
+}
+
+.home-feature-card {
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 24px;
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.home-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+.home-feature-card .badge-categoria {
+    align-self: center;
+    margin-bottom: 14px;
+}
+
+.home-feature-card h3 {
+    font-size: 1.22rem;
+    color: var(--text-main);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.home-feature-card p {
+    font-size: 0.94rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 900px) {
+    .home-features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
