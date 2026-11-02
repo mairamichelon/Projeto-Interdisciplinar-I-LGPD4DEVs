@@ -1,181 +1,304 @@
 <?php require BASE_PATH . '/app/views/layouts/header.php'; ?>
 
 <?php
-// Carrega os vídeos diretamente do banco de dados (com fallback automático e seguro)
+// Carrega os vídeos do banco de dados (ou fallback padrão)
 $videoModel = new Video();
 $videos = $videoModel->buscarTodos();
-$totalVideos = count($videos);
+
+// Prepara array com os dados e IDs do YouTube extraídos
+$videosFormatados = [];
+foreach ($videos as $idx => $v) {
+    $ytId = Video::extrairYoutubeId($v['link'] ?? '');
+    $videosFormatados[] = [
+        'index'       => $idx,
+        'numero'      => str_pad($idx + 1, 2, '0', STR_PAD_LEFT),
+        'titulo'      => $v['titulo'],
+        'duracao'     => $v['duracao'] ?? '3 min',
+        'link'        => $v['link'] ?? '',
+        'youtube_id'  => $ytId,
+        'descricao'   => $v['descricao'] ?? '',
+    ];
+}
 ?>
 
-<div class="container educacional-page" style="padding-top: 35px; padding-bottom: 70px;">
+<div class="container educacional-page" style="padding-top: 30px; padding-bottom: 50px;">
 
-    <!-- Contexto Inicial da Página (Simples, Direto e Focado) -->
-    <div class="educacional-contexto" style="max-width: 820px; margin: 0 auto 35px; text-align: center;">
-        <span class="badge-categoria" style="margin-bottom: 10px;">
-            <i class="fas fa-play-circle"></i> Trilha Educacional
-        </span>
-        <h1 style="font-size: 2.2rem; color: var(--text-main); margin-bottom: 12px; font-weight: 700; line-height: 1.25;">
-            LGPD na Prática para Desenvolvedores
-        </h1>
-        <p style="font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; margin: 0 auto 16px;">
-            Aprenda a aplicar o <strong>Privacy by Design</strong> e a atender aos requisitos do <strong>Artigo 14 da LGPD</strong> (proteção de dados de crianças e adolescentes) em sistemas de software por meio de vídeos curtos e objetivos.
-        </p>
+    <!-- Cabeçalho Superior em Largura Total -->
+    <div class="educacional-header-full">
+        <div>
+            <span class="badge-categoria" style="margin-bottom: 8px;">
+                <i class="fas fa-play-circle"></i> Trilha Educacional
+            </span>
+            <h1 style="font-size: 2rem; color: var(--text-main); margin: 0 0 6px; font-weight: 700;">
+                LGPD na Prática para Desenvolvedores
+            </h1>
+            <p style="font-size: 0.98rem; color: var(--text-muted); margin: 0;">
+                Aprenda a aplicar <strong>Privacy by Design</strong> e os requisitos do <strong>Artigo 14 da LGPD</strong> (proteção de menores) no código.
+            </p>
+        </div>
 
-        <!-- Aviso Educativo Discreto -->
-        <div class="aviso-educativo-discreto">
+        <div class="aviso-educativo-badge">
             <i class="fas fa-info-circle"></i>
-            <span>Conteúdo estritamente educativo e orientativo. Não substitui consultoria ou assessoria jurídica.</span>
+            <span>Conteúdo orientativo. Não substitui consultoria jurídica.</span>
         </div>
     </div>
 
-    <!-- Lista de Vídeos da Trilha -->
-    <section class="trilha-videos-section" style="max-width: 820px; margin: 0 auto;">
-        <div class="trilha-videos-list">
-            <?php foreach ($videos as $index => $v): ?>
-                <?php
-                    $numeroModulo = $index + 1;
-                    $moduloId = 'modulo-' . $numeroModulo;
-                    $proximoModuloId = ($index + 1 < $totalVideos) ? 'modulo-' . ($numeroModulo + 1) : null;
-                    $youtubeId = Video::extrairYoutubeId($v['link'] ?? '');
-                ?>
-                <article class="card-video-modulo" id="<?php echo $moduloId; ?>">
-                    
-                    <!-- Cabeçalho do Card -->
-                    <div class="video-card-top">
-                        <div class="video-meta-tag">
-                            <span class="modulo-badge">Módulo <?php echo str_pad($numeroModulo, 2, '0', STR_PAD_LEFT); ?></span>
-                            <span class="duracao-badge"><i class="far fa-clock"></i> <?php echo htmlspecialchars($v['duracao']); ?></span>
+    <!-- Layout Moderno de 2 Colunas: Player Principal (68%) + Playlist Lateral (32%) -->
+    <div class="curso-layout-grid">
+        
+        <!-- Coluna Esquerda: Palco do Player e Detalhes do Vídeo Ativo -->
+        <div class="curso-main-stage">
+            <div class="player-card">
+                
+                <!-- Container do Vídeo (16:9 responsivo) -->
+                <div class="player-aspect-wrapper">
+                    <div id="playerIframeContainer" class="video-responsive-container" style="display: none;">
+                        <iframe 
+                            id="videoIframe"
+                            src="" 
+                            title="Player de Vídeo" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                    <!-- Placeholder moderno caso o vídeo ainda não tenha link cadastrado -->
+                    <div id="playerPlaceholderContainer" class="video-placeholder-container">
+                        <div class="placeholder-overlay">
+                            <div class="placeholder-play-circle">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="placeholder-text-group">
+                                <span class="placeholder-badge">
+                                    <i class="fas fa-video"></i> Vídeo em Produção
+                                </span>
+                                <h3 id="placeholderTitulo">Carregando...</h3>
+                                <p>Gravação em andamento (duração estimada: <strong id="placeholderDuracao">3 min</strong>).</p>
+                            </div>
                         </div>
-                        <h2 class="video-card-title"><?php echo htmlspecialchars($v['titulo']); ?></h2>
-                        <?php if (!empty($v['descricao'])): ?>
-                            <p class="video-card-desc"><?php echo htmlspecialchars($v['descricao']); ?></p>
-                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Detalhes do Vídeo Selecionado -->
+                <div class="player-info-footer">
+                    <div class="player-info-text">
+                        <div class="video-meta-tag">
+                            <span class="modulo-badge" id="ativoModuloBadge">Módulo 01</span>
+                            <span class="duracao-badge"><i class="far fa-clock"></i> <span id="ativoDuracao">3 min</span></span>
+                        </div>
+                        <h2 id="ativoTitulo" class="video-active-title">Carregando...</h2>
+                        <p id="ativoDescricao" class="video-active-desc"></p>
                     </div>
 
-                    <!-- Player de Vídeo Responsivo (YouTube no-cookie ou Placeholder "Em Breve") -->
-                    <div class="video-player-wrapper">
-                        <?php if ($youtubeId): ?>
-                            <div class="video-responsive-container">
-                                <iframe 
-                                    src="https://www.youtube-nocookie.com/embed/<?php echo urlencode($youtubeId); ?>?rel=0&modestbranding=1" 
-                                    title="<?php echo htmlspecialchars($v['titulo']); ?>" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    allowfullscreen
-                                    loading="lazy">
-                                </iframe>
-                            </div>
-                        <?php else: ?>
-                            <!-- Placeholder moderno 16:9 quando o link ainda não foi inserido -->
-                            <div class="video-placeholder-container">
-                                <div class="placeholder-overlay">
-                                    <div class="placeholder-play-circle">
-                                        <i class="fas fa-play"></i>
-                                    </div>
-                                    <div class="placeholder-text-group">
-                                        <span class="placeholder-badge">
-                                            <i class="fas fa-video"></i> Vídeo em Produção
-                                        </span>
-                                        <h3><?php echo htmlspecialchars($v['titulo']); ?></h3>
-                                        <p>Gravação em andamento (duração estimada: <strong><?php echo htmlspecialchars($v['duracao']); ?></strong>).</p>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Ações Rápidas do Vídeo -->
-                    <div class="video-card-actions">
-                        <a href="/checklist" class="btn-checklist-link" title="Ir para o Checklist técnico">
+                    <!-- Ações Rápidas -->
+                    <div class="player-actions-row">
+                        <a href="/checklist" class="btn-checklist-link" title="Testar seu sistema agora">
                             <i class="fas fa-clipboard-check"></i> Aplicar no Checklist
                         </a>
 
-                        <?php if ($proximoModuloId): ?>
-                            <a href="#<?php echo $proximoModuloId; ?>" class="btn-proximo-video" title="Ir para o próximo vídeo">
-                                Próximo Vídeo <i class="fas fa-arrow-down"></i>
-                            </a>
-                        <?php else: ?>
-                            <a href="/checklist" class="btn-concluir-trilha" title="Concluir trilha e testar sistema">
-                                Iniciar Checklist Completo <i class="fas fa-arrow-right"></i>
-                            </a>
-                        <?php endif; ?>
+                        <button type="button" id="btnAvancar" onclick="proximoVideo()" class="btn-proximo-modulo">
+                            <span id="btnAvancarTexto">Próximo Módulo</span>
+                            <i id="btnAvancarIcon" class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
+                </div>
 
-                </article>
-            <?php endforeach; ?>
+            </div>
         </div>
-    </section>
 
-    <!-- Rodapé Simples da Página -->
-    <div style="text-align: center; margin-top: 45px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-        <a href="/" class="btn-secondary" style="min-width: 200px;">
-            <i class="fas fa-arrow-left"></i> Voltar ao Início
-        </a>
-        <a href="/checklist" class="btn-primary" style="min-width: 220px;">
-            <i class="fas fa-clipboard-check"></i> Ir para o Checklist
-        </a>
+        <!-- Coluna Direita: Playlist da Trilha (Aulas) -->
+        <div class="curso-playlist-sidebar">
+            <div class="playlist-card">
+                
+                <div class="playlist-header">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <h3 style="font-size: 1.05rem; margin: 0; color: var(--text-main); font-weight: 700;">
+                            <i class="fas fa-list-ul" style="color: var(--primary); margin-right: 6px;"></i> Aulas da Trilha
+                        </h3>
+                        <span style="font-size: 0.75rem; background: #F1F5F9; color: var(--text-muted); padding: 3px 8px; border-radius: 12px; font-weight: 600;">
+                            <?php echo count($videosFormatados); ?> módulos
+                        </span>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 4px 0 0;">
+                        Clique para alternar instantaneamente entre os vídeos.
+                    </p>
+                </div>
+
+                <!-- Lista de Aulas -->
+                <div class="playlist-items-list" id="playlistContainer">
+                    <?php foreach ($videosFormatados as $v): ?>
+                        <div class="playlist-item <?php echo $v['index'] === 0 ? 'active' : ''; ?>" 
+                             id="playlist-item-<?php echo $v['index']; ?>"
+                             onclick="selecionarVideo(<?php echo $v['index']; ?>)">
+                            
+                            <div class="item-numero-badge">
+                                <?php echo $v['numero']; ?>
+                            </div>
+
+                            <div class="item-info">
+                                <h4 class="item-title"><?php echo htmlspecialchars($v['titulo']); ?></h4>
+                                <div class="item-meta">
+                                    <span class="item-duracao"><i class="far fa-clock"></i> <?php echo htmlspecialchars($v['duracao']); ?></span>
+                                    <span class="item-status-tag">
+                                        <?php echo $v['index'] === 0 ? '<i class="fas fa-play" style="font-size:0.65rem;"></i> Tocando agora' : ''; ?>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Rodapé da Playlist -->
+                <div class="playlist-footer-box">
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 10px;">
+                        Pronto para validar o seu software com a legislação?
+                    </p>
+                    <a href="/checklist" class="btn-primary" style="width: 100%; font-size: 0.85rem; padding: 10px; min-width: unset; text-align: center; justify-content: center;">
+                        <i class="fas fa-clipboard-check"></i> Fazer Checklist Completo
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
 </div>
 
-<!-- Estilos dedicados e garantidos -->
+<!-- Estilos Dedicados para o Layout Cinema / Playlist -->
 <style>
-html {
-    scroll-behavior: smooth;
+/* Cabeçalho da página */
+.educacional-header-full {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #E2E8F0;
 }
 
-/* Aviso educativo discreto */
-.aviso-educativo-discreto {
+.aviso-educativo-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #F1F5F9;
-    color: var(--text-muted);
-    font-size: 0.85rem;
+    background: #EFF6FF;
+    color: #1E40AF;
+    font-size: 0.82rem;
     padding: 8px 16px;
     border-radius: 20px;
-    border: 1px solid #E2E8F0;
+    border: 1px solid #BFDBFE;
 }
 
-.aviso-educativo-discreto i {
-    color: var(--primary);
+/* Grid do Curso: 2 Colunas no Desktop */
+.curso-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 370px;
+    gap: 28px;
+    align-items: start;
+    width: 100%;
 }
 
-/* Lista de Vídeos */
-.trilha-videos-list {
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
-}
-
-.card-video-modulo {
+/* Palco Principal */
+.player-card {
     background: var(--white);
     border: 1px solid #E2E8F0;
-    border-radius: 18px;
-    padding: 28px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    scroll-margin-top: 110px;
-    transition: border-color 0.25s;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
-.card-video-modulo:hover {
-    border-color: #CBD5E1;
+.player-aspect-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0F172A;
 }
 
-.video-card-top {
+.video-responsive-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+}
+
+.video-responsive-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Placeholder */
+.video-placeholder-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 70%, #0F2847 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    color: white;
+}
+
+.placeholder-overlay {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    align-items: center;
+    gap: 12px;
+    max-width: 520px;
+}
+
+.placeholder-play-circle {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #FFFFFF;
+}
+
+.placeholder-badge {
+    background: rgba(239, 68, 68, 0.2);
+    color: #FCA5A5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.placeholder-text-group h3 {
+    font-size: 1.25rem;
+    margin: 4px 0 6px;
+    color: #F8FAFC;
+    line-height: 1.3;
+}
+
+.placeholder-text-group p {
+    font-size: 0.88rem;
+    color: #CBD5E1;
+    margin: 0;
+}
+
+/* Informações da Aula Ativa */
+.player-info-footer {
+    padding: 24px 28px;
 }
 
 .video-meta-tag {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 2px;
+    margin-bottom: 8px;
 }
 
 .modulo-badge {
@@ -197,117 +320,36 @@ html {
     border-radius: 20px;
 }
 
-.video-card-title {
+.video-active-title {
     font-size: 1.35rem;
     color: var(--text-main);
     line-height: 1.3;
-    margin: 2px 0 0;
+    margin: 0 0 8px;
 }
 
-.video-card-desc {
+.video-active-desc {
     color: var(--text-muted);
     font-size: 0.92rem;
-    line-height: 1.55;
-    margin: 4px 0 0;
+    line-height: 1.6;
+    margin: 0 0 20px;
 }
 
-/* Player Responsivo 16:9 */
-.video-player-wrapper {
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    background: #0F172A;
-}
-
-.video-responsive-container {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-}
-
-.video-responsive-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* Placeholder de Vídeo */
-.video-placeholder-container {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: linear-gradient(135deg, #0F172A 0%, #1E293B 70%, #0F2847 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    text-align: center;
-    color: white;
-}
-
-.placeholder-overlay {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    max-width: 520px;
-}
-
-.placeholder-play-circle {
-    width: 60px;
-    height: 60px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 2px solid rgba(255, 255, 255, 0.35);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    color: #FFFFFF;
-}
-
-.placeholder-badge {
-    background: rgba(239, 68, 68, 0.2);
-    color: #FCA5A5;
-    border: 1px solid rgba(239, 68, 68, 0.4);
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-    display: inline-block;
-}
-
-.placeholder-text-group h3 {
-    font-size: 1.15rem;
-    margin: 4px 0 4px;
-    color: #F8FAFC;
-}
-
-.placeholder-text-group p {
-    font-size: 0.88rem;
-    color: #CBD5E1;
-    margin: 0;
-}
-
-/* Ações */
-.video-card-actions {
+/* Linha de botões do player */
+.player-actions-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 14px;
-    flex-wrap: wrap;
-    padding-top: 12px;
+    gap: 15px;
+    padding-top: 18px;
     border-top: 1px solid #F1F5F9;
+    flex-wrap: wrap;
 }
 
 .btn-checklist-link {
     background: #EFF6FF;
     color: var(--primary);
     border: 1.5px solid #BFDBFE;
-    padding: 9px 18px;
+    padding: 10px 20px;
     border-radius: 10px;
     font-size: 0.88rem;
     font-weight: 600;
@@ -324,58 +366,224 @@ html {
     border-color: var(--primary);
 }
 
-.btn-proximo-video {
+.btn-proximo-modulo {
     background: var(--primary);
     color: white;
-    padding: 9px 18px;
+    border: none;
+    padding: 10px 22px;
     border-radius: 10px;
     font-size: 0.88rem;
     font-weight: 600;
-    text-decoration: none;
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     transition: background 0.2s ease;
 }
 
-.btn-proximo-video:hover {
+.btn-proximo-modulo:hover {
     background: var(--primary-dark);
 }
 
-.btn-concluir-trilha {
-    background: var(--secondary);
-    color: white;
-    padding: 9px 20px;
-    border-radius: 10px;
-    font-size: 0.88rem;
+/* Sidebar Playlist */
+.playlist-card {
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-header {
+    padding: 18px 20px;
+    background: #FAFAFA;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.playlist-items-list {
+    display: flex;
+    flex-direction: column;
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+.playlist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    border-bottom: 1px solid #F1F5F9;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--white);
+    user-select: none;
+}
+
+.playlist-item:hover {
+    background: #F8FAFC;
+}
+
+.playlist-item.active {
+    background: #EFF6FF;
+    border-left: 4px solid var(--primary);
+}
+
+.item-numero-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #F1F5F9;
+    color: var(--text-muted);
     font-weight: 700;
-    text-decoration: none;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.playlist-item.active .item-numero-badge {
+    background: var(--primary);
+    color: white;
+}
+
+.item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.item-title {
+    font-size: 0.88rem;
+    line-height: 1.35;
+    color: var(--text-main);
+    margin: 0 0 6px;
+    font-weight: 600;
+}
+
+.playlist-item.active .item-title {
+    color: var(--primary);
+}
+
+.item-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.item-status-tag {
+    color: var(--primary);
+    font-weight: 600;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    transition: background 0.2s ease;
+    gap: 4px;
 }
 
-.btn-concluir-trilha:hover {
-    background: #00B359;
+.playlist-footer-box {
+    padding: 18px 20px;
+    background: #FAFAFA;
+    border-top: 1px solid #E2E8F0;
+    text-align: center;
 }
 
-@media (max-width: 768px) {
-    .card-video-modulo {
-        padding: 20px 16px;
+/* Responsividade */
+@media (max-width: 950px) {
+    .curso-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
     }
-    .video-card-title {
-        font-size: 1.15rem;
+    .educacional-header-full {
+        flex-direction: column;
+        align-items: flex-start;
     }
-    .video-card-actions {
+    .player-actions-row {
         flex-direction: column;
         align-items: stretch;
     }
-    .btn-checklist-link, .btn-proximo-video, .btn-concluir-trilha {
+    .btn-checklist-link, .btn-proximo-modulo {
         width: 100%;
         justify-content: center;
     }
 }
 </style>
+
+<script>
+// Dados dinâmicos dos vídeos vindos do PHP/MySQL
+const videosData = <?php echo json_encode($videosFormatados, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+let videoAtualIndex = 0;
+
+function selecionarVideo(index) {
+    if (index < 0 || index >= videosData.length) return;
+    videoAtualIndex = index;
+
+    const v = videosData[index];
+
+    // Atualiza Textos
+    document.getElementById('ativoModuloBadge').innerText = 'Módulo ' + v.numero;
+    document.getElementById('ativoDuracao').innerText = v.duracao;
+    document.getElementById('ativoTitulo').innerText = v.titulo;
+    document.getElementById('ativoDescricao').innerText = v.descricao || '';
+
+    // Atualiza Player (Iframe ou Placeholder)
+    const iframeContainer = document.getElementById('playerIframeContainer');
+    const placeholderContainer = document.getElementById('playerPlaceholderContainer');
+    const iframe = document.getElementById('videoIframe');
+
+    if (v.youtube_id) {
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.youtube_id) + '?rel=0&modestbranding=1&autoplay=1';
+        iframeContainer.style.display = 'block';
+        placeholderContainer.style.display = 'none';
+    } else {
+        iframe.src = '';
+        iframeContainer.style.display = 'none';
+        placeholderContainer.style.display = 'flex';
+        document.getElementById('placeholderTitulo').innerText = v.titulo;
+        document.getElementById('placeholderDuracao').innerText = v.duracao;
+    }
+
+    // Atualiza visual da lista (playlist)
+    videosData.forEach((_, i) => {
+        const item = document.getElementById('playlist-item-' + i);
+        if (item) {
+            const statusTag = item.querySelector('.item-status-tag');
+            if (i === index) {
+                item.classList.add('active');
+                if (statusTag) statusTag.innerHTML = '<i class="fas fa-play" style="font-size:0.65rem;"></i> Tocando agora';
+            } else {
+                item.classList.remove('active');
+                if (statusTag) statusTag.innerHTML = '';
+            }
+        }
+    });
+
+    // Atualiza botão Avançar
+    const btnTexto = document.getElementById('btnAvancarTexto');
+    const btnIcon = document.getElementById('btnAvancarIcon');
+    if (index + 1 < videosData.length) {
+        btnTexto.innerText = 'Próximo Módulo (' + videosData[index + 1].numero + ')';
+        btnIcon.className = 'fas fa-arrow-right';
+    } else {
+        btnTexto.innerText = 'Concluir Trilha e Ir ao Checklist';
+        btnIcon.className = 'fas fa-check-circle';
+    }
+}
+
+function proximoVideo() {
+    if (videoAtualIndex + 1 < videosData.length) {
+        selecionarVideo(videoAtualIndex + 1);
+    } else {
+        window.location.href = '/checklist';
+    }
+}
+
+// Inicializa no primeiro vídeo assim que a página carregar
+document.addEventListener('DOMContentLoaded', () => {
+    selecionarVideo(0);
+});
+</script>
 
 <?php require BASE_PATH . '/app/views/layouts/footer.php'; ?>
