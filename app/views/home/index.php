@@ -114,7 +114,7 @@
             <?php endif; ?>
 
             <!-- Cards informativos -->
-            <div class="page-header-unified" style="margin-top: 25px; margin-bottom: 22px;">
+            <div class="page-header-centered" style="margin-top: 30px; margin-bottom: 30px;">
                 <div class="page-header-content">
                     <div class="page-header-title-row">
                         <span class="page-header-badge">
@@ -192,7 +192,7 @@
 
     <section class="content-area">
         <div class="container">
-            <div class="page-header-unified" style="margin-top: 15px; margin-bottom: 24px;">
+            <div class="page-header-centered" style="margin-top: 20px; margin-bottom: 30px;">
                 <div class="page-header-content">
                     <div class="page-header-title-row">
                         <span class="page-header-badge">
