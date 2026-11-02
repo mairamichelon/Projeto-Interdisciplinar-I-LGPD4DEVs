@@ -888,82 +888,6 @@ html {
     background: #00B359;
 }
 
-/* Ficha Técnica */
-.ficha-tecnica-card {
-    background: var(--white);
-    border: 1px solid #E2E8F0;
-    border-radius: 20px;
-    padding: 36px;
-    box-shadow: var(--shadow);
-}
-
-.ficha-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 25px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #E2E8F0;
-}
-
-.ficha-main-icon {
-    font-size: 2.2rem;
-    color: var(--primary);
-    background: #EFF6FF;
-    padding: 14px;
-    border-radius: 14px;
-}
-
-.ficha-dados-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 20px;
-}
-
-.ficha-item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    background: #F8FAFC;
-    padding: 14px 18px;
-    border-radius: 10px;
-    border: 1px solid #E2E8F0;
-}
-
-.ficha-label {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--primary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.ficha-valor {
-    font-size: 0.95rem;
-    color: var(--text-main);
-    line-height: 1.5;
-}
-
-.lista-referencias {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.lista-referencias li {
-    font-size: 0.88rem;
-    line-height: 1.6;
-    color: var(--text-muted);
-    padding-left: 20px;
-    position: relative;
-    text-indent: -20px;
-}
-
 /* Banner Educacional na Home */
 .home-banner-educacional {
     background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%);
@@ -1014,12 +938,7 @@ html {
         width: 100%;
         justify-content: center;
     }
-    .ficha-tecnica-card {
-        padding: 22px 16px;
-    }
-    .ficha-dados-grid {
-        grid-template-columns: 1fr;
-    }
+    
     .home-banner-educacional {
         flex-direction: column;
         align-items: flex-start;

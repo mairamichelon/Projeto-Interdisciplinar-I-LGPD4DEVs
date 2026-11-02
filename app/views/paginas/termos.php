@@ -98,4 +98,45 @@
     </div>
 </div>
 
+<style>
+.aviso-educativo {
+    margin: 20px 0;
+}
+.aviso-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 22px;
+    border-radius: 12px;
+    border-left: 5px solid #EF4444;
+    background: #FEF2F2;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+.aviso-icon {
+    background: #FEE2E2;
+    color: #DC2626;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+.aviso-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+@media (max-width: 768px) {
+    .aviso-card {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>
+
 <?php require BASE_PATH . '/app/views/layouts/footer.php'; ?>

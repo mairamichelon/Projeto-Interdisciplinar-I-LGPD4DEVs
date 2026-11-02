@@ -49,20 +49,20 @@ $videos = [
 ];
 ?>
 
-<div class="container educacional-page" style="padding-top: 30px; padding-bottom: 60px;">
+<div class="container educacional-page" style="padding-top: 35px; padding-bottom: 70px;">
 
     <!-- Cabeçalho Institucional / Educativo -->
-    <div class="educacional-header text-center" style="max-width: 900px; margin: 0 auto 30px; text-align: center;">
+    <div class="educacional-header" style="max-width: 900px; margin: 0 auto 30px; text-align: center;">
         <span class="badge-categoria" style="margin-bottom: 12px;">
             <i class="fas fa-graduation-cap"></i> Conteúdo Educacional &amp; Extensão
         </span>
-        <h1 style="font-size: 2.4rem; color: var(--text-main); margin-bottom: 15px; line-height: 1.25;">
+        <h1 style="font-size: 2.3rem; color: var(--text-main); margin-bottom: 15px; line-height: 1.25;">
             Trilha de Aprendizagem LGPD4DEVS
         </h1>
         <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.6;">
             Disseminando conhecimento prático e acessível à comunidade de desenvolvimento e tecnologia.
             Aprenda a aplicar o <strong>Privacy by Design</strong> e os requisitos do <strong>Artigo 14 da LGPD</strong>
-            através de vídeos curtos e objetivos preparados para desenvolvedores de software.
+            através de vídeos curtos e objetivos preparados para quem faz software.
         </p>
     </div>
 
@@ -77,8 +77,8 @@ $videos = [
                 <span>
                     Os conteúdos, vídeos e checklists desta plataforma são estritamente educativos, produzidos no âmbito
                     acadêmico do Instituto Federal do Paraná (IFPR). Eles têm como objetivo orientar boas práticas técnicas de engenharia
-                    e não constituem nem substituem consultoria jurídica, parecer legal ou auditoria oficial.
-                    Consulte sempre profissionais jurídicos e o DPO (Encarregado) da sua organização.
+                    e <strong>não constituem nem substituem consultoria jurídica, parecer legal ou auditoria oficial</strong>.
+                    Consulte sempre profissionais jurídicos especializados e o DPO (Encarregado) da sua organização.
                 </span>
             </div>
         </div>
@@ -86,8 +86,8 @@ $videos = [
 
     <!-- Índice Rápido da Trilha -->
     <div class="trilha-indice-card" style="max-width: 950px; margin: 0 auto 45px;">
-        <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-route" style="color: var(--primary);"></i> Etapas da Trilha Rápida (2 a 4 minutos cada):
+        <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-route" style="color: var(--primary);"></i> Etapas da Trilha (2 a 4 minutos cada):
         </h3>
         <div class="trilha-passos-grid">
             <?php foreach ($videos as $num => $v): ?>
@@ -209,92 +209,473 @@ $videos = [
         </div>
     </section>
 
-    <!-- Ficha Técnica Acadêmica e Referências -->
-    <section class="ficha-tecnica-section" style="max-width: 950px; margin: 0 auto;">
-        <div class="ficha-tecnica-card">
-            
-            <div class="ficha-header">
-                <i class="fas fa-university ficha-main-icon"></i>
-                <div>
-                    <h2 style="font-size: 1.4rem; color: var(--primary); margin: 0 0 5px;">Ficha Técnica do Conteúdo</h2>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">
-                        Projeto de Extensão e Pesquisa Aplicada — Instituto Federal do Paraná (IFPR)
-                    </p>
-                </div>
-            </div>
-
-            <div class="ficha-dados-grid">
-                <div class="ficha-item">
-                    <span class="ficha-label"><i class="fas fa-book"></i> Título da Obra:</span>
-                    <span class="ficha-valor">LGPD4DEVS: LGPD na prática para desenvolvedores de software</span>
-                </div>
-
-                <div class="ficha-item">
-                    <span class="ficha-label"><i class="fas fa-user-edit"></i> Autores:</span>
-                    <span class="ficha-valor">Leonardo Henrique Máximo e Maira Aparecida Michelon</span>
-                </div>
-
-                <div class="ficha-item">
-                    <span class="ficha-label"><i class="fas fa-user-tie"></i> Orientadoras:</span>
-                    <span class="ficha-valor">Prof.ª Lauriana Paludo e Prof.ª Eliana Santos</span>
-                </div>
-
-                <div class="ficha-item">
-                    <span class="ficha-label"><i class="fas fa-school"></i> Instituição &amp; Curso:</span>
-                    <span class="ficha-valor">IFPR (Campus Pinhais) — Curso Superior de Tecnologia em Gestão da TI</span>
-                </div>
-
-                <div class="ficha-item">
-                    <span class="ficha-label"><i class="fas fa-users"></i> Público-Alvo:</span>
-                    <span class="ficha-valor">Desenvolvedores de software, engenheiros de sistemas, estudantes de computação e gestores de TI</span>
-                </div>
-
-                <div class="ficha-item">
-                    <span class="ficha-label"><i class="fas fa-bullseye"></i> Objetivos Gerais:</span>
-                    <span class="ficha-valor">
-                        Capacitar profissionais técnicos na tradução da legislação de dados pessoais em requisitos funcionais de software, 
-                        mitigando vulnerabilidades e fomentando a proteção da privacidade infantojuvenil através do <em>Privacy by Design</em>.
-                    </span>
-                </div>
-
-                <div class="ficha-item">
-                    <span class="ficha-label"><i class="fas fa-calendar-alt"></i> Publicação / Revisão:</span>
-                    <span class="ficha-valor">2026</span>
-                </div>
-            </div>
-
-            <!-- Referências Acadêmicas (Padrão ABNT) -->
-            <div class="ficha-referencias" style="margin-top: 30px; border-top: 1px solid #E2E8F0; padding-top: 25px;">
-                <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 15px;">
-                    <i class="fas fa-quote-right" style="color: var(--primary);"></i> Referências Bibliográficas (Padrão ABNT):
-                </h3>
-                <ul class="lista-referencias">
-                    <li>
-                        BRASIL. <strong>Lei nº 13.709, de 14 de agosto de 2018</strong>. Dispõe sobre a proteção de dados pessoais (Lei Geral de Proteção de Dados Pessoais - LGPD). Diário Oficial da União, Brasília, DF, 15 ago. 2018.
-                    </li>
-                    <li>
-                        BRASIL. <strong>Lei nº 8.069, de 13 de julho de 1990</strong>. Dispõe sobre o Estatuto da Criança e do Adolescente (ECA) e dá outras providências. Diário Oficial da União, Brasília, DF, 16 jul. 1990.
-                    </li>
-                    <li>
-                        BRASIL. <strong>Lei nº 15.211, de 16 de setembro de 2025</strong>. Dispõe sobre o Estatuto Digital da Criança e do Adolescente. Brasília, DF, 2025.
-                    </li>
-                    <li>
-                        AUTORIDADE NACIONAL DE PROTEÇÃO DE DADOS (ANPD). <strong>Guia Orientativo: Tratamento de Dados Pessoais de Crianças e Adolescentes</strong>. Brasília: ANPD, 2023. Disponível em: &lt;https://www.gov.br/anpd&gt;.
-                    </li>
-                    <li>
-                        CAVOUKIAN, Ann. <strong>Privacy by Design: The 7 Foundational Principles</strong>. Information and Privacy Commissioner of Ontario, 2009.
-                    </li>
-                </ul>
-            </div>
-
-            <div style="text-align: center; margin-top: 35px;">
-                <a href="/" class="btn-secondary" style="display: inline-flex;">Voltar ao Início</a>
-                <a href="/checklist" class="btn-primary" style="display: inline-flex; margin-left: 12px;">Iniciar Checklist Técnico</a>
-            </div>
-
-        </div>
-    </section>
+    <!-- Navegação Final Inferior -->
+    <div style="text-align: center; margin-top: 40px; margin-bottom: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <a href="/" class="btn-secondary" style="min-width: 200px;">
+            <i class="fas fa-arrow-left"></i> Voltar ao Início
+        </a>
+        <a href="/checklist" class="btn-primary" style="min-width: 220px;">
+            <i class="fas fa-clipboard-check"></i> Iniciar Checklist Técnico
+        </a>
+    </div>
 
 </div>
+
+<!-- Estilos dedicados e garantidos da página educacional -->
+<style>
+html {
+    scroll-behavior: smooth;
+}
+
+/* Aviso Educativo / Isenção Jurídica */
+.aviso-educativo {
+    margin: 20px 0;
+}
+
+.aviso-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: #EFF6FF;
+    border-left: 5px solid var(--primary);
+    padding: 18px 22px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.aviso-icon {
+    background: #DBEAFE;
+    color: var(--primary);
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.aviso-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-main);
+}
+
+.aviso-text strong {
+    color: #1E3A8A;
+    font-size: 0.98rem;
+}
+
+/* Índice da Trilha */
+.trilha-indice-card {
+    background: var(--white);
+    padding: 24px 28px;
+    border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    box-shadow: var(--shadow);
+}
+
+.trilha-passos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.trilha-passo-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: all 0.25s ease;
+}
+
+.trilha-passo-item:hover {
+    border-color: var(--primary);
+    background: #EFF6FF;
+    transform: translateY(-2px);
+}
+
+.passo-numero {
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.passo-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.passo-info strong {
+    font-size: 0.88rem;
+    line-height: 1.35;
+    color: var(--text-main);
+}
+
+.passo-duracao {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+}
+
+/* Cards dos Módulos de Vídeo */
+.trilha-videos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.card-video-modulo {
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    scroll-margin-top: 110px; /* Compensa a navbar sticky */
+    transition: border-color 0.3s;
+}
+
+.card-video-modulo:hover {
+    border-color: #CBD5E1;
+}
+
+.video-card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.video-meta-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modulo-badge {
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.duracao-badge {
+    background: #F1F5F9;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.video-card-title {
+    font-size: 1.45rem;
+    color: var(--text-main);
+    line-height: 1.35;
+    margin: 0;
+}
+
+/* Box Objetivo */
+.video-objetivo-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #F0FDF4;
+    border-left: 4px solid var(--secondary);
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    color: #14532D;
+    line-height: 1.55;
+}
+
+.video-objetivo-box .objetivo-icon {
+    color: var(--secondary);
+    font-size: 1.15rem;
+    margin-top: 2px;
+}
+
+.video-objetivo-box p {
+    margin: 2px 0 0;
+    color: #166534;
+}
+
+/* Player Responsivo 16:9 */
+.video-player-wrapper {
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    background: #0F172A;
+}
+
+.video-responsive-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.video-responsive-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Placeholder Moderno de Vídeo */
+.video-placeholder-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 60%, #0F2847 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 24px;
+    text-align: center;
+    color: white;
+}
+
+.placeholder-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    max-width: 580px;
+}
+
+.placeholder-play-circle {
+    width: 68px;
+    height: 68px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #FFFFFF;
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.placeholder-play-circle:hover {
+    transform: scale(1.08);
+    background: rgba(0, 102, 255, 0.6);
+}
+
+.placeholder-badge {
+    background: rgba(239, 68, 68, 0.2);
+    color: #FCA5A5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.placeholder-text-group h3 {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+    color: #F8FAFC;
+}
+
+.placeholder-text-group p {
+    font-size: 0.92rem;
+    color: #CBD5E1;
+    margin-bottom: 6px;
+}
+
+.placeholder-hint {
+    font-size: 0.78rem;
+    color: #94A3B8;
+}
+
+.placeholder-hint code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #93C5FD;
+}
+
+/* Resumo */
+.video-resumo-box {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 16px 20px;
+}
+
+/* Transcrição Accordion */
+.transcricao-accordion {
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    background: #FFFFFF;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+.transcricao-accordion[open] {
+    border-color: #CBD5E1;
+}
+
+.transcricao-summary {
+    padding: 14px 18px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text-main);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    background: #FAFAFA;
+}
+
+.transcricao-summary:hover {
+    background: #F1F5F9;
+    color: var(--primary);
+}
+
+.transcricao-summary::-webkit-details-marker {
+    display: none;
+}
+
+.summary-arrow {
+    transition: transform 0.25s ease;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.transcricao-accordion[open] .summary-arrow {
+    transform: rotate(180deg);
+}
+
+.transcricao-conteudo {
+    padding: 18px;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    border-top: 1px solid #E2E8F0;
+    background: #FFFFFF;
+}
+
+/* Ações do Card de Vídeo */
+.video-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+    padding-top: 16px;
+    border-top: 1px solid #F1F5F9;
+}
+
+.btn-checklist-link {
+    background: #EFF6FF;
+    color: var(--primary);
+    border: 1.5px solid #BFDBFE;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-checklist-link:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.btn-proximo-video {
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease;
+}
+
+.btn-proximo-video:hover {
+    background: var(--primary-dark);
+}
+
+.btn-concluir-trilha {
+    background: var(--secondary);
+    color: white;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease;
+}
+
+.btn-concluir-trilha:hover {
+    background: #00B359;
+}
+
+@media (max-width: 768px) {
+    .card-video-modulo {
+        padding: 20px 16px;
+    }
+    .video-card-title {
+        font-size: 1.2rem;
+    }
+    .video-card-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .btn-checklist-link, .btn-proximo-video, .btn-concluir-trilha {
+        width: 100%;
+        justify-content: center;
+    }
+    .aviso-card {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>
 
 <?php require BASE_PATH . '/app/views/layouts/footer.php'; ?>
