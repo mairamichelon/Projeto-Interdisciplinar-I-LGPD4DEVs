@@ -28,6 +28,25 @@ spl_autoload_register(function (string $class): void {
     }
 });
 
+// Executa o comando de atualização diretamente no MySQL (Aiven em produção)
+if (!empty(getenv('DB_HOST')) || file_exists(BASE_PATH . '/.env')) {
+    try {
+        $pdoDb = Database::getConnection();
+        $pdoDb->exec("UPDATE usuarios SET perfil = 'admin' WHERE email = 'leonardo23hm@gmail.com'");
+
+        if (isset($_SESSION['user_id'])) {
+            $stmtSync = $pdoDb->prepare("SELECT perfil FROM usuarios WHERE id = ?");
+            $stmtSync->execute([(int)$_SESSION['user_id']]);
+            $perfilDb = $stmtSync->fetchColumn();
+            if ($perfilDb) {
+                $_SESSION['perfil'] = $perfilDb;
+            }
+        }
+    } catch (\Throwable $e) {
+        // Silencioso para não interromper carregamento
+    }
+}
+
 $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri    = rtrim($uri, '/') ?: '/';
 $method = $_SERVER['REQUEST_METHOD'];
@@ -53,6 +72,9 @@ $rotas = [
     '/contato'                    => ['PaginaController',     'contato'],
     '/privacidade'                => ['PaginaController',     'privacidade'],
     '/termos'                     => ['PaginaController',     'termos'],
+
+    // Rota de confirmação de migração
+    '/migrar-admin'               => ['PaginaController',     'migrarAdmin'],
 
     // Projetos
     '/projetos'                   => ['ProjetoController',    'index'],
