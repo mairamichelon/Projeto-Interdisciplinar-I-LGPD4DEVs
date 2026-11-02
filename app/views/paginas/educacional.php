@@ -21,25 +21,22 @@ foreach ($videos as $idx => $v) {
 }
 ?>
 
-<div class="container educacional-page" style="padding-top: 30px; padding-bottom: 50px;">
+<div class="container educacional-page" style="padding-top: 16px; padding-bottom: 40px;">
 
-    <!-- Cabeçalho Superior em Largura Total -->
+    <!-- Cabeçalho Superior Compacto -->
     <div class="educacional-header-full">
-        <div>
-            <span class="badge-categoria" style="margin-bottom: 8px;">
-                <i class="fas fa-play-circle"></i> Trilha Educacional
-            </span>
-            <h1 style="font-size: 2rem; color: var(--text-main); margin: 0 0 6px; font-weight: 700;">
-                LGPD na Prática para Desenvolvedores
-            </h1>
-            <p style="font-size: 0.98rem; color: var(--text-muted); margin: 0;">
+        <div class="educacional-header-info">
+            <div class="educacional-title-wrap">
+                <span class="badge-categoria" style="margin: 0; padding: 4px 10px; font-size: 0.74rem;">
+                    <i class="fas fa-play-circle"></i> Trilha Educacional
+                </span>
+                <h1 style="font-size: 1.45rem; color: var(--text-main); margin: 0; font-weight: 700; line-height: 1.25;">
+                    LGPD na Prática para Desenvolvedores
+                </h1>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 4px 0 0;">
                 Aprenda a aplicar <strong>Privacy by Design</strong> e os requisitos do <strong>Artigo 14 da LGPD</strong> (proteção de menores) no código.
             </p>
-        </div>
-
-        <div class="aviso-educativo-badge">
-            <i class="fas fa-info-circle"></i>
-            <span>Conteúdo orientativo. Não substitui consultoria jurídica.</span>
         </div>
     </div>
 
@@ -113,14 +110,14 @@ foreach ($videos as $idx => $v) {
                 
                 <div class="playlist-header">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <h3 style="font-size: 1.05rem; margin: 0; color: var(--text-main); font-weight: 700;">
+                        <h3 style="font-size: 1rem; margin: 0; color: var(--text-main); font-weight: 700;">
                             <i class="fas fa-list-ul" style="color: var(--primary); margin-right: 6px;"></i> Aulas da Trilha
                         </h3>
-                        <span style="font-size: 0.75rem; background: #F1F5F9; color: var(--text-muted); padding: 3px 8px; border-radius: 12px; font-weight: 600;">
+                        <span style="font-size: 0.74rem; background: #F1F5F9; color: var(--text-muted); padding: 3px 8px; border-radius: 12px; font-weight: 600;">
                             <?php echo count($videosFormatados); ?> módulos
                         </span>
                     </div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 4px 0 0;">
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin: 3px 0 0;">
                         Clique para alternar instantaneamente entre os vídeos.
                     </p>
                 </div>
@@ -152,10 +149,10 @@ foreach ($videos as $idx => $v) {
 
                 <!-- Rodapé da Playlist -->
                 <div class="playlist-footer-box">
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 10px;">
+                    <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0 0 8px;">
                         Pronto para validar o seu software com a legislação?
                     </p>
-                    <a href="/checklist" class="btn-primary" style="width: 100%; font-size: 0.85rem; padding: 10px; min-width: unset; text-align: center; justify-content: center;">
+                    <a href="/checklist" class="btn-primary" style="width: 100%; font-size: 0.82rem; padding: 9px; min-width: unset; text-align: center; justify-content: center;">
                         <i class="fas fa-clipboard-check"></i> Fazer Checklist Completo
                     </a>
                 </div>
@@ -169,35 +166,25 @@ foreach ($videos as $idx => $v) {
 
 <!-- Estilos Dedicados para o Layout Cinema / Playlist -->
 <style>
-/* Cabeçalho da página */
+/* Cabeçalho compacto da página */
 .educacional-header-full {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 25px;
-    padding-bottom: 20px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
     border-bottom: 1px solid #E2E8F0;
 }
 
-.aviso-educativo-badge {
-    display: inline-flex;
+.educacional-title-wrap {
+    display: flex;
     align-items: center;
-    gap: 8px;
-    background: #EFF6FF;
-    color: #1E40AF;
-    font-size: 0.82rem;
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: 1px solid #BFDBFE;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 /* Grid do Curso: 2 Colunas no Desktop */
 .curso-layout-grid {
     display: grid;
     grid-template-columns: 1fr 370px;
-    gap: 28px;
+    gap: 22px;
     align-items: start;
     width: 100%;
 }
@@ -291,14 +278,14 @@ foreach ($videos as $idx => $v) {
 
 /* Informações da Aula Ativa */
 .player-info-footer {
-    padding: 24px 28px;
+    padding: 16px 22px;
 }
 
 .video-meta-tag {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .modulo-badge {
@@ -321,17 +308,17 @@ foreach ($videos as $idx => $v) {
 }
 
 .video-active-title {
-    font-size: 1.35rem;
+    font-size: 1.22rem;
     color: var(--text-main);
     line-height: 1.3;
-    margin: 0 0 8px;
+    margin: 0 0 6px;
 }
 
 .video-active-desc {
     color: var(--text-muted);
-    font-size: 0.92rem;
-    line-height: 1.6;
-    margin: 0 0 20px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin: 0 0 14px;
 }
 
 /* Linha de botões do player */
@@ -339,8 +326,8 @@ foreach ($videos as $idx => $v) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
-    padding-top: 18px;
+    gap: 12px;
+    padding-top: 14px;
     border-top: 1px solid #F1F5F9;
     flex-wrap: wrap;
 }
@@ -349,9 +336,9 @@ foreach ($videos as $idx => $v) {
     background: #EFF6FF;
     color: var(--primary);
     border: 1.5px solid #BFDBFE;
-    padding: 10px 20px;
+    padding: 8px 18px;
     border-radius: 10px;
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 600;
     text-decoration: none;
     display: inline-flex;
@@ -370,9 +357,9 @@ foreach ($videos as $idx => $v) {
     background: var(--primary);
     color: white;
     border: none;
-    padding: 10px 22px;
+    padding: 9px 20px;
     border-radius: 10px;
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
@@ -397,7 +384,7 @@ foreach ($videos as $idx => $v) {
 }
 
 .playlist-header {
-    padding: 18px 20px;
+    padding: 14px 18px;
     background: #FAFAFA;
     border-bottom: 1px solid #E2E8F0;
 }
@@ -405,15 +392,15 @@ foreach ($videos as $idx => $v) {
 .playlist-items-list {
     display: flex;
     flex-direction: column;
-    max-height: 480px;
+    max-height: 440px;
     overflow-y: auto;
 }
 
 .playlist-item {
     display: flex;
     align-items: flex-start;
-    gap: 14px;
-    padding: 16px 18px;
+    gap: 12px;
+    padding: 13px 16px;
     border-bottom: 1px solid #F1F5F9;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -459,7 +446,7 @@ foreach ($videos as $idx => $v) {
     font-size: 0.88rem;
     line-height: 1.35;
     color: var(--text-main);
-    margin: 0 0 6px;
+    margin: 0 0 4px;
     font-weight: 600;
 }
 
@@ -471,7 +458,7 @@ foreach ($videos as $idx => $v) {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     color: var(--text-muted);
 }
 
@@ -484,7 +471,7 @@ foreach ($videos as $idx => $v) {
 }
 
 .playlist-footer-box {
-    padding: 18px 20px;
+    padding: 14px 18px;
     background: #FAFAFA;
     border-top: 1px solid #E2E8F0;
     text-align: center;
@@ -494,7 +481,7 @@ foreach ($videos as $idx => $v) {
 @media (max-width: 950px) {
     .curso-layout-grid {
         grid-template-columns: 1fr;
-        gap: 22px;
+        gap: 20px;
     }
     .educacional-header-full {
         flex-direction: column;
