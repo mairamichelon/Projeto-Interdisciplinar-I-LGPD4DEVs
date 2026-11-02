@@ -28,28 +28,6 @@ spl_autoload_register(function (string $class): void {
     }
 });
 
-// Sincroniza o perfil do usuário ativo e garante admin para o e-mail do mantenedor
-if (isset($_SESSION['user_id'])) {
-    try {
-        if (!empty(getenv('DB_HOST')) || file_exists(BASE_PATH . '/.env')) {
-            $pdoSync = Database::getConnection();
-            $stmtSync = $pdoSync->prepare("SELECT email, perfil FROM usuarios WHERE id = ?");
-            $stmtSync->execute([(int)$_SESSION['user_id']]);
-            $uSync = $stmtSync->fetch(PDO::FETCH_ASSOC);
-            if ($uSync) {
-                if (strtolower(trim($uSync['email'])) === 'leonardo23hm@gmail.com' && $uSync['perfil'] !== 'admin') {
-                    $pdoSync->prepare("UPDATE usuarios SET perfil = 'admin' WHERE id = ?")->execute([(int)$_SESSION['user_id']]);
-                    $uSync['perfil'] = 'admin';
-                }
-                $_SESSION['perfil']     = $uSync['perfil'];
-                $_SESSION['user_email'] = $uSync['email'];
-            }
-        }
-    } catch (\Throwable $e) {
-        // Silencioso para não interromper navegação
-    }
-}
-
 $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri    = rtrim($uri, '/') ?: '/';
 $method = $_SERVER['REQUEST_METHOD'];

@@ -41,10 +41,9 @@ class AuthController
 
                     if ($user && password_verify($senha, $user['senha'])) {
                         session_regenerate_id(true);
-                        $_SESSION['user_id']    = $user['id'];
-                        $_SESSION['user_name']  = $user['nome'];
-                        $_SESSION['user_email'] = $email;
-                        $_SESSION['perfil']     = $user['perfil']; // 'usuario' ou 'admin'
+                        $_SESSION['user_id']   = $user['id'];
+                        $_SESSION['user_name'] = $user['nome'];
+                        $_SESSION['perfil']    = $user['perfil']; // 'usuario' ou 'admin'
 
                         // Admin vai direto para o painel
                         if ($user['perfil'] === 'admin') {
@@ -104,35 +103,18 @@ class AuthController
 
     public function logout(): void
     {
-        $_SESSION = [];
-
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(
-                session_name(),
-                '',
-                time() - 42000,
-                $params["path"],
-                $params["domain"],
-                $params["secure"],
-                $params["httponly"]
-            );
-        }
-
         session_destroy();
         header("Location: /");
         exit;
     }
 
     // -------------------------------------------------------------------------
-    // CSRF
+    // Helpers privados
     // -------------------------------------------------------------------------
 
     private function gerarCsrf(): void
     {
-        if (empty($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-        }
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
 
     private function csrfValido(): bool
