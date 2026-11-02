@@ -1,14 +1,25 @@
 <?php require BASE_PATH . '/app/views/layouts/header.php'; ?>
 
-<main class="container content-area">
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
-        <div>
-            <h1 style="margin-bottom: 5px;">Meus Projetos</h1>
-            <p style="color: var(--text-muted);">Gerencie seus projetos e acompanhe a evolução de conformidade.</p>
+<main class="container content-area" style="padding-top: 15px; padding-bottom: 60px;">
+
+    <!-- Cabeçalho Unificado -->
+    <div class="page-header-unified">
+        <div class="page-header-content">
+            <div class="page-header-title-row">
+                <span class="page-header-badge">
+                    <i class="fas fa-folder"></i> Meus Projetos
+                </span>
+                <h1>Gestão de Projetos</h1>
+            </div>
+            <p class="page-header-subtitle">
+                Acompanhe e gerencie a evolução de conformidade de cada sistema cadastrado.
+            </p>
         </div>
-        <button onclick="abrirModalNovoProjeto()" class="btn-primary">
-            <i class="fas fa-plus"></i> Novo Projeto
-        </button>
+        <div class="page-header-actions">
+            <button onclick="abrirModalNovoProjeto()" class="btn-primary" style="font-size: 0.88rem; padding: 9px 18px; min-width: unset;">
+                <i class="fas fa-plus"></i> Novo Projeto
+            </button>
+        </div>
     </div>
 
     <?php if (empty($projetos)): ?>

@@ -1,48 +1,106 @@
 <?php require BASE_PATH . '/app/views/layouts/header.php'; ?>
 
-<div class="container">
-    <div class="checklist-section" style="max-width: 800px; margin-top: 60px; margin-bottom: 80px; padding: 40px;">
-        <h1 style="color: var(--primary); text-align: center; margin-bottom: 20px;">Contato</h1>
+<main class="container content-area" style="padding-top: 15px; padding-bottom: 60px;">
 
-        <p style="text-align: center; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px;">
-            Dúvidas, sugestões ou feedbacks sobre o projeto? <br>
-            Sinta-se à vontade para entrar em contato diretamente conosco.
-        </p>
-
-        <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px;">
-
-            <div style="background-color: var(--white); border: 1px solid #e2e8f0; padding: 25px; border-radius: 12px; flex: 1; min-width: 280px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                <h3 style="color: var(--primary); margin-bottom: 15px;">Leonardo Henrique</h3>
-                <p style="font-size: 0.95rem; word-break: break-all;">
-                    <a href="mailto:leonardo23hm@gmail.com"
-                       style="color: var(--primary); text-decoration: none; font-weight: bold;">
-                        leonardo23hm@gmail.com
-                    </a>
-                </p>
+    <!-- Cabeçalho Unificado -->
+    <div class="page-header-unified">
+        <div class="page-header-content">
+            <div class="page-header-title-row">
+                <span class="page-header-badge">
+                    <i class="fas fa-envelope"></i> Fale Conosco
+                </span>
+                <h1>Contato e Suporte Técnico</h1>
             </div>
-
-            <div style="background-color: var(--white); border: 1px solid #e2e8f0; padding: 25px; border-radius: 12px; flex: 1; min-width: 280px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                <h3 style="color: var(--primary); margin-bottom: 15px;">Maira Michelon</h3>
-                <p style="font-size: 0.95rem; word-break: break-all;">
-                    <a href="mailto:mairamichelon@gmail.com"
-                       style="color: var(--primary); text-decoration: none; font-weight: bold;">
-                        mairamichelon@gmail.com
-                    </a>
-                </p>
-            </div>
-
-        </div>
-
-        <div style="background-color: #fffaf0; border: 1px dashed #ed8936; padding: 20px; border-radius: 8px; text-align: center; margin-top: 20px;">
-            <p style="color: #c05621; margin: 0; font-weight: 500;">
-                <strong>💡 Observação:</strong> Para garantir uma resposta mais rápida, pedimos que direcione sua mensagem para <strong>ambos os e-mails</strong> acima.
+            <p class="page-header-subtitle">
+                Dúvidas, sugestões, feedbacks ou propostas de melhoria? Fale diretamente com a equipe do projeto.
             </p>
         </div>
-
-        <div style="text-align: center; margin-top: 50px;">
-            <a href="/" class="btn-secondary" style="text-decoration: none;">← Voltar para o Início</a>
-        </div>
     </div>
-</div>
+
+    <div class="institucional-layout-grid">
+        
+        <!-- Sidebar de Navegação Institucional -->
+        <aside class="institucional-sidebar-sticky">
+            <div class="institucional-nav-card">
+                <a href="/sobre" class="institucional-nav-item">
+                    <i class="fas fa-info-circle"></i> Sobre o Projeto
+                </a>
+                <a href="/contato" class="institucional-nav-item active">
+                    <i class="fas fa-envelope" style="color: var(--primary);"></i> Contato e Suporte
+                </a>
+                <a href="/termos" class="institucional-nav-item">
+                    <i class="fas fa-file-contract"></i> Termos de Uso
+                </a>
+                <a href="/privacidade" class="institucional-nav-item">
+                    <i class="fas fa-user-shield"></i> Política de Privacidade
+                </a>
+            </div>
+
+            <!-- Card Dica -->
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 20px;">
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary); margin-bottom: 6px; text-transform: uppercase;">
+                    <i class="fas fa-clock"></i> Tempo de Resposta
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
+                    Respondemos habitualmente em até <strong>24 a 48 horas úteis</strong>.
+                </p>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <article class="institucional-content-card">
+            
+            <h2 style="font-size: 1.35rem; color: var(--text-main); margin-bottom: 12px; font-weight: 700;">
+                Canais de Atendimento Direto
+            </h2>
+
+            <p style="color: var(--text-muted); font-size: 0.98rem; margin-bottom: 25px; line-height: 1.6;">
+                Nossa comunicação é centralizada por correio eletrônico direto. Escolha um dos responsáveis ou envie uma cópia conjunta para agilizar o atendimento:
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 25px;">
+
+                <div style="background-color: var(--white); border: 1px solid #E2E8F0; padding: 25px; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="width: 44px; height: 44px; border-radius: 50%; background: #EFF6FF; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 15px;">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3 style="color: var(--text-main); margin-bottom: 4px; font-size: 1.1rem;">Leonardo Henrique</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 15px;">Desenvolvedor & Gestão de TI</p>
+                    </div>
+
+                    <a href="mailto:leonardo23hm@gmail.com" class="btn-primary" style="font-size: 0.85rem; padding: 8px 14px; min-width: unset; text-decoration: none; justify-content: center;">
+                        <i class="fas fa-envelope"></i> leonardo23hm@gmail.com
+                    </a>
+                </div>
+
+                <div style="background-color: var(--white); border: 1px solid #E2E8F0; padding: 25px; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="width: 44px; height: 44px; border-radius: 50%; background: #F0FDF4; color: var(--secondary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 15px;">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h3 style="color: var(--text-main); margin-bottom: 4px; font-size: 1.1rem;">Maira Michelon</h3>
+                        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 15px;">Desenvolvedora & Gestão de TI</p>
+                    </div>
+
+                    <a href="mailto:mairamichelon@gmail.com" class="btn-primary" style="font-size: 0.85rem; padding: 8px 14px; min-width: unset; text-decoration: none; justify-content: center;">
+                        <i class="fas fa-envelope"></i> mairamichelon@gmail.com
+                    </a>
+                </div>
+
+            </div>
+
+            <div style="background-color: #FEF3C7; border: 1px solid #FCD34D; padding: 18px 22px; border-radius: 12px; margin-top: 25px; display: flex; align-items: flex-start; gap: 14px;">
+                <i class="fas fa-info-circle" style="color: #D97706; font-size: 1.2rem; margin-top: 2px;"></i>
+                <div style="font-size: 0.9rem; color: #92400E; line-height: 1.5;">
+                    <strong>Dica de contato:</strong> Para garantir uma resposta mais rápida, recomendamos incluir ambos os e-mails como destinatários da sua mensagem.
+                </div>
+            </div>
+
+        </article>
+
+    </div>
+
+</main>
 
 <?php require BASE_PATH . '/app/views/layouts/footer.php'; ?>

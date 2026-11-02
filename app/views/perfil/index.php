@@ -2,10 +2,19 @@
 
 <main class="container content-area">
 
-    <!-- Cabeçalho -->
-    <div class="checklist-header" style="margin-bottom: 30px;">
-        <h1>Meu Perfil</h1>
-        <p>Suas informações pessoais e histórico de uso da plataforma.</p>
+    <!-- Cabeçalho Unificado -->
+    <div class="page-header-unified">
+        <div class="page-header-content">
+            <div class="page-header-title-row">
+                <span class="page-header-badge">
+                    <i class="fas fa-user"></i> Minha Conta
+                </span>
+                <h1>Perfil do Usuário</h1>
+            </div>
+            <p class="page-header-subtitle">
+                Gerencie seus dados de acesso e visualize suas estatísticas na plataforma.
+            </p>
+        </div>
     </div>
 
     <!-- Card de informações do usuário -->

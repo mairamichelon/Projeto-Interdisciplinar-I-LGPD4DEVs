@@ -34,8 +34,20 @@
         <div class="container">
 
             <?php if (!empty($projetosDash)): ?>
-                <div class="checklist-header" style="text-align: left; margin-bottom: 25px;">
-                    <h2 style="font-size: 1.4rem;">Seus Projetos</h2>
+                <div class="page-header-unified" style="margin-top: 0; margin-bottom: 20px;">
+                    <div class="page-header-content">
+                        <div class="page-header-title-row">
+                            <span class="page-header-badge">
+                                <i class="fas fa-folder"></i> Projetos
+                            </span>
+                            <h2>Seus Projetos em Andamento</h2>
+                        </div>
+                    </div>
+                    <div class="page-header-actions">
+                        <a href="/projetos" style="color: var(--primary); font-weight: 600; text-decoration: none; font-size: 0.88rem;">
+                            Ver todos os projetos →
+                        </a>
+                    </div>
                 </div>
 
                 <?php $projetosExibidos = array_slice($projetosDash, 0, 3); $qtd = count($projetosExibidos); ?>
@@ -102,8 +114,18 @@
             <?php endif; ?>
 
             <!-- Cards informativos -->
-            <div class="checklist-header" style="text-align:left; margin-bottom:25px;">
-                <h2 style="font-size:1.4rem;">Como o LGPD4DEVS ajuda você?</h2>
+            <div class="page-header-unified" style="margin-top: 25px; margin-bottom: 22px;">
+                <div class="page-header-content">
+                    <div class="page-header-title-row">
+                        <span class="page-header-badge">
+                            <i class="fas fa-cubes"></i> Recursos &amp; Metodologia
+                        </span>
+                        <h2>Como o LGPD4DEVS ajuda você?</h2>
+                    </div>
+                    <p class="page-header-subtitle">
+                        Simplificamos a conformidade jurídica para o fluxo de desenvolvimento técnico.
+                    </p>
+                </div>
             </div>
             <div class="materiais-grid">
                 <div class="card-material">
@@ -170,9 +192,18 @@
 
     <section class="content-area">
         <div class="container">
-            <div class="checklist-header">
-                <h2>Como o LGPD4DEVS ajuda você?</h2>
-                <p>Simplificamos a conformidade jurídica para o fluxo de desenvolvimento técnico.</p>
+            <div class="page-header-unified" style="margin-top: 15px; margin-bottom: 24px;">
+                <div class="page-header-content">
+                    <div class="page-header-title-row">
+                        <span class="page-header-badge">
+                            <i class="fas fa-cubes"></i> Recursos &amp; Metodologia
+                        </span>
+                        <h2>Como o LGPD4DEVS ajuda você?</h2>
+                    </div>
+                    <p class="page-header-subtitle">
+                        Simplificamos a conformidade jurídica para o fluxo de desenvolvimento técnico.
+                    </p>
+                </div>
             </div>
             <div class="materiais-grid">
                 <div class="card-material">

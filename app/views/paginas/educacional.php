@@ -23,18 +23,16 @@ foreach ($videos as $idx => $v) {
 
 <div class="container educacional-page" style="padding-top: 16px; padding-bottom: 40px;">
 
-    <!-- Cabeçalho Superior Compacto -->
-    <div class="educacional-header-full">
-        <div class="educacional-header-info">
-            <div class="educacional-title-wrap">
-                <span class="badge-categoria" style="margin: 0; padding: 4px 10px; font-size: 0.74rem;">
-                    <i class="fas fa-play-circle"></i> Trilha Educacional
+    <!-- Cabeçalho Unificado -->
+    <div class="page-header-unified">
+        <div class="page-header-content">
+            <div class="page-header-title-row">
+                <span class="page-header-badge">
+                    <i class="fas fa-graduation-cap"></i> Trilha Educacional
                 </span>
-                <h1 style="font-size: 1.45rem; color: var(--text-main); margin: 0; font-weight: 700; line-height: 1.25;">
-                    LGPD na Prática para Desenvolvedores
-                </h1>
+                <h1>LGPD na Prática para Desenvolvedores</h1>
             </div>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 4px 0 0;">
+            <p class="page-header-subtitle">
                 Aprenda a aplicar <strong>Privacy by Design</strong> e os requisitos do <strong>Artigo 14 da LGPD</strong> (proteção de menores) no código.
             </p>
         </div>

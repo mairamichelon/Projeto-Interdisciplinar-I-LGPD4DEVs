@@ -31,9 +31,15 @@ body {
 main { flex: 1; }
 
 .container {
-    width: 92%;
-    max-width: 1200px;
+    width: 94%;
+    max-width: 1380px;
     margin: 0 auto;
+}
+
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1440px;
+    }
 }
 
 /* 2. Navbar */
@@ -203,8 +209,8 @@ main { flex: 1; }
 
 .materiais-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 22px;
 }
 
 .checklist-section, .form-card, .card-auth {
@@ -223,7 +229,7 @@ main { flex: 1; }
 
 .card-material, .card-pergunta {
     background: var(--white);
-    padding: 2.5rem;
+    padding: 1.8rem;
     border-radius: 16px;
     border: 1px solid #E2E8F0;
     box-shadow: var(--shadow);
@@ -954,5 +960,241 @@ html {
     .aviso-card {
         flex-direction: column;
         gap: 10px;
+    }
+}
+
+
+/* ============================================================
+   11. DESIGN SYSTEM LGPD4DEVS — PADRÃO UNIFICADO DE INTERFACE
+   ============================================================ */
+
+/* Cabeçalho Unificado de Páginas */
+.page-header-unified {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+    margin-bottom: 24px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.page-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.page-header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.page-header-title-row h1,
+.page-header-title-row h2 {
+    font-size: 1.48rem;
+    color: var(--text-main);
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.page-header-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.page-header-badge {
+    background: #EFF6FF;
+    color: var(--primary);
+    border: 1px solid #BFDBFE;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.page-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Barra de Filtros (Materiais / Listas) */
+.filter-pills-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.filter-pill-btn {
+    background: var(--white);
+    border: 1px solid #CBD5E1;
+    color: var(--text-muted);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-pill-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: #F8FAFC;
+}
+
+.filter-pill-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Layout 2 Colunas para o Checklist */
+.checklist-layout-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 28px;
+    align-items: start;
+    margin-bottom: 50px;
+}
+
+.checklist-sidebar-sticky {
+    position: sticky;
+    top: 105px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.checklist-progress-card {
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.checklist-progress-bar-bg {
+    background: #E2E8F0;
+    height: 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0 12px;
+}
+
+.checklist-progress-bar-fill {
+    height: 100%;
+    background: var(--secondary);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.checklist-questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Layout Institucional com Menu Lateral Navegável */
+.institucional-layout-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 28px;
+    align-items: start;
+    margin-bottom: 50px;
+}
+
+.institucional-sidebar-sticky {
+    position: sticky;
+    top: 105px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.institucional-nav-card {
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.institucional-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.92rem;
+    border-left: 3px solid transparent;
+    border-bottom: 1px solid #F1F5F9;
+    transition: all 0.2s ease;
+}
+
+.institucional-nav-item:last-child {
+    border-bottom: none;
+}
+
+.institucional-nav-item:hover {
+    background: #F8FAFC;
+    color: var(--primary);
+}
+
+.institucional-nav-item.active {
+    background: #EFF6FF;
+    color: var(--primary);
+    font-weight: 600;
+    border-left-color: var(--primary);
+}
+
+.institucional-content-card {
+    background: var(--white);
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 34px 38px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+/* Responsividade das novas estruturas */
+@media (max-width: 950px) {
+    .checklist-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .checklist-sidebar-sticky {
+        position: static;
+    }
+    .institucional-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .institucional-sidebar-sticky {
+        position: static;
+    }
+    .institucional-content-card {
+        padding: 24px 20px;
     }
 }

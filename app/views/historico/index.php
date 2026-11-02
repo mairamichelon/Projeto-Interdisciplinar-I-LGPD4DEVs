@@ -1,9 +1,25 @@
 <?php require BASE_PATH . '/app/views/layouts/header.php'; ?>
 
-<main class="container content-area">
-    <div class="checklist-header">
-        <h1>Meu Histórico de Diagnósticos</h1>
-        <p>Acompanhe sua evolução de conformidade ao longo do tempo.</p>
+<main class="container content-area" style="padding-top: 15px; padding-bottom: 60px;">
+
+    <!-- Cabeçalho Unificado -->
+    <div class="page-header-unified">
+        <div class="page-header-content">
+            <div class="page-header-title-row">
+                <span class="page-header-badge">
+                    <i class="fas fa-history"></i> Registros de Diagnósticos
+                </span>
+                <h1>Histórico de Avaliações</h1>
+            </div>
+            <p class="page-header-subtitle">
+                Acompanhe suas avaliações anteriores e monitore a evolução do score ao longo do tempo.
+            </p>
+        </div>
+        <div class="page-header-actions">
+            <a href="/checklist" class="btn-primary" style="font-size: 0.88rem; padding: 9px 18px; min-width: unset;">
+                <i class="fas fa-plus"></i> Novo Diagnóstico
+            </a>
+        </div>
     </div>
 
     <?php if ($totalDiagnosticos === 0 && empty($filtros['projeto_id']) && empty($filtros['status'])): ?>
