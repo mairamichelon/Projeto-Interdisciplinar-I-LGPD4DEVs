@@ -152,6 +152,61 @@ class AdminController
     }
 
     // -------------------------------------------------------------------------
+    // GET /admin/videos — lista vídeos educacionais
+    // -------------------------------------------------------------------------
+
+    public function videos(): void
+    {
+        $this->exigirAdmin();
+
+        $videoModel = new Video();
+        $videos = $videoModel->buscarTodos();
+
+        require BASE_PATH . '/app/views/admin/videos.php';
+    }
+
+    // -------------------------------------------------------------------------
+    // POST /admin/videos/salvar — salva link ou dados de um vídeo
+    // -------------------------------------------------------------------------
+
+    public function salvarVideo(): void
+    {
+        $this->exigirAdmin();
+        $this->exigirPost();
+
+        if (!$this->csrfValido()) {
+            $this->jsonErro("Requisição inválida.");
+            return;
+        }
+
+        $id        = (int)   ($_POST['id']        ?? 0);
+        $titulo    = trim($_POST['titulo']        ?? '');
+        $duracao   = trim($_POST['duracao']       ?? '3 min');
+        $link      = trim($_POST['link']          ?? '');
+        $descricao = trim($_POST['descricao']     ?? '');
+        $ordem     = (int)   ($_POST['ordem']     ?? 1);
+
+        if (empty($titulo)) {
+            $this->jsonErro("O título do vídeo é obrigatório.");
+            return;
+        }
+
+        $videoModel = new Video();
+        $videoId = $videoModel->salvar([
+            'id'        => $id,
+            'titulo'    => $titulo,
+            'duracao'   => $duracao,
+            'link'      => $link,
+            'descricao' => $descricao,
+            'ordem'     => $ordem,
+            'ativo'     => 1,
+        ]);
+
+        header('Content-Type: application/json');
+        echo json_encode(['sucesso' => true, 'video_id' => $videoId]);
+    }
+
+    // -------------------------------------------------------------------------
     // GET /admin/usuarios — lista usuários
     // -------------------------------------------------------------------------
 

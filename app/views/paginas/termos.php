@@ -9,7 +9,7 @@
             </span>
             <h1 style="color: var(--primary); font-size: 2.2rem; margin-bottom: 12px;">Termos de Uso</h1>
             <p style="color: var(--text-muted); font-size: 0.95rem;">
-                Última atualização: <?php echo date('d/m/Y'); ?> — Versão 1.0
+                Última atualização: <?php echo date('d/m/Y'); ?> — Versão 2.0
             </p>
         </div>
 
@@ -22,7 +22,7 @@
                 <div class="aviso-text">
                     <strong style="color: #991B1B;">Isenção Expressa de Responsabilidade Jurídica:</strong>
                     <span style="color: #7F1D1D;">
-                        O <strong>LGPD4DEVS</strong> é uma ferramenta acadêmica e educativa. O site, seus autores e a instituição de ensino (IFPR)
+                        O <strong>LGPD4DEVS</strong> é uma ferramenta estritamente educativa e técnica. O site e seus mantenedores
                         <strong>não prestam consultoria jurídica, advocatícia, assessoria regulatória ou auditoria legal oficial</strong>.
                         O uso do sistema não substitui a contratação de profissionais especializados em Direito Digital ou a atuação formal de um DPO (Encarregado pelo Tratamento de Dados Pessoais).
                     </span>
@@ -39,7 +39,7 @@
 
             <h3 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px;">2. Natureza e Finalidade do Serviço</h3>
             <p>
-                O LGPD4DEVS é um projeto de pesquisa aplicada e extensão universitária desenvolvido no âmbito do <strong>Instituto Federal do Paraná (IFPR - Campus Pinhais)</strong>. Sua finalidade é estritamente educativa e de fomento técnico, visando disseminar os princípios de <em>Privacy by Design</em> e boas práticas de engenharia de software voltadas à proteção de dados de crianças e adolescentes (Lei nº 13.709/2018 - LGPD e legislação correlata).
+                O LGPD4DEVS é um projeto voltado ao apoio técnico à comunidade de tecnologia e software. Sua finalidade é estritamente educativa e de fomento técnico, visando disseminar os princípios de <em>Privacy by Design</em> e boas práticas de engenharia de software voltadas à proteção de dados de crianças e adolescentes (Lei nº 13.709/2018 - LGPD e legislação correlata).
             </p>
 
             <h3 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px;">3. Limitação de Responsabilidade e Não Vinculação</h3>
@@ -49,7 +49,7 @@
             <ul style="margin-left: 20px; margin-top: 10px; margin-bottom: 10px;">
                 <li><strong>Inexistência de Certificação Oficial:</strong> A realização do checklist ou obtenção de pontuação de 100% não representa selo de homologação, auditoria ou atestado oficial de conformidade perante a Autoridade Nacional de Proteção de Dados (ANPD) ou qualquer outro órgão fiscalizador.</li>
                 <li><strong>Dependência de Dados Inseridos:</strong> As análises geradas dependem exclusivamente das respostas auto-declaradas e fornecidas pelo próprio usuário. O sistema não analisa código-fonte, tráfego de rede ou bancos de dados reais.</li>
-                <li><strong>Isenção por Decisões Comerciais ou Litígios:</strong> Os mantenedores do LGPD4DEVS e o IFPR eximem-se de qualquer responsabilidade civil, administrativa ou judicial por sanções, multas, vazamentos de dados, danos diretos ou indiretos sofridos por projetos, empresas ou softwares que utilizem este site como referência.</li>
+                <li><strong>Isenção por Decisões Comerciais ou Litígios:</strong> Os mantenedores do LGPD4DEVS eximem-se de qualquer responsabilidade civil, administrativa ou judicial por sanções, multas, vazamentos de dados, danos diretos ou indiretos sofridos por projetos, empresas ou softwares que utilizem este site como referência.</li>
             </ul>
 
             <h3 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px;">4. Responsabilidade do Usuário e Desenvolvedor</h3>
@@ -67,9 +67,9 @@
                 A plataforma disponibiliza vídeos educacionais incorporados por meio de reprodutores de terceiros (como YouTube no domínio de privacidade aprimorada <code>youtube-nocookie.com</code>) e referências a guias oficiais públicos da ANPD. A disponibilidade de servidores externos e serviços de terceiros independe da nossa infraestrutura.
             </p>
 
-            <h3 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px;">6. Propriedade Intelectual e Código Aberto</h3>
+            <h3 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px;">6. Propriedade Intelectual</h3>
             <p>
-                O código-fonte e a metodologia do LGPD4DEVS são desenvolvidos com fins acadêmicos e educacionais. As marcas, logotipos e textos didáticos pertencem a seus respectivos autores e ao IFPR, sendo vedada a comercialização não autorizada da plataforma ou apropriação indevida da autoria.
+                As marcas, logotipos e textos didáticos pertencem a seus respectivos autores, sendo vedada a comercialização não autorizada da plataforma ou apropriação indevida da autoria.
             </p>
 
             <h3 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px;">7. Alterações destes Termos</h3>

@@ -6,7 +6,7 @@
 
         <div style="line-height: 1.8; color: var(--text-muted); text-align: justify;">
             <p style="font-size: 1.15em; margin-bottom: 25px;">
-                Somos <strong>Maira Michelon e Leonardo</strong>, estudantes de Gestão da Tecnologia da Informação no IFPR, unidos pelo propósito de tornar o ambiente digital mais seguro para crianças e adolescentes.
+                Somos <strong>Maira Michelon e Leonardo</strong>, estudantes de Gestão da Tecnologia da Informação e desenvolvedores de software, unidos pelo propósito de tornar o ambiente digital mais seguro para crianças e adolescentes.
             </p>
 
             <p style="margin-bottom: 20px;">

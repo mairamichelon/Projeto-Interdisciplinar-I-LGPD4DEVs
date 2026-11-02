@@ -65,6 +65,17 @@ CREATE TABLE IF NOT EXISTS materiais (
     url_referencia     VARCHAR(500)
 );
 
+CREATE TABLE IF NOT EXISTS videos (
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    titulo       VARCHAR(255) NOT NULL,
+    duracao      VARCHAR(50)  NOT NULL DEFAULT '3 min',
+    link         VARCHAR(500) NULL,
+    descricao    TEXT         NULL,
+    ordem        INT          NOT NULL DEFAULT 1,
+    ativo        TINYINT(1)   NOT NULL DEFAULT 1,
+    data_criacao DATETIME     DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS pergunta_material (
     pergunta_id INT NOT NULL,
     material_id INT NOT NULL,
@@ -107,6 +118,16 @@ CREATE TABLE IF NOT EXISTS historico_respostas (
 -- ALTER TABLE usuarios ADD COLUMN perfil VARCHAR(20) NOT NULL DEFAULT 'usuario';
 -- ALTER TABLE historico_diagnosticos ADD COLUMN projeto_id INT NULL AFTER usuario_id,
 --     ADD CONSTRAINT fk_hd_projeto FOREIGN KEY (projeto_id) REFERENCES projetos(id) ON DELETE SET NULL;
+-- CREATE TABLE IF NOT EXISTS videos (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     titulo VARCHAR(255) NOT NULL,
+--     duracao VARCHAR(50) NOT NULL DEFAULT '3 min',
+--     link VARCHAR(500) NULL,
+--     descricao TEXT NULL,
+--     ordem INT NOT NULL DEFAULT 1,
+--     ativo TINYINT(1) NOT NULL DEFAULT 1,
+--     data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP
+-- );
 
 -- ============================================================
 -- Para promover um usuário a administrador:

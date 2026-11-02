@@ -65,6 +65,9 @@ function renderCardDiagnostico(array $d): string {
             <p style="color:var(--text-muted); margin:4px 0 0;">Visão geral do sistema LGPD4DEVS</p>
         </div>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a href="/admin/videos" class="btn-secondary" style="font-size:0.9rem; min-width:unset; padding:8px 16px;">
+                <i class="fas fa-video"></i> Vídeos
+            </a>
             <a href="/admin/materiais" class="btn-primary" style="font-size:0.9rem; min-width:unset; padding:8px 16px;">
                 <i class="fas fa-book"></i> Materiais
             </a>

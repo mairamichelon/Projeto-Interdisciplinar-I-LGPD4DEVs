@@ -14,9 +14,9 @@
             <div style="background-color: var(--white); border: 1px solid #e2e8f0; padding: 25px; border-radius: 12px; flex: 1; min-width: 280px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
                 <h3 style="color: var(--primary); margin-bottom: 15px;">Leonardo Henrique</h3>
                 <p style="font-size: 0.95rem; word-break: break-all;">
-                    <a href="mailto:20241pin10030021@estudantes.ifpr.edu.br"
+                    <a href="mailto:leonardo23hm@gmail.com"
                        style="color: var(--primary); text-decoration: none; font-weight: bold;">
-                        20241pin10030021@estudantes.ifpr.edu.br
+                        leonardo23hm@gmail.com
                     </a>
                 </p>
             </div>

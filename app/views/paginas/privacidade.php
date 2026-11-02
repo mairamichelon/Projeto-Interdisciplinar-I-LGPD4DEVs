@@ -70,12 +70,12 @@
 
             <h3 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px;">6. Caráter Educativo e Isenção de Responsabilidade</h3>
             <p>
-                Reiteramos que esta plataforma possui caráter estritamente educativo e acadêmico. As recomendações geradas não constituem consultoria jurídica formal. Para detalhes completos sobre as limitações legais, consulte os nossos <a href="/termos" style="color: var(--primary); font-weight: 600;">Termos de Uso</a>.
+                Reiteramos que esta plataforma possui caráter estritamente educativo e técnico. As recomendações geradas não constituem consultoria jurídica formal. Para detalhes completos sobre as limitações legais, consulte os nossos <a href="/termos" style="color: var(--primary); font-weight: 600;">Termos de Uso</a>.
             </p>
 
-            <h3 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px;">7. Contato e Encarregado (DPO)</h3>
+            <h3 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px;">7. Contato e Atendimento</h3>
             <p>
-                Para exercer seus direitos como titular de dados ou esclarecer dúvidas sobre esta Política, entre em contato conosco através da nossa página de <a href="/contato" style="color: var(--primary); font-weight: 600;">Contato</a> ou com os responsáveis do projeto pelo e-mail institucional do IFPR.
+                Para exercer seus direitos como titular de dados ou esclarecer dúvidas sobre esta Política, entre em contato conosco através dos canais disponibilizados na página de <a href="/contato" style="color: var(--primary); font-weight: 600;">Contato</a>.
             </p>
         </div>
 
