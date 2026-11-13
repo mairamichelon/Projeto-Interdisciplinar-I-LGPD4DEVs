@@ -69,11 +69,11 @@
                 </p>
 
                 <p style="margin-bottom: 20px;">
-                    Por meio de checklists estruturados, trilhas educacionais, materiais de apoio e orientações técnicas, buscamos simplificar o entendimento a adequação à legislação e auxiliar na construção de sistemas mais seguros, éticos e responsáveis.
+                    Por meio de checklists estruturados, trilhas educacionais, materiais de apoio e orientações técnicas, buscamos simplificar o entendimento sobre adequação à legislação e auxiliar na construção de sistemas mais seguros, éticos e responsáveis.
                 </p>
 
                 <p style="margin-bottom: 25px;">
-                    Nosso compromisso é transformar requisitos legais complexos em uma ferramenta de auxílio engenharia de software, contribuindo para que desenvolvedores criem tecnologias que respeitem a privacidade e protejam integralmente os dados de crianças e adolescentes.
+                    Nosso compromisso é transformar requisitos legais complexos em uma ferramenta de auxílio à engenharia de software, contribuindo para que desenvolvedores criem tecnologias que respeitem a privacidade e protejam integralmente os dados de crianças e adolescentes.
                 </p>
 
                 <!-- Destaque -->
