@@ -12,7 +12,7 @@
                 <h1>Sobre o Projeto LGPD4DEVS</h1>
             </div>
             <p class="page-header-subtitle">
-                Conheça a iniciativa criada para apoiar desenvolvedores na aplicação prática de Privacy by Design e do Artigo 14 da LGPD.
+                Conheça a iniciativa criada para apoiar desenvolvedores na aplicação prática de Privacy by Design e da LGPD.
             </p>
         </div>
     </div>
@@ -61,7 +61,7 @@
                 </h2>
 
                 <p style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 22px; line-height: 1.7;">
-                    Somos <strong>Maira Michelon e Leonardo</strong>, estudantes de Gestão da Tecnologia da Informação e desenvolvedores de software, unidos pelo propósito de tornar o ambiente digital mais seguro para crianças e adolescentes.
+                    Somos <strong>Leonardo Henrique Maximo e Maira Michelon</strong>, estudantes de Gestão da Tecnologia da Informação e desenvolvedores de software, unidos pelo propósito de tornar o ambiente digital mais seguro para crianças e adolescentes.
                 </p>
 
                 <p style="margin-bottom: 20px;">
@@ -103,7 +103,7 @@
                     <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 16px; border-radius: 12px;">
                         <div style="color: #764ba2; font-size: 1.2rem; margin-bottom: 6px;"><i class="fas fa-graduation-cap"></i></div>
                         <strong style="color: var(--text-main); font-size: 0.92rem; display: block; margin-bottom: 4px;">Conteúdo Prático</strong>
-                        <span style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; display: block;">Vídeos curtos e guias oficiais para orientar a implementação rápida.</span>
+                        <span style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; display: block;">Vídeos e guias oficiais para orientar a implementação rápida.</span>
                     </div>
                 </div>
 
