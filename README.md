@@ -38,7 +38,7 @@ https://drive.google.com/drive/u/0/folders/1jf3HkqpHsLy1TXh8shep3lY0pTJCeOmc
 
 ## 🚀 Funcionalidades
 
-### Para Desenvolvedores (usuários)
+### Para Usuários comuns (Que desejam ver materiais/testar sua conformidade)
 - ✅ **Checklist Interativo** — Diagnóstico de conformidade baseado na LGPD com lógica de pesos por pergunta
 - 📊 **Score de Adequação** — Relatório visual com barra de progresso, métricas de conformidade e classificação por nível
 - 📖 **Biblioteca de Materiais** — Guias técnicos e artigos sugeridos com base nas falhas detectadas
@@ -49,7 +49,7 @@ https://drive.google.com/drive/u/0/folders/1jf3HkqpHsLy1TXh8shep3lY0pTJCeOmc
 - 🔍 **Histórico com Filtros** — Filtre diagnósticos por projeto ou por status (Em Desenvolvimento, Em Produção, Arquivado), com paginação de 10 resultados por página
 - 📱 **Responsivo** — Interface adaptada para desktop e mobile com navbar que recolhe automaticamente ao rolar
 
-### Para Administradores
+### Para Administradores (Controladores de acesso a plataforma/materiais)
 - 🛡️ **Painel Administrativo** — Acesso exclusivo via perfil `admin`, com link destacado no menu após login
 - 📚 **CRUD de Materiais** — Criação, edição e remoção de materiais da biblioteca, com vínculo às perguntas do checklist
 - 👥 **Gestão de Usuários** — Listagem de contas, promoção/revogação de perfil admin e remoção de contas
