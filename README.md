@@ -38,7 +38,7 @@ https://drive.google.com/drive/u/0/folders/1jf3HkqpHsLy1TXh8shep3lY0pTJCeOmc
 
 ## 🚀 Funcionalidades
 
-### Para Desenvolvedores
+### Para Desenvolvedores (usuários)
 - ✅ **Checklist Interativo** — Diagnóstico de conformidade baseado na LGPD com lógica de pesos por pergunta
 - 📊 **Score de Adequação** — Relatório visual com barra de progresso, métricas de conformidade e classificação por nível
 - 📖 **Biblioteca de Materiais** — Guias técnicos e artigos sugeridos com base nas falhas detectadas
