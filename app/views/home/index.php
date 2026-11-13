@@ -229,8 +229,8 @@
                     <span class="badge-categoria" style="margin-bottom: 8px;">
                         <i class="fas fa-graduation-cap"></i> Conteúdo Educacional &amp; Extensão
                     </span>
-                    <h2>Aprenda a LGPD com vídeos rápidos de 2 a 4 minutos</h2>
-                    <p>Entenda como o Artigo 14 impacta o desenvolvimento de software, requisitos de consentimento parental e como usar o checklist técnico do LGPD4DEVS para diagnosticar seu sistema.</p>
+                    <h2>Aprenda a LGPD com vídeos</h2>
+                    <p>Entenda como a LGPD impacta o desenvolvimento de software, requisitos de consentimento parental e como usar o checklist técnico do LGPD4DEVS para diagnosticar seu sistema.</p>
                 </div>
                 <div class="home-banner-action">
                     <a href="/educacional" class="btn-primary">
